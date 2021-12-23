@@ -1,0 +1,198 @@
+/*:host {
+  height: 100%;
+}*/
+
+.batt{
+  position: absolute;
+  top: 60%;
+  left: 45%;
+  white-space: nowrap;
+  font-size: 0.7em;
+  color: var(--thermostat-battery-color, var(--text-color));
+}
+
+.batt-icon{
+  position: absolute;
+  top: 63%;
+  left: 29%;
+  white-space: nowrap;
+  font-size: 0.25em;
+  transform: rotate(-90deg);
+  color: var(--thermostat-battery-icon, var(--color-base));
+}
+
+.valve{
+  position: absolute;
+  top: 74%;
+  left: 45%;
+  white-space: nowrap;
+  font-size: 0.7em;
+  color: var(--thermostat-valve-color, var(--text-color));
+}
+
+.valve-icon{
+  position: absolute;
+  top: 78%;
+  left: 29%;
+  white-space: nowrap;
+  font-size: 0.25em;
+  color: var(--thermostat-valve-icon, var(--color-base));
+}
+
+.humidity{
+  position: absolute;
+  top: 89%;
+  left: 45%;
+  white-space: nowrap;
+  font-size: 0.7em;
+  color: var(--thermostat-humidity-color, var(--text-color));
+}
+
+.humidity-icon{
+  position: absolute;
+  top: 92%;
+  left: 28%;
+  white-space: nowrap;
+  font-size: 0.3em;
+  color: var(--thermostat-humidity-icon, var(--color-base));
+}
+
+.current-value {
+  top: 25%;
+  display: block;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--thermostat-value-color, var(--text-color));
+}
+
+.knob {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background-image: none;
+  border-radius: 50%;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.knob-style {
+  position: relative;
+  border-radius: 50%;
+  margin: 3em auto;
+}
+
+.knob-style-grip {
+  position: absolute;
+  bottom: 12%;
+  left: 49%;
+  width: 1px;
+  height: 0;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-bottom: var(--grip);
+}
+
+.knob-style-min {
+  bottom: -55%;
+  left: 40%;
+}
+
+.knob-style-max {
+  top: 10%;
+  right: -50%;
+}
+
+.tick {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 5;
+  overflow: visible;
+}
+
+.tick:after {
+  content: "";
+  width: 0.08em;
+  height: 1em;
+  background: var(--thermostat-tick-color, rgba(255, 255, 255, 0.2));
+  position: absolute;
+  top: var(--top);
+  left: 50%;
+  -webkit-transition: all 180ms ease-out;
+  -moz-transition: all 180ms ease-out;
+  -o-transition: all 180ms ease-out;
+  transition: all 180ms ease-out;
+  margin-top: var(--margin);
+}
+
+.txt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: var(--thermostat-text-color, rgba(255, 255, 255, 0.2));
+  font-size: 0.8em;
+}
+
+.txt:after {
+  content: var(--value);
+  width: var(--size-after);
+  position: absolute;
+  padding-bottom: var(--top);
+  transform: var(--transform);
+}
+
+.temp {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: var(--thermostat-temp-color, var(--text-color));/*white;*/
+  font-size: font-size: var(--thermostat-temp-size, 0.7em);
+  font-weight: bold;
+}
+
+.temp:after {
+  content: var(--value);
+  width: var(--size-after);
+  position: absolute;
+  padding-bottom: var(--top);
+  transform: rotate(180deg);
+}
+
+.activetick:after {
+  background: var(--gradient); /*#a8d8f8*/
+  -webkit-box-shadow: 0 0 0.3em 0.04em var(--aura) /*#79c3f4*/;
+  -moz-box-shadow: 0 0 0.3em 0.04em var(--aura) /*#79c3f4*/;
+  box-shadow: 0 0 0.3em 0.04em var(--aura) /*#79c3f4*/;
+  -webkit-transition: all 50ms ease-in;
+  -moz-transition: all 50ms ease-in;
+  -o-transition: all 50ms ease-in;
+  transition: all 50ms ease-in;
+}
+
+.thick:after {
+  width: 0.2em;
+  left:-1px;
+}
+
+.thick-active:after {
+  width: 0.2em;
+  left:-1px;
+}
+
+.blink {
+  animation: blink 1.5s normal infinite ease-in-out;
+}
+
+@keyframes blink {
+  50%{
+    opacity:0.3;
+  }
+}
+@-webkit-keyframes blink {
+  50% {
+    opacity: 0.3;
+  }
+}
