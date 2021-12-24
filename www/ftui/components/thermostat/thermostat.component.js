@@ -51,7 +51,7 @@ export class FtuiThermostat extends FtuiElement {
           <div class="ticks"></div>
           <div class="temp"></div>
           <div class="txts"></div>
-          <ftui-icon ${(!this.hasThermometer&&this.getAttribute('[battery]')!==null ? 'name="battery" [name]="'+this.getAttribute('[battery]')+' | step('+'\'-99:battery-0, 25:battery-1, 50:battery-2, 75:battery-3, 100: battery'+'\''+')" [color]="'+this.getAttribute('[battery]')+' | step('+'\'-99:danger, 25:warning, 50:success, 75:primary'+'\')"' : '')} class="batt-icon"></ftui-icon>
+          <ftui-icon ${(!this.hasThermometer&&this.getAttribute('[battery]')!==null ? 'name="battery" [name]="'+this.getAttribute('[battery]')+' | '+this.batteryIcon+'" [color]="'+this.getAttribute('[battery]')+' | '+this.batteryIconColor+'"' : '')} class="batt-icon"></ftui-icon>
           <div class="batt"></div>
           <ftui-icon ${(!this.hasThermometer&&this.getAttribute('[valve]')!==null ? 'name="spinner" ' : '')} class="valve-icon"></ftui-icon>
           <div class="valve"></div>
@@ -68,6 +68,8 @@ export class FtuiThermostat extends FtuiElement {
       value: -1,
       temp: 0,
       battery: '',
+      batteryIconColor: 'step(\'-99:danger, 25:warning, 50:success, 75:primary\')',
+      batteryIcon: 'step(\'-99:battery-0, 25:battery-1, 50:battery-2, 75:battery-3, 100: battery\')',
       humidity: '',
       valve: '',
       size: 110,
