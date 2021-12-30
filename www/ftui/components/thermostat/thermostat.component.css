@@ -4,7 +4,7 @@
 
 .batt{
   position: absolute;
-  top: 60%;
+  top: var(--thermostat-battery-top, 60%);
   left: 45%;
   white-space: nowrap;
   font-size: 0.7em;
@@ -13,7 +13,7 @@
 
 .batt-icon{
   position: absolute;
-  top: 63%;
+  top: var(--thermostat-battery-icon-top, 63%);
   left: 29%;
   white-space: nowrap;
   font-size: 0.25em;
@@ -23,7 +23,7 @@
 
 .valve{
   position: absolute;
-  top: 74%;
+  top: var(--thermostat-valve-top, 77%);
   left: 45%;
   white-space: nowrap;
   font-size: 0.7em;
@@ -32,7 +32,7 @@
 
 .valve-icon{
   position: absolute;
-  top: 78%;
+  top: var(--thermostat-valve-icon-top, 81%);
   left: 29%;
   white-space: nowrap;
   font-size: 0.25em;
@@ -41,7 +41,7 @@
 
 .humidity{
   position: absolute;
-  top: 89%;
+  top: var(--thermostat-humidity-top, 95%);
   left: 45%;
   white-space: nowrap;
   font-size: 0.7em;
@@ -50,7 +50,7 @@
 
 .humidity-icon{
   position: absolute;
-  top: 92%;
+  top: var(--thermostat-humidity-icon-top, 98%);
   left: 28%;
   white-space: nowrap;
   font-size: 0.3em;
@@ -86,7 +86,7 @@
 
 .knob-style-grip {
   position: absolute;
-  bottom: 12%;
+  bottom: 8%;
   left: 49%;
   width: 1px;
   height: 0;
