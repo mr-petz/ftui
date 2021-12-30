@@ -191,8 +191,8 @@ export class FtuiThermostat extends FtuiElement {
     this.tempvalue.innerHTML = '';
     let i = -1 ;
     let incr = this.degrees / this.tick;
-    this.knobs.style.setProperty('width', this.size + "px");
-    this.knobs.style.setProperty('height', this.size + "px");
+    this.knobs.style.setProperty('width', (this.size-20) + "px");
+    this.knobs.style.setProperty('height', (this.size-20) + "px");
     this.knobs.style.setProperty('font-size', this.size*0.012 + "em");
     const atemp = this.tick*((this.tempValue<=this.max?(this.tempValue<=this.min?this.min:this.tempValue):this.max)-this.min)/(this.max-this.min);
     for (let deg = (this.startAngle-0.0001); deg <= (this.endAngle+0.001); deg += incr){
