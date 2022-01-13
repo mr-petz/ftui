@@ -51,13 +51,13 @@ export class FtuiThermostat extends FtuiElement {
           <div class="ticks"></div>
           <div class="temp"></div>
           <div class="txts"></div>
-          <ftui-icon ${(!this.hasThermometer && this.getAttribute('[battery]') !== '' && this.getAttribute('[battery]') !== null ? 'name="battery" [name]="'+this.getAttribute('[battery]')+' | '+this.batteryIcon+'" [color]="'+this.getAttribute('[battery]')+' | '+this.batteryIconColor+'"' : '')} class="batt-icon"></ftui-icon>
-          <div class="batt"></div>
-          <ftui-icon ${(!this.hasThermometer && this.getAttribute('[valve]') !== '' && this.getAttribute('[valve]') !== null ? 'name="spinner" ' : '')} class="valve-icon"></ftui-icon>
-          <div class="valve"></div>
-          <ftui-icon ${(!this.hasThermometer && this.getAttribute('[humidity]') !== '' && this.getAttribute('[humidity]') !== null ? 'name="tint" ' : '')} class="humidity-icon"></ftui-icon>
-          <div class="humidity"></div>
           <div class="current-value"></div>
+          <ftui-icon ${(!this.hasThermometer && this.hasAttribute('[battery]') && this.getAttribute('[battery]') ? 'name="battery" [name]="'+this.getAttribute('[battery]')+' | '+this.batteryIcon+'" [color]="'+this.getAttribute('[battery]')+' | '+this.batteryIconColor+'"' : '')} class="batt-icon"></ftui-icon>
+          <div class="batt"></div>
+          <ftui-icon ${(!this.hasThermometer && this.hasAttribute('[valve]') && this.getAttribute('[valve]') ? 'name="spinner" ' : '')} class="valve-icon"></ftui-icon>
+          <div class="valve"></div>
+          <ftui-icon ${(!this.hasThermometer && this.hasAttribute('[humidity]') && this.getAttribute('[humidity]') ? 'name="tint" ' : '')} class="humidity-icon"></ftui-icon>
+          <div class="humidity"></div>
         </div>
      
       `;
