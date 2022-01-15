@@ -436,9 +436,9 @@ export class FtuiThermostat extends FtuiElement {
       (scale[0].style.top==='130%'||scale[1].style.top==='130%'?(scale[0].style.top==='130%'?scale[0].style.setProperty('top', "145%"):scale[1].style.setProperty('top', "145%")):scale[0].style.setProperty('--top', (this.size) + "px")&scale[1].style.setProperty('--top', (this.size) + "px"));
     }
     temp[1].style.setProperty('--top', (this.size) + "px");
-    for(let i=0;i<=this.tick;i++){
-      tickAll[i].style.setProperty('--margin','15px');
-    };
+    tickAll.forEach(tick => {
+      tick.style.setProperty('--margin','15px');
+    });
   }
   
   zoomOut(){
@@ -453,9 +453,9 @@ export class FtuiThermostat extends FtuiElement {
     }
     temp[1].style.setProperty('--top', (this.size*0.84) + "px");
     this.grip.style.setProperty('bottom','');
-    for(let i=0;i<=this.tick;i++){
-      tickAll[i].style.setProperty('--margin','0');
-    };
+    tickAll.forEach(tick => {
+      tick.style.setProperty('--margin','0');
+    });
   }
 
   actTemp(){
