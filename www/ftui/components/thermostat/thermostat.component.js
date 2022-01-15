@@ -42,7 +42,7 @@ export class FtuiThermostat extends FtuiElement {
   template() {
     return `
         <style>@import "components/thermostat/thermostat.component.css";
-               @import "../themes/color-attributes.css";
+               @import "themes/color-attributes.css";
         </style>
         <div class="knob-style">       
           <div class="knob">
