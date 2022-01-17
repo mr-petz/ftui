@@ -225,8 +225,8 @@ export class FtuiThermostat extends FtuiElement {
             scale.style.setProperty('--value', '"'+this.min+'"');
             if(Math.round(deg)===0){
               scale.style.setProperty('--top', '');
-              scale.style.setProperty('top', '130%');
-              (this.min>=10||this.min<=(-10)?(this.min<=(-10)?scale.style.setProperty('left', '41%'):scale.style.setProperty('left', '45%')):scale.style.setProperty('left', '47%'));
+              scale.style.setProperty('top', '148%');
+              (this.min>=10||this.min<=(-10)?(this.min<=(-10)?scale.style.setProperty('left', '41%'):scale.style.setProperty('left', '43%')):scale.style.setProperty('left', '47%'));
               scale.style.setProperty('--transform', 'rotate(0deg)');
             }
             this.txt.appendChild(scale);
@@ -238,8 +238,8 @@ export class FtuiThermostat extends FtuiElement {
             scale.style.setProperty('--value', '"'+this.max+'"');
             if(Math.round(deg)===360){
               scale.style.setProperty('--top', '');
-              scale.style.setProperty('top', '130%');
-              (this.min>=10||this.min<=(-10)?(this.min<=(-10)?scale.style.setProperty('left', '46%'):scale.style.setProperty('left', '44%')):scale.style.setProperty('left', '47%'));
+              scale.style.setProperty('top', '148%');
+              (this.min>=10||this.min<=(-10)?(this.min<=(-10)?scale.style.setProperty('left', '46%'):scale.style.setProperty('left', '43%')):scale.style.setProperty('left', '47%'));
               scale.style.setProperty('--transform', 'rotate(0deg)');
             } else {
               scale.style.setProperty('top', '');
@@ -430,15 +430,17 @@ export class FtuiThermostat extends FtuiElement {
     this.currentValue.style.setProperty('font-size','2.4em');
     this.currentValue.style.setProperty('top','5%');
     this.currentValue.style.setProperty('left','50%');
-    this.currentValue.innerHTML=value;
-    this.grip.style.setProperty('bottom','3%');
-    if(!this.noMinMax){
-      (scale[0].style.top==='130%'||scale[1].style.top==='130%'?(scale[0].style.top==='130%'?scale[0].style.setProperty('top', "145%"):scale[1].style.setProperty('top', "145%")):scale[0].style.setProperty('--top', (this.size) + "px")&scale[1].style.setProperty('--top', (this.size) + "px"));
-    }
-    temp[1].style.setProperty('--top', (this.size) + "px");
+    this.currentValue.innerHTML = value;
+    this.grip.style.setProperty('bottom','0%');
     tickAll.forEach(tick => {
       tick.style.setProperty('--margin','15px');
     });
+    if(!this.noMinMax){
+      scale.forEach(txt => {
+        (txt.style.top==='148%'?txt.style.setProperty('top', "165%"):txt.style.setProperty('--top', (this.size*0.97) + "px"));
+      });
+    }
+    temp[1].style.setProperty('--top', (this.size) + "px");
   }
   
   zoomOut(){
@@ -448,14 +450,16 @@ export class FtuiThermostat extends FtuiElement {
     (this.hasOldStyle?this.currentValue.style.setProperty('font-size', this.size*0.012 + "em"):this.currentValue.style.setProperty('font-size',''));
     this.currentValue.style.setProperty('top','25%');
     this.currentValue.style.setProperty('left','');
-    if(!this.noMinMax){
-      (scale[0].style.top==='145%'||scale[1].style.top==='145%'?(scale[0].style.top==='145%'?scale[0].style.setProperty('top', "130%"):scale[1].style.setProperty('top', "130%")):scale[0].style.setProperty('--top', (this.size*0.82) + "px")&scale[1].style.setProperty('--top', (this.size*0.82) + "px"));
-    }
-    temp[1].style.setProperty('--top', (this.size*0.84) + "px");
     this.grip.style.setProperty('bottom','');
     tickAll.forEach(tick => {
       tick.style.setProperty('--margin','0');
     });
+    if(!this.noMinMax){
+      scale.forEach(txt => {
+       (txt.style.top==='165%'?txt.style.setProperty('top', "148%"):txt.style.setProperty('--top', (this.size*0.82) + "px"));
+      });
+    }
+    temp[1].style.setProperty('--top', (this.size*0.84) + "px");
   }
 
   actTemp(){
