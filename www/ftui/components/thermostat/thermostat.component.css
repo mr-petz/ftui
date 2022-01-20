@@ -86,9 +86,9 @@
 
 .knob-style-grip {
   position: absolute;
-  bottom: 8%;
+  bottom: 7%;
   left: 49%;
-  width: 1px;
+  width: 0.5px;
   height: 0;
   border-left: 3px solid transparent;
   border-right: 3px solid transparent;
@@ -121,10 +121,6 @@
   position: absolute;
   top: var(--top);
   left: 50%;
-  -webkit-transition: all 180ms ease-out;
-  -moz-transition: all 180ms ease-out;
-  -o-transition: all 180ms ease-out;
-  transition: all 180ms ease-out;
   margin-top: var(--margin);
 }
 
@@ -149,7 +145,7 @@
   top: 50%;
   left: 50%;
   color: var(--thermostat-temp-color, var(--text-color));/*white;*/
-  font-size: font-size: var(--thermostat-temp-size, 0.7em);
+  font-size: var(--thermostat-temp-size, 0.75em);
   font-weight: bold;
 }
 
@@ -162,14 +158,7 @@
 }
 
 .activetick:after {
-  background: var(--gradient); /*#a8d8f8*/
-  -webkit-box-shadow: 0 0 0.3em 0.04em var(--aura) /*#79c3f4*/;
-  -moz-box-shadow: 0 0 0.3em 0.04em var(--aura) /*#79c3f4*/;
-  box-shadow: 0 0 0.3em 0.04em var(--aura) /*#79c3f4*/;
-  -webkit-transition: all 50ms ease-in;
-  -moz-transition: all 50ms ease-in;
-  -o-transition: all 50ms ease-in;
-  transition: all 50ms ease-in;
+  background: var(--gradient);
 }
 
 .thick:after {
