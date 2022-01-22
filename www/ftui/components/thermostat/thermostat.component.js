@@ -263,7 +263,7 @@ export class FtuiThermostat extends FtuiElement {
                 this.txt.appendChild(scale);
               }
             }
-            this.currentValue.style.setProperty('font-size', this.size*0.014 + "em");
+            this.currentValue.style.setProperty('font-size', 'var(--thermostat-value-size,' + this.size*0.014 + 'em)');
           } else {
             if (i===Math.round(atemp)) {
               tick.classList.add('thick-active');
@@ -272,7 +272,7 @@ export class FtuiThermostat extends FtuiElement {
               this.tempvalue.appendChild(temp);
             }
             if (this.hasOldStyle) {
-              this.currentValue.style.setProperty('font-size', this.size*0.013 + "em");
+              this.currentValue.style.setProperty('font-size', 'var(--thermostat-value-size,' + this.size*0.013 + 'em)');
             }
           }
     this.ticks.appendChild(tick);
@@ -473,7 +473,7 @@ export class FtuiThermostat extends FtuiElement {
     const tickAll = this.shadowRoot.querySelectorAll('.tick');
     const scale = this.shadowRoot.querySelectorAll('.txt');
     const temp = this.shadowRoot.querySelectorAll('.temp');
-    (this.hasOldStyle?this.currentValue.style.setProperty('font-size', this.size*0.012 + "em"):this.currentValue.style.setProperty('font-size',''));
+    (this.hasOldStyle?this.currentValue.style.setProperty('font-size', 'var(--thermostat-value-size,' + this.size*0.013 + 'em)'):this.currentValue.style.setProperty('font-size','var(--thermostat-value-size)'));
     this.currentValue.style.setProperty('top','25%');
     this.currentValue.style.setProperty('left','');
     this.grip.style.setProperty('bottom','');
