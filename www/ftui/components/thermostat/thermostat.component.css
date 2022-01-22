@@ -64,6 +64,7 @@
   text-align: center;
   white-space: nowrap;
   color: var(--thermostat-value-color, var(--text-color));
+  font-size: var(--thermostat-value-size);
 }
 
 .knob {
