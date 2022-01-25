@@ -60,9 +60,11 @@
          [battery]="dummy2"
          unit=" °C"
          has-zoom
+         size="100"
          value="22" temp="20.5" battery="100"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
        >
        </ftui-thermostat>
+       <p></p>
        <ftui-button (value)="dummy2" states="100,75,50,25,0">try it</ftui-botton>
     </ftui-grid-tile>
     
@@ -76,10 +78,12 @@
          battery-icon-color="step('-99:red, 20:yellow, 51:green')"
          unit=" °C"
          has-zoom
+         size="100"
          degrees="270"
          value="22" temp="20.5" battery="100"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
        >
        </ftui-thermostat>
+       <p></p>
        <ftui-button (value)="dummy3" states="100,80,60,40,20,0">try it</ftui-botton>
     </ftui-grid-tile>
 
@@ -121,6 +125,7 @@
          value="23.5"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
        >
        </ftui-thermostat>
+       <p></p>
        <ftui-button [(value)]="dummy4" states="22,20,18.5,17,10,0,-15">try it</ftui-botton>
     </ftui-grid-tile>
 
@@ -133,9 +138,11 @@
          unit=" °C"
          has-old-style
          has-zoom
+         size="100"
          value="23.5" temp="18.5" <!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
        >
        </ftui-thermostat>
+       <p></p>
        <ftui-button [(value)]="dummy6" states="on,off" style="width:80px;" [color]="dummy6 | map('on:red, .*:green')" color="green">
          <ftui-label [text]="dummy6 | map('on:Locked, .*:Unlocked')" text="Unlocked"></ftui-label>
        </ftui-botton>
@@ -164,6 +171,7 @@
          value="66.53"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
        >
        </ftui-thermostat>
+       <p></p>
        <ftui-button [(value)]="dummy5" states="76.1,72.4,68.5,66.21,60.3,57.4,48.9">try it</ftui-botton>
     </ftui-grid-tile>
 
