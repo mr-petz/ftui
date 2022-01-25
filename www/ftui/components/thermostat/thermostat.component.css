@@ -4,7 +4,7 @@
 
 .batt{
   position: absolute;
-  top: var(--thermostat-battery-top, 60%);
+  top: var(--thermostat-battery-top, 55%);
   left: 45%;
   white-space: nowrap;
   font-size: 0.7em;
@@ -13,7 +13,7 @@
 
 .batt-icon{
   position: absolute;
-  top: var(--thermostat-battery-icon-top, 63%);
+  top: var(--thermostat-battery-icon-top, 58%);
   left: 29%;
   white-space: nowrap;
   font-size: 0.25em;
@@ -41,7 +41,7 @@
 
 .humidity{
   position: absolute;
-  top: var(--thermostat-humidity-top, 95%);
+  top: var(--thermostat-humidity-top, 100%);
   left: 45%;
   white-space: nowrap;
   font-size: 0.7em;
@@ -50,7 +50,7 @@
 
 .humidity-icon{
   position: absolute;
-  top: var(--thermostat-humidity-icon-top, 98%);
+  top: var(--thermostat-humidity-icon-top, 103%);
   left: 28%;
   white-space: nowrap;
   font-size: 0.3em;
@@ -58,42 +58,42 @@
 }
 
 .current-value {
-  top: 25%;
+  top: 10%;
   display: block;
   position: relative;
   text-align: center;
   white-space: nowrap;
   color: var(--thermostat-value-color, var(--text-color));
   font-size: var(--thermostat-value-size);
+  width: var(--value-width);
 }
 
 .knob {
   position: absolute;
   width: 200%;
-  height: 200%;
-  top: -50%;
+  height: 250%;
+  top: -75%;
   left: -50%;
-  background-image: none;
-  border-radius: 50%;
   z-index: 10;
   cursor: pointer;
 }
 
 .knob-style {
   position: relative;
-  border-radius: 50%;
   margin: 3em auto;
+  width: 100%;
+  height: 50%;
 }
 
 .knob-style-grip {
   position: absolute;
-  bottom: 7%;
-  left: 49%;
+  top: 67%;
+  left: 50%;
   width: 0.5px;
-  height: 0;
-  border-left: 3px solid transparent;
-  border-right: 3px solid transparent;
+  border-left: var(--grip-left);
+  border-right: var(--grip-right);
   border-bottom: var(--grip);
+  margin-left: var(--grip-mleft);
 }
 
 .knob-style-min {
