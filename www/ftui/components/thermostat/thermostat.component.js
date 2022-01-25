@@ -232,7 +232,7 @@ export class FtuiThermostat extends FtuiElement {
             //scale.style.setProperty('color', 'rgba(255, 255, 255, 0.2)');
             if(Math.round(deg)===0){
               scale.style.setProperty('--top', '');
-              scale.style.setProperty('top', '148%');
+              scale.style.setProperty('top', '170%');
               (this.min>=10||this.min<=(-10)?(this.min<=(-10)?scale.style.setProperty('left', '41%'):scale.style.setProperty('left', '43%')):scale.style.setProperty('left', '47%'));
               scale.style.setProperty('--transform', 'rotate(0deg)');
             }
@@ -245,7 +245,7 @@ export class FtuiThermostat extends FtuiElement {
             scale.style.setProperty('--value', '"'+this.max+'"');
             if(Math.round(deg)===360){
               scale.style.setProperty('--top', '');
-              scale.style.setProperty('top', '148%');
+              scale.style.setProperty('top', '170%');
               (this.min>=10||this.min<=(-10)?(this.min<=(-10)?scale.style.setProperty('left', '46%'):scale.style.setProperty('left', '43%')):scale.style.setProperty('left', '47%'));
               scale.style.setProperty('--transform', 'rotate(0deg)');
             } else {
@@ -256,6 +256,7 @@ export class FtuiThermostat extends FtuiElement {
           }
         };
           if(this.isThermometer||this.isHumidity){
+            this.currentValue.style.setProperty('top', '25%');
             if (this.isHumidity){
                   tick.classList.add('activetick');
             }
