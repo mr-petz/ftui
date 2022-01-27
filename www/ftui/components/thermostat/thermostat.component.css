@@ -23,7 +23,7 @@
 
 .valve{
   position: absolute;
-  top: var(--thermostat-valve-top, 77%);
+  top: var(--thermostat-valve-top, 76%);
   left: 45%;
   white-space: nowrap;
   font-size: 0.7em;
@@ -32,7 +32,7 @@
 
 .valve-icon{
   position: absolute;
-  top: var(--thermostat-valve-icon-top, 81%);
+  top: var(--thermostat-valve-icon-top, 80%);
   left: 29%;
   white-space: nowrap;
   font-size: 0.25em;
@@ -41,7 +41,7 @@
 
 .humidity{
   position: absolute;
-  top: var(--thermostat-humidity-top, 100%);
+  top: var(--thermostat-humidity-top, 97%);
   left: 45%;
   white-space: nowrap;
   font-size: 0.7em;
@@ -50,29 +50,34 @@
 
 .humidity-icon{
   position: absolute;
-  top: var(--thermostat-humidity-icon-top, 103%);
+  top: var(--thermostat-humidity-icon-top, 100%);
   left: 28%;
   white-space: nowrap;
   font-size: 0.3em;
   color: var(--thermostat-humidity-icon, var(--color-base));
 }
 
+.center {
+  width: var(--value-width);
+  height: var(--value-width);
+}
+
 .current-value {
-  top: 10%;
-  display: block;
+  top: 15%;
   position: relative;
   text-align: center;
   white-space: nowrap;
   color: var(--thermostat-value-color, var(--text-color));
   font-size: var(--thermostat-value-size);
-  width: var(--value-width);
+  width: 200%;
+  left: -50%;
 }
 
 .knob {
   position: absolute;
   width: 200%;
-  height: 250%;
-  top: -75%;
+  height: 200%;
+  top: -50%;
   left: -50%;
   z-index: 10;
   cursor: pointer;
@@ -82,7 +87,6 @@
   position: relative;
   margin: 3em auto;
   width: 100%;
-  height: 50%;
 }
 
 .knob-style-grip {
