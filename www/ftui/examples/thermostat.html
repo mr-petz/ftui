@@ -40,16 +40,28 @@
     
     <ftui-grid-tile row="1" col="5" height="5" width="2" shape="round">
       <header>Size + Zoom + TempInRGB</header>
-       <ftui-thermostat
+        <ftui-thermostat class="size-1" style="--thermostat-temp-size:10px;--thermostat-value-size:1.2em"
          [(value)]="dummy"
          [temp]="dummy1"
          unit=" °C"
-         size="90"
+         size="70"
          has-zoom
          temp-in-rgb
          value="22" temp="20.5" <!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
-       >
-       </ftui-thermostat>
+        >
+        </ftui-thermostat>
+        <ftui-thermostat style="--thermostat-value-size:18px; --thermostat-tick-color:var(--gray);" class="size-1"
+         [value]="dummy" 
+         tick="180"
+         no-wide-ticks
+         size="45" 
+         no-min-max 
+         is-thermometer 
+         movegradient="6"
+         tofixed="2"
+         value="20.51" <!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+        >
+        </ftui-thermostat>
     </ftui-grid-tile>
 
     <ftui-grid-tile row="6" col="1" height="6" width="2" shape="round">
