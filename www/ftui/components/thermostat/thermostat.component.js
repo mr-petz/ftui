@@ -23,6 +23,7 @@ export class FtuiThermostat extends FtuiElement {
     (!this.hasThermometer?this.step=this.step:this.step=0.01);
     this.knobs = this.shadowRoot.querySelector('.knob-style');
     this.knob = this.shadowRoot.querySelector('.knob');
+    this.center = this.shadowRoot.querySelector('.center');
     this.currentValue = this.shadowRoot.querySelector('.current-value');
     this.ticks = this.shadowRoot.querySelector('.ticks');
     this.grip = this.shadowRoot.querySelector('.knob-style-grip');
@@ -51,7 +52,9 @@ export class FtuiThermostat extends FtuiElement {
           <div class="ticks"></div>
           <div class="temp"></div>
           <div class="txts"></div>
-          <div class="current-value"></div>
+          <div class="center">
+            <div class="current-value"></div>
+          </div>
           <ftui-icon ${(!this.isThermometer && !this.isHumidity && this.hasAttribute('[battery]') && this.getAttribute('[battery]') ? 'name="battery" [name]="'+this.getAttribute('[battery]')+' | '+this.batteryIcon+'" [color]="'+this.getAttribute('[battery]')+' | '+this.batteryIconColor+'"' : '')} class="batt-icon"></ftui-icon>
           <div class="batt"></div>
           <ftui-icon ${(!this.isThermometer && !this.isHumidity && this.hasAttribute('[valve]') && this.getAttribute('[valve]') ? 'name="spinner" ' : '')} class="valve-icon"></ftui-icon>
@@ -65,35 +68,36 @@ export class FtuiThermostat extends FtuiElement {
 
   static get properties() {
     return {
-     value: -1,
-     temp: 0,
-     battery: '',
-     batteryIconColor: 'step(\'-99:danger, 25:warning, 50:success, 75:primary\')',
-     batteryIcon: 'step(\'-99:battery-0, 25:battery-1, 50:battery-2, 75:battery-3, 100: battery\')',
-     humidity: '',
-     valve: '',
-     size: 110,
-     min: 15,
-     max: 35,
-     step: 0.5,
-     tick: 0,
-     noWideTicks: false,
-     degrees: 240,
-     rotation: 0,
-     unit: '',
-     movegradient: 7,
-     isThermometer: false,
-     isHumidity: false,
-     hasZoom: false,
-     readonly: false,
-     noMinMax: false,
-     hasOldStyle: false,
-     valueInRgb: false,
-     tempInRgb: false,
-     lowcolor:'68, 119, 255',
-     mediumcolor:'255,0,255',
-     highcolor:'255,0,0',
-     tofixed: 1,
+      value: -1,
+      temp: 0,
+      battery: '',
+      batteryIconColor: 'step(\'-99:danger, 25:warning, 50:success, 75:primary\')',
+      batteryIcon: 'step(\'-99:battery-0, 25:battery-1, 50:battery-2, 75:battery-3, 100: battery\')',
+      humidity: '',
+      valve: '',
+      size: 110,
+      min: 15,
+      max: 35,
+      step: 0.5,
+      tick: 0,
+      noWideTicks: false,
+      degrees: 240,
+      rotation: 0,
+      unit: '',
+      movegradient: 6,
+      fadegradient: 0,
+      isThermometer: false,
+      isHumidity: false,
+      hasZoom: false,
+      readonly: false,
+      noMinMax: false,
+      hasOldStyle: false,
+      valueInRgb: false,
+      tempInRgb: false,
+      lowcolor:'68,119,255',
+      mediumcolor:'255,0,255',
+      highcolor:'255,0,0',
+      tofixed: 1,
     };
   }
 
@@ -140,10 +144,15 @@ export class FtuiThermostat extends FtuiElement {
     }
   }
   
+  hex2rgba(hex){
+    const [r, g, b] = hex.match(/\w\w/g).map(x => parseInt(x, 16));
+    return `${r},${g},${b}`;
+  }
+
   rgbGradient(){
-    const low = this.lowcolor.split(',');
-    const medium = this.mediumcolor.split(',');
-    const high = this.highcolor.split(',');
+    const low = (this.lowcolor.match('#')?this.hex2rgba(this.lowcolor):this.lowcolor).split(',');
+    const medium = (this.mediumcolor.match('#')?this.hex2rgba(this.mediumcolor):this.mediumcolor).split(',');
+    const high = (this.highcolor.match('#')?this.hex2rgba(this.highcolor):this.highcolor).split(',');
     const lowColor = {
       red: parseInt(low[0]),
       green: parseInt(low[1]),
@@ -167,7 +176,7 @@ export class FtuiThermostat extends FtuiElement {
     let color3 = rgbColor3;
     
     for (let i = 0;  this.rgbgradient.length <= this.tick; i++){
-      let fade = (i*(this.max-this.min)/this.tick)/this.max;
+      let fade = (i*(this.max-this.min)/this.tick)/(this.max+this.fadegradient);
       if (rgbColor3) {
         fade = fade * this.movegradient;
         if (fade >= 1) {
@@ -188,7 +197,6 @@ export class FtuiThermostat extends FtuiElement {
     this.rgbgradient.push(rgbgradient);
     }
   }
-
   tickstyle(){
     this.ticks.innerHTML = '';
     this.txt.innerHTML = '';
@@ -199,7 +207,7 @@ export class FtuiThermostat extends FtuiElement {
     this.grip.style.setProperty('--grip-left', (this.size*0.025)+'px solid transparent');
     this.grip.style.setProperty('--grip-right', (this.size*0.025)+'px solid transparent');
     this.grip.style.setProperty('--grip-mleft', '-'+(this.size*0.0175)+'px');
-    this.currentValue.style.setProperty('--value-width', (this.size*0.8)+'px');
+    this.center.style.setProperty('--value-width', (this.size*0.8)+'px');
     const atemp = this.tick*((this.tempValue<=this.max?(this.tempValue<=this.min?this.min:this.tempValue):this.max)-this.min)/(this.max-this.min);
     for (let deg = (this.startAngle-0.0001); deg <= (this.endAngle+0.001); deg += incr){
       i++  
@@ -215,7 +223,7 @@ export class FtuiThermostat extends FtuiElement {
       temp.style.setProperty('transform', "rotate(" + deg + "deg)");
       tick.style.setProperty('--top', (this.size * 0.62) + "px");
       temp.style.setProperty('--top', (this.size*0.82) + "px");
-      scale.style.setProperty('--top', (this.size*0.82) + "px");
+      scale.style.setProperty('--top', (this.size*0.8) + "px");
       temp.style.setProperty('--size-after', `0.9em`);
       scale.style.setProperty('--size-after', `0.5em`);
       scale.style.setProperty('--transform', 'rotate(180deg)');
@@ -229,10 +237,9 @@ export class FtuiThermostat extends FtuiElement {
           tick.classList.add('thick');
           if(!this.noMinMax){
             scale.style.setProperty('--value', '"'+this.min+'"');
-            //scale.style.setProperty('color', 'rgba(255, 255, 255, 0.2)');
             if(Math.round(deg)===0){
               scale.style.setProperty('--top', '');
-              scale.style.setProperty('top', '170%');
+              scale.style.setProperty('top', '150%');
               (this.min>=10||this.min<=(-10)?(this.min<=(-10)?scale.style.setProperty('left', '41%'):scale.style.setProperty('left', '43%')):scale.style.setProperty('left', '47%'));
               scale.style.setProperty('--transform', 'rotate(0deg)');
             }
@@ -245,7 +252,7 @@ export class FtuiThermostat extends FtuiElement {
             scale.style.setProperty('--value', '"'+this.max+'"');
             if(Math.round(deg)===360){
               scale.style.setProperty('--top', '');
-              scale.style.setProperty('top', '170%');
+              scale.style.setProperty('top', '150%');
               (this.min>=10||this.min<=(-10)?(this.min<=(-10)?scale.style.setProperty('left', '46%'):scale.style.setProperty('left', '43%')):scale.style.setProperty('left', '47%'));
               scale.style.setProperty('--transform', 'rotate(0deg)');
             } else {
@@ -256,7 +263,8 @@ export class FtuiThermostat extends FtuiElement {
           }
         };
           if(this.isThermometer||this.isHumidity){
-            this.currentValue.style.setProperty('top', '25%');
+            this.currentValue.style.setProperty('line-height', (this.size*0.8)+'px');
+            this.currentValue.style.setProperty('top', '0');
             if (this.isHumidity){
                   tick.classList.add('activetick');
             }
@@ -276,7 +284,7 @@ export class FtuiThermostat extends FtuiElement {
               this.tempvalue.appendChild(temp);
             }
             if (this.hasOldStyle) {
-              this.currentValue.style.setProperty('font-size', 'var(--thermostat-value-size,' + this.size*0.013 + 'em)');
+              this.currentValue.style.setProperty('font-size', 'var(--thermostat-value-size,' + this.size*0.014 + 'em)');
             }
           }
     this.ticks.appendChild(tick);
@@ -359,7 +367,7 @@ export class FtuiThermostat extends FtuiElement {
             }
           }
           if(!this.hasOldStyle){
-            if(Math.round(tempValue)<Math.round(actValue)){
+            if(Math.round(tempValue)<Math.round(actValue)&&gripStep<=this.endAngle){
               tickActive[Math.round(tempValue)+1].classList.add('activetick','thick-active','blink');
             }
           }
@@ -372,7 +380,7 @@ export class FtuiThermostat extends FtuiElement {
       }
     }
   }
- 
+
   startDrag (e)  {
     let knob = this.knobs.getBoundingClientRect();
     const pts = {
@@ -454,8 +462,7 @@ export class FtuiThermostat extends FtuiElement {
   }
 
   valueView(){
-    const temp = (this.value*this.step/this.step).toFixed(this.tofixed);
-    (!this.isThermometer&&!this.isHumidity&&Number(this.newValue)===this.min?this.currentValue.innerHTML='off':this.currentValue.innerHTML=(!this.isThermometer&&!this.isHumidity?(this.hasOldStyle?'':'Soll: ')+this.newValue+this.unit:temp+this.unit));
+    this.currentValue.innerHTML=(!this.isThermometer&&!this.isHumidity?(this.hasOldStyle?'':'Soll: ')+this.newValue+this.unit:this.newValue+this.unit);
   }
 
   zoomIn(){
@@ -472,7 +479,7 @@ export class FtuiThermostat extends FtuiElement {
     });
     if(!this.noMinMax){
       scale.forEach(txt => {
-        (txt.style.top==='148%'?txt.style.setProperty('top', "165%"):txt.style.setProperty('--top', (this.size*0.92) + "px"));
+        (txt.style.top==='150%'?txt.style.setProperty('top', "165%"):txt.style.setProperty('--top', (this.size*0.92) + "px"));
       });
     }
     temp[1].style.setProperty('--top', (this.size*0.93) + "px");
@@ -482,8 +489,8 @@ export class FtuiThermostat extends FtuiElement {
     const tickAll = this.shadowRoot.querySelectorAll('.tick');
     const scale = this.shadowRoot.querySelectorAll('.txt');
     const temp = this.shadowRoot.querySelectorAll('.temp');
-    (this.hasOldStyle?this.currentValue.style.setProperty('font-size', 'var(--thermostat-value-size,' + this.size*0.013 + 'em)'):this.currentValue.style.setProperty('font-size','var(--thermostat-value-size)'));
-    this.currentValue.style.setProperty('top','10%');
+    (this.hasOldStyle?this.currentValue.style.setProperty('font-size', 'var(--thermostat-value-size,' + this.size*0.014 + 'em)'):this.currentValue.style.setProperty('font-size','var(--thermostat-value-size)'));
+    this.currentValue.style.setProperty('top','15%');
     this.currentValue.style.setProperty('left','');
     this.grip.style.setProperty('bottom','');
     this.grip.style.setProperty('top','67%');
@@ -492,8 +499,7 @@ export class FtuiThermostat extends FtuiElement {
     });
     if(!this.noMinMax){
       scale.forEach(txt => {
-       (txt.style.top==='165%'?txt.style.setProperty('top', "148%"):txt.style.setProperty('--top', (this.size*0.82) + "px"));
-         //txt.style.setProperty('--top', (this.size*0.82) + "px");
+       (txt.style.top==='165%'?txt.style.setProperty('top', "150%"):txt.style.setProperty('--top', (this.size*0.8) + "px"));
       });
     }
     temp[1].style.setProperty('--top', (this.size*0.82) + "px");
@@ -510,7 +516,7 @@ export class FtuiThermostat extends FtuiElement {
       temp.classList.add('temp');
       temp.id = 'temp';
       temp.style.setProperty('transform', "rotate(" + deg + "deg)");
-      temp.style.setProperty('--top', (this.size*0.84) + "px");
+      temp.style.setProperty('--top', (this.size*0.82) + "px");
       temp.style.setProperty('--size-after', `0.9em`);
         if (i===Math.round(atemp)) {
           const textContent=(Math.round(this.tempValue*2)/2).toFixed(1);//+this.unit;
