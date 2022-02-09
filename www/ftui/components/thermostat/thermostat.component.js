@@ -14,7 +14,6 @@ import { FtuiIcon } from '../icon/icon.component.js';
 
 export class FtuiThermostat extends FtuiElement {
   constructor(properties) {
-
   super(Object.assign(FtuiThermostat.properties, properties));
     this.newValue=0;
     this.tempValue=0;
@@ -279,7 +278,7 @@ export class FtuiThermostat extends FtuiElement {
           } else {
             if (i===Math.round(atemp)) {
               tick.classList.add('thick-active');
-              const textContent=(Math.round(this.tempValue*2)/2).toFixed(1);//+this.unit;
+              const textContent=this.tempValue;//+this.unit;
               temp.style.setProperty('--value', '"'+textContent+'"');
               this.tempvalue.appendChild(temp);
             }
@@ -519,7 +518,7 @@ export class FtuiThermostat extends FtuiElement {
       temp.style.setProperty('--top', (this.size*0.82) + "px");
       temp.style.setProperty('--size-after', `0.9em`);
         if (i===Math.round(atemp)) {
-          const textContent=(Math.round(this.tempValue*2)/2).toFixed(1);//+this.unit;
+          const textContent=this.tempValue;//+this.unit;
           temp.style.setProperty('--value', '"'+textContent+'"');
           oldTemp.parentNode.removeChild(oldTemp);
           this.tempvalue.appendChild(temp);
