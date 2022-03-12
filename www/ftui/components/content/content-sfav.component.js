@@ -16,8 +16,10 @@ export class FtuiContentSonosFavRG extends FtuiContent {
     super(Object.assign(FtuiContentSonosFavRG.properties, properties));
     this.drop = this.shadowRoot.querySelector('.label');
     this.dropList = this.shadowRoot.querySelector('.list');
+    this.dropOverlay = this.shadowRoot.querySelector('.overlay');
     this.drop.addEventListener('click', () => this.showList());
     this.dropList.addEventListener('click', () => this.showList());
+    this.dropOverlay.addEventListener('click', () => this.showList());
   }
 
   template() {
@@ -59,12 +61,23 @@ export class FtuiContentSonosFavRG extends FtuiContent {
         overflow-x: hidden;
         scrollbar-width: none;
         -ms-overflow-style: none;
+        cursor: pointer;
         z-index: 9999;
       }
 
+      .drop .overlay {
+        visibility: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        z-index: 9998;
+      }
+
       .drop .show {
-        visibility: visible;
-        cursor: pointer;
+        visibility: visible;      
         -webkit-animation: fadeIn 1s;
         animation: fadeIn 1s;
       }
@@ -98,6 +111,7 @@ export class FtuiContentSonosFavRG extends FtuiContent {
       </div>
       <div class="drop">
         <span class="list"></span>
+        <span class="overlay"></span>
       </div>
     `;
   }
@@ -129,6 +143,7 @@ export class FtuiContentSonosFavRG extends FtuiContent {
 
   showList() {
     this.dropList.classList.toggle('show');
+    this.dropOverlay.classList.toggle('show');
   }
 }
 
