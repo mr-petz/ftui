@@ -120,6 +120,9 @@ export class FtuiContentSonosFavRG extends FtuiContent {
     return {
       label: 'FavSonos',
       content: '',
+      logowidth: '70',
+      logoheight: '70',
+      
     };
   }
 
@@ -133,8 +136,10 @@ export class FtuiContentSonosFavRG extends FtuiContent {
         const deviceName = this.binding.getReadingsOfAttribute('content')[0];
         const regexp = /informid\=\"(\w*)\-item\:1\:1"/gi;
         const rgName = regexp.exec(this.content);
-        const replaceString ='/fhem?XHR=1&cmd.'+deviceName+'%3D';
-        this.dropList.innerHTML = this.content.replaceAll(replaceString,'').replace(/%20/g,' ').replace(/%2520/g,'%20').replace(/%2528/g,'%28').replace(/%2529/g,'%29').replace(/FW_cmd/g,'ftuiApp.fhemService.sendCommand');
+        const replaceString ="onclick=\"FW_cmd('/fhem?XHR=1&cmd."+deviceName+"%3Dset%20"+deviceName+"%20StartFavourite%20";
+        const setString ='><ftui-label style="display:block;" width="'+this.logowidth+'px" height="'+this.logoheight+'px" @click="sendFhem(\''+'set '+deviceName+' StartFavourite ';
+        const logoSize ='width: '+this.logowidth+'px; height: '+this.logoheight+'px;';
+        this.dropList.innerHTML = this.content.replaceAll(replaceString,setString).replace(/><\/div>/g,'</ftui-label></div>').replace(/%2520/g,'%20').replace(/%2528/g,'%28').replace(/%2529/g,'%29').replace(/width\: 70px\; height\: 70px\;/g,logoSize);
         const view = 'div[informid="'+rgName[1]+'-item:1:1"]';
         this.dropList.innerHTML=this.dropList.querySelector(view).innerHTML;
       break;
