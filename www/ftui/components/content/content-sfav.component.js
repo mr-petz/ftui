@@ -30,9 +30,11 @@ export class FtuiContentSonosFavRG extends FtuiContent {
       }
 
       .label {
+        position: relative;
         cursor: pointer;
         margin-left: 2px;
         color: var(--text-color);
+        z-index: 9999;
       }
 
       .drop {
@@ -62,7 +64,7 @@ export class FtuiContentSonosFavRG extends FtuiContent {
         scrollbar-width: none;
         -ms-overflow-style: none;
         cursor: pointer;
-        z-index: 9999;
+        z-index: 9998;
       }
 
       .drop .overlay {
@@ -73,7 +75,7 @@ export class FtuiContentSonosFavRG extends FtuiContent {
         top: 0;
         left: 0;
         opacity: 0;
-        z-index: 9998;
+        z-index: 9997;
       }
 
       .drop .show {
@@ -147,6 +149,9 @@ export class FtuiContentSonosFavRG extends FtuiContent {
           } else {
             this.dropList.innerHTML = '...kein getHTML() definiert <br>oder keine Daten vorhanden...'
           }
+        break;
+        case 'label':
+        this.drop.innerHTML = this.label+' <span class="caret"></span>';
         break;
       }
     }
