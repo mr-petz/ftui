@@ -8,9 +8,10 @@
 */
 
 import { FtuiButton } from '../button/button.component.js';
-import * as ftui from '../../modules/ftui/ftui.helper.js';
-// eslint-disable-next-line no-unused-vars
+import { selectAll, selectOne, triggerEvent } from '../../modules/ftui/ftui.helper.js';
+/* eslint-disable no-unused-vars */
 import { FtuiTabView } from './tab-view.component.js';
+import { FtuiTabTitle} from './tab-title.component.js';
 
 
 class FtuiTab extends FtuiButton {
@@ -19,10 +20,9 @@ class FtuiTab extends FtuiButton {
 
     super(Object.assign(FtuiTab.properties, properties));
 
-    this.addEventListener('click', this.onClicked);
     window.customElements.whenDefined('ftui-tab-view').then(() => {
       if (this.hasAttribute('active')) {
-        this.onClicked();
+        this.onClickEvent();
       }
     })
 
@@ -39,7 +39,8 @@ class FtuiTab extends FtuiButton {
       group: 'default',
       color: '',
       fill: 'clear',
-      view: ''
+      view: '',
+      timeout: 0,
     };
   }
 
@@ -47,47 +48,65 @@ class FtuiTab extends FtuiButton {
     return [...this.convertToAttributes(FtuiTab.properties), ...super.observedAttributes];
   }
 
-  onClicked() {
+  onClickEvent() {
     // hide all views and show selected view
-    ftui.selectAll('ftui-tab-view').forEach(elem => {
-      if (elem.group === this.group) {
-        if (elem.id !== this.view) {
-          elem.setAttribute('hidden', '');
-        } else {
-          elem.removeAttribute('hidden');
-        }
+    selectAll(`ftui-tab-view[group="${this.group}"]`).forEach(elem => {
+      if (elem.id !== this.view) {
+        elem.setAttribute('hidden', '');
+      } else {
+        elem.removeAttribute('hidden');
       }
     });
 
     // de-activated all tabs
-    ftui.selectAll('ftui-tab').forEach(elem => {
-      if (elem.group === this.group && elem.id !== this.id) {
-        elem.value = 'off';
-        elem.active = false;
-      }
+    selectAll(`ftui-tab[group="${this.group}"][active]`).forEach(elem => {
+      elem.submitChange('value', 'off');
+      elem.active = false;
+      elem.clearTimeout();
     });
-
-    // change tab title
-    ftui.selectAll(`*[tab-group="${this.group}"]`)
-      .forEach(elem => {
-        elem.setAttribute('text', this.title || this.view);
-      });
 
     // activate clicked tab
     this.submitChange('value', 'on');
     this.active = true;
+    this.startTimeout();
+
+    // change all titles
+    selectAll(`ftui-tab-title[group="${this.group}"]`).forEach(elem => {
+      elem.text = this.title;
+    });
 
     // emit event
-    ftui.triggerEvent('ftuiVisibilityChanged');
+    triggerEvent('ftuiVisibilityChanged');
   }
 
   onAttributeChanged(name, newValue, oldValue) {
     switch (name) {
       case 'value':
         if (newValue === 'on' && oldValue !== 'on') {
-          this.onClicked();
+          this.onClickEvent();
         }
         break;
+    }
+  }
+
+  goHome() {
+    let homeElem = selectOne(`ftui-tab[group="${this.group}"][home]`);
+    if (!homeElem) {
+      homeElem = selectOne(`ftui-tab[group="${this.group}"]:first-of-type`);
+    }
+    if (homeElem) {
+      homeElem.onClickEvent();
+    }
+  }
+
+  clearTimeout() {
+    window.clearTimeout(this.timer);
+  }
+
+  startTimeout() {
+    this.clearTimeout();
+    if (this.timeout) {
+      this.timer = setTimeout(() => this.goHome(), this.timeout * 1000);
     }
   }
 }

@@ -28,6 +28,12 @@ const minusBlue = (value = 0) => input => Number(input) < value ? 'blue' : null;
 const contains = value => input => String(input).indexOf(value) < 0 ? true : false;
 const is = value => input => String(input) === value ? true : false;
 const isNot = value => input => String(input) !== value ? true : false;
+const pad = (cnt, char) => input => String(input).padStart(cnt, char);
+const append = value => input => String(input) + value;
+const prepend = value => input => value + String(input);
+const sendCommand = value => input => ftuiHelper.sendCommand(value);
+const getHTML = value => input => ftuiHelper.sendCommand('get ' + value + ' html');
+
 
 const pipe = (f1, ...fns) => (...args) => {
   return fns.reduce((res, fn) => fn(res), f1.apply(null, args));
@@ -48,7 +54,7 @@ export class FtuiBinding {
     this.isThirdPartyElement = false;
     this.config = {
       input: { readings: {} },
-      output: { attributes: {} }
+      output: { attributes: {} },
     };
     this.readAttributes(element.attributes);
 
@@ -89,12 +95,12 @@ export class FtuiBinding {
     }
     const readingAttributeMap = this.config.input.readings[readingData.id].attributes;
     Object.entries(readingAttributeMap)
-      .forEach(([attribute, options]) => {
+      .forEach(async ([attribute, options]) => {
         // update marker to avoid infinity loops
         this.element.isActiveChange[attribute] = false;
         const value = readingData[options.property];
         if (ftuiHelper.isDefined(value)) {
-          let filteredValue = this.filterValue(value, options.filter);
+          let filteredValue = await this.filterValue(value, options.filter);
           if (ftuiHelper.isDefined(filteredValue)) {
             if (typeof filteredValue === 'string') {
               filteredValue = filteredValue.replace(/\$value/g, value);
@@ -141,8 +147,10 @@ export class FtuiBinding {
         invalid: false,
         value,
         time: now,
-        update: now
+        update: now,
       });
+
+      if (deviceName === 'local') { return }
 
       // notify FHEM
       if (this.element.debounce) {
@@ -188,7 +196,7 @@ export class FtuiBinding {
   initEventListener(attribute, targetAttributeName) {
     const name = ftuiHelper.toCamelCase(targetAttributeName);
     this.element.addEventListener(name,
-      this.evalInContext.bind(this.element, attribute.value)
+      this.evalInContext.bind(this.element, attribute.value),
     );
   }
 
@@ -270,7 +278,7 @@ export class FtuiBinding {
     return {
       readingID: ftuiHelper.getReadingID(device, reading),
       property: property || 'value',
-      filter
+      filter,
     }
   }
 
@@ -285,7 +293,7 @@ export class FtuiBinding {
       cmd,
       readingID: ftuiHelper.getReadingID(device, reading),
       value,
-      filter: attrTextItems.join('|')
+      filter: attrTextItems.join('|'),
     }
   }
 

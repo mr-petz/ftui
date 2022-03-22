@@ -7,7 +7,7 @@
 :host([readonly]) svg {
   cursor: default;
 }
- 
+
 .outline,
 .fill,
 .center,
@@ -15,19 +15,15 @@
 .scale {
   pointer-events: none;
 }
- 
+
 .outline {
   stroke: var(--knob-outline-color, var(--dark-color));
 }
 
-.fill {
-  stroke: var(--knob-fill-color, var(--color-base));
-}
- 
 .needle {
   fill: var(--knob-needle-color, var(--color-base));
 }
- 
+
 .handle {
   fill: var(--knob-handle-color, var(--color-base));
 }
@@ -45,7 +41,7 @@
   fill: var(--knob-text-color, var(--text-color));
   font-weight: lighter;
 }
- 
+
 .unit {
   font-size: 1em;
   fill: var(--knob-text-color, var(--text-color));
@@ -61,4 +57,16 @@ text {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+#min {
+  stop-color: var(--color-min, var(--knob-min-color, var(--knob-fill-color, var(--color-base))));
+}
+
+.mix {
+  stop-color: var(--color-mix, var(--knob-mix-color, var(--knob-fill-color, var(--color-base))));
+}
+
+#max {
+  stop-color: var(--color-max, var(--knob-max-color, var(--knob-fill-color, var(--color-base))));
 }

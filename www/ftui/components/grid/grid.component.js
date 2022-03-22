@@ -1,7 +1,7 @@
 /*
 * Grid component for FTUI version 3
 *
-* Copyright (c) 2019-2020 Mario Stephan <mstephan@shared-files.de>
+* Copyright (c) 2019-2022 Mario Stephan <mstephan@shared-files.de>
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
 * https://github.com/knowthelist/ftui
@@ -20,41 +20,56 @@ export class FtuiGrid extends FtuiElement {
       minY: 0,
       baseWidth: 0,
       baseHeight: 0,
-      cols: 0,
-      rows: 0,
       margin: 8,
-      resize: false
+      resize: false,
+      responsive: false,
     };
     super(properties);
 
     this.debouncedResize = debounce(this.configureGrid, this);
 
     this.windowWidth = 0;
-    this.tiles = this.querySelectorAll('ftui-grid-tile');
-    this.configureGrid();
+    this.tiles = this.querySelectorAll('ftui-grid-tile, [data-grid-tile]');
 
-    if (this.resize) {
-      window.addEventListener('resize', () => {
-        if (this.windowWidth !== window.innerWidth) {
-          this.debouncedResize(500);
-          this.windowWidth = window.innerWidth;
-        }
-      });
+
+    if (this.responsive) {
+      this.configResponsiveGrid();
+    } else {
+      if (this.resize) {
+        window.addEventListener('resize', () => {
+          if (this.windowWidth !== window.innerWidth) {
+            this.debouncedResize(500);
+            this.windowWidth = window.innerWidth;
+          }
+        });
+      }
+      this.configureGrid();
+      document.addEventListener('ftuiVisibilityChanged', () => this.configureGrid());
+      document.addEventListener('ftuiComponentsAdded', () => this.configureGrid());
     }
-    document.addEventListener('ftuiVisibilityChanged', () => this.configureGrid());
-    document.addEventListener('ftuiComponentsAdded', () => this.configureGrid());
   }
 
   template() {
     return `<style> 
-      :host {
+      :host(:not([responsive])) {
         position: relative;
         display: block;
         width: 100%;
         height: 100%;
+        margin: 0;
+      }
+      :host([responsive]) {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        grid-template-rows: repeat(auto-fill, minmax(140px, 1fr));
+        grid-auto-flow: dense;
+        grid-auto-columns: 25%;
+        grid-auto-rows: 25%;
+        gap: ${this.margin}px;
+        margin: ${this.margin}px;
       }
       :host([shape="round"]) {
-        --grid-tile-border-radius: 1.5em;
+        --grid-tile-border-radius: 1rem;
       }
     </style>
     <slot></slot>
@@ -62,7 +77,18 @@ export class FtuiGrid extends FtuiElement {
   }
 
   onConnected() {
-    this.style.margin = 0;
+    //this.style.margin = 0;
+  }
+
+  configResponsiveGrid() {
+    const baseWidth = (this.baseWidth > 0) ? this.baseWidth : 140;
+    const baseHeight = (this.baseHeight > 0) ? this.baseHeight : 140;
+    this.tiles.forEach(tile => {
+      tile.style['grid-row'] = 'span ' + tile.getAttribute('width');
+      tile.style['grid-column'] = 'span ' + tile.getAttribute('height');
+    });
+    this.style['grid-auto-rows'] = baseHeight + 'px';
+    this.style['grid-auto-columns'] = baseWidth + 'px';
   }
 
   configureGrid() {
@@ -97,6 +123,7 @@ export class FtuiGrid extends FtuiElement {
       const style = tile.style;
       style.width = (tile.width * baseWidth - this.margin) + 'px';
       style.height = (tile.height * baseHeight - this.margin) + 'px';
+      style['position'] = 'absolute';
       tile.setAttribute('title', `row: ${tile.row} | col: ${tile.col}`);
       if (tile.querySelector('ftui-grid')) {
         style.backgroundColor = 'transparent';

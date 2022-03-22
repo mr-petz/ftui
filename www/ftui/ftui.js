@@ -46,3 +46,8 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   window.ftuiApp.toast([file + ':' + lineNo, error].join('<br/>'), 'error');
   return false;
 };
+
+// set theme on change
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+  window.ftuiApp.setTheme(e.matches);
+});

@@ -11,6 +11,7 @@ import { FtuiElement } from '../element.component.js';
 import { isNumeric } from '../../modules/ftui/ftui.helper.js';
 
 const sizes = [0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.25, 1.5, 1.75, 2, 2.5, 3, 3.5, 4, 6, 8];
+const cache = {};
 
 export class FtuiIcon extends FtuiElement {
 
@@ -41,6 +42,7 @@ export class FtuiIcon extends FtuiElement {
       left: '',
       bottom: '',
       right: '',
+      rotate: 0,
     };
   }
 
@@ -58,7 +60,7 @@ export class FtuiIcon extends FtuiElement {
         break;
       case 'width':
       case 'height':
-        this.style[name] = this[name];
+        this.style.setProperty(`--icon-${name}`, newValue);
         break;
       case 'top':
       case 'left':
@@ -71,21 +73,32 @@ export class FtuiIcon extends FtuiElement {
           this.style.fontSize = sizes[this.size + 4] + 'rem';
         }
         break;
+      case 'rotate':
+        this.elementIcon.style.setProperty('-webkit-transform', 'rotateZ(' + newValue + 'deg)');
+        this.elementIcon.style.setProperty('-transform', 'rotateZ(' + newValue + 'deg)');
+        this.elementIcon.style.setProperty('-moz-transform', 'rotateZ(' + newValue + 'deg)');
+        break;
     }
   }
 
-  loadIcon(url) {
+  async loadIcon(url) {
     if (url.endsWith('svg')) {
-      fetch(url)
-        .then(response => {
-          return response.text()
-        })
-        .then(svg => this.elementIcon.innerHTML = svg)
-        .catch(error => console.error(error));
+      this.elementIcon.innerHTML = await this.fetchSvgIcon(url);
     } else {
       this.elementIcon.innerHTML = `<img src="${url}"></img>`;
     }
   }
+
+  async fetchSvgIcon(url) {
+    if (!cache[url]) {
+      cache[url] = fetch(url)
+        .then(response => response.clone().text())
+        .then(svg => svg)
+        .catch(error => console.error(error));
+    }
+    return cache[url]
+  }
+
 }
 
 window.customElements.define('ftui-icon', FtuiIcon);

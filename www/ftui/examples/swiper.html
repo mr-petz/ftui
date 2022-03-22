@@ -15,7 +15,7 @@
   <title>FTUI Swiper Example</title>
   <script>
     // mock data for demo
-    const mockData = [['AgroWeather-fc0_tempMin', { 'data': { 'id': 'AgroWeather-fc0_tempMin', 'invalid': false, 'value': '-2', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc0_tempMin' }], ['AgroWeather-fc0_tempMax', { 'data': { 'id': 'AgroWeather-fc0_tempMax', 'invalid': false, 'value': '1', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc0_tempMax' }], ['AgroWeather-fc0_rain', { 'data': { 'id': 'AgroWeather-fc0_rain', 'invalid': false, 'value': '7.1', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc0_rain' }], ['AgroWeather-fc0_chOfRainDay', { 'data': { 'id': 'AgroWeather-fc0_chOfRainDay', 'invalid': false, 'value': '15', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc0_chOfRainDay' }], ['AgroWeather-fc0_weatherDay', { 'data': { 'id': 'AgroWeather-fc0_weatherDay', 'invalid': false, 'value': 'stark bewölkt', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}, {}] }, 'device': 'AgroWeather', 'reading': 'fc0_weatherDay' }], ['AgroWeather-fc0_date', { 'data': { 'id': 'AgroWeather-fc0_date', 'invalid': false, 'value': '27.01.2021', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc0_date' }], ['AgroWeather-fc1_tempMin', { 'data': { 'id': 'AgroWeather-fc1_tempMin', 'invalid': false, 'value': '0', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc1_tempMin' }], ['AgroWeather-fc1_tempMax', { 'data': { 'id': 'AgroWeather-fc1_tempMax', 'invalid': false, 'value': '2', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc1_tempMax' }], ['AgroWeather-fc1_rain', { 'data': { 'id': 'AgroWeather-fc1_rain', 'invalid': false, 'value': '8.7', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc1_rain' }], ['AgroWeather-fc1_chOfRainDay', { 'data': { 'id': 'AgroWeather-fc1_chOfRainDay', 'invalid': false, 'value': '80', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc1_chOfRainDay' }], ['AgroWeather-fc1_weatherDay', { 'data': { 'id': 'AgroWeather-fc1_weatherDay', 'invalid': false, 'value': 'Regen', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}, {}] }, 'device': 'AgroWeather', 'reading': 'fc1_weatherDay' }], ['AgroWeather-fc1_date', { 'data': { 'id': 'AgroWeather-fc1_date', 'invalid': false, 'value': '28.01.2021', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc1_date' }], ['AgroWeather-fc2_tempMin', { 'data': { 'id': 'AgroWeather-fc2_tempMin', 'invalid': false, 'value': '-2', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc2_tempMin' }], ['AgroWeather-fc2_tempMax', { 'data': { 'id': 'AgroWeather-fc2_tempMax', 'invalid': false, 'value': '0', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc2_tempMax' }], ['AgroWeather-fc2_rain', { 'data': { 'id': 'AgroWeather-fc2_rain', 'invalid': false, 'value': '10.5', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc2_rain' }], ['AgroWeather-fc2_chOfRainDay', { 'data': { 'id': 'AgroWeather-fc2_chOfRainDay', 'invalid': false, 'value': '80', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc2_chOfRainDay' }], ['AgroWeather-fc2_weatherDay', { 'data': { 'id': 'AgroWeather-fc2_weatherDay', 'invalid': false, 'value': 'Schneeregen', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}, {}] }, 'device': 'AgroWeather', 'reading': 'fc2_weatherDay' }], ['AgroWeather-fc2_date', { 'data': { 'id': 'AgroWeather-fc2_date', 'invalid': false, 'value': '29.01.2021', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc2_date' }], ['AgroWeather-fc3_tempMin', { 'data': { 'id': 'AgroWeather-fc3_tempMin', 'invalid': false, 'value': '-6', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc3_tempMin' }], ['AgroWeather-fc3_tempMax', { 'data': { 'id': 'AgroWeather-fc3_tempMax', 'invalid': false, 'value': '2', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc3_tempMax' }], ['AgroWeather-fc3_rain', { 'data': { 'id': 'AgroWeather-fc3_rain', 'invalid': false, 'value': '13.4', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc3_rain' }], ['AgroWeather-fc3_chOfRainDay', { 'data': { 'id': 'AgroWeather-fc3_chOfRainDay', 'invalid': false, 'value': '80', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc3_chOfRainDay' }], ['AgroWeather-fc3_weatherDay', { 'data': { 'id': 'AgroWeather-fc3_weatherDay', 'invalid': false, 'value': 'Schneefall', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}, {}] }, 'device': 'AgroWeather', 'reading': 'fc3_weatherDay' }], ['AgroWeather-fc3_date', { 'data': { 'id': 'AgroWeather-fc3_date', 'invalid': false, 'value': '30.01.2021', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc3_date' }], ['AgroWeather-fc4_tempMin', { 'data': { 'id': 'AgroWeather-fc4_tempMin', 'invalid': false, 'value': '-7', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc4_tempMin' }], ['AgroWeather-fc4_tempMax', { 'data': { 'id': 'AgroWeather-fc4_tempMax', 'invalid': false, 'value': '-1', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc4_tempMax' }], ['AgroWeather-fc4_rain', { 'data': { 'id': 'AgroWeather-fc4_rain', 'invalid': false, 'value': '1.3', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc4_rain' }], ['AgroWeather-fc4_chOfRainDay', { 'data': { 'id': 'AgroWeather-fc4_chOfRainDay', 'invalid': false, 'value': '80', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc4_chOfRainDay' }], ['AgroWeather-fc4_weatherDay', { 'data': { 'id': 'AgroWeather-fc4_weatherDay', 'invalid': false, 'value': 'Schneefall', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}, {}] }, 'device': 'AgroWeather', 'reading': 'fc4_weatherDay' }], ['AgroWeather-fc4_date', { 'data': { 'id': 'AgroWeather-fc4_date', 'invalid': false, 'value': '31.01.2021', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc4_date' }], ['AgroWeather-fc5_tempMin', { 'data': { 'id': 'AgroWeather-fc5_tempMin', 'invalid': false, 'value': '-4', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc5_tempMin' }], ['AgroWeather-fc5_tempMax', { 'data': { 'id': 'AgroWeather-fc5_tempMax', 'invalid': false, 'value': '3', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc5_tempMax' }], ['AgroWeather-fc5_rain', { 'data': { 'id': 'AgroWeather-fc5_rain', 'invalid': false, 'value': '6.7', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc5_rain' }], ['AgroWeather-fc5_chOfRainDay', { 'data': { 'id': 'AgroWeather-fc5_chOfRainDay', 'invalid': false, 'value': '80', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc5_chOfRainDay' }], ['AgroWeather-fc5_weatherDay', { 'data': { 'id': 'AgroWeather-fc5_weatherDay', 'invalid': false, 'value': 'Schneeregen', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}, {}] }, 'device': 'AgroWeather', 'reading': 'fc5_weatherDay' }], ['AgroWeather-fc5_date', { 'data': { 'id': 'AgroWeather-fc5_date', 'invalid': false, 'value': '01.02.2021', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc5_date' }], ['AgroWeather-fc6_tempMin', { 'data': { 'id': 'AgroWeather-fc6_tempMin', 'invalid': false, 'value': '3', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc6_tempMin' }], ['AgroWeather-fc6_tempMax', { 'data': { 'id': 'AgroWeather-fc6_tempMax', 'invalid': false, 'value': '6', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc6_tempMax' }], ['AgroWeather-fc6_rain', { 'data': { 'id': 'AgroWeather-fc6_rain', 'invalid': false, 'value': '16.1', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc6_rain' }], ['AgroWeather-fc6_chOfRainDay', { 'data': { 'id': 'AgroWeather-fc6_chOfRainDay', 'invalid': false, 'value': '80', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc6_chOfRainDay' }], ['AgroWeather-fc6_weatherDay', { 'data': { 'id': 'AgroWeather-fc6_weatherDay', 'invalid': false, 'value': 'Regen', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}, {}] }, 'device': 'AgroWeather', 'reading': 'fc6_weatherDay' }], ['AgroWeather-fc6_date', { 'data': { 'id': 'AgroWeather-fc6_date', 'invalid': false, 'value': '02.02.2021', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'AgroWeather', 'reading': 'fc6_date' }]];
+    const mockData = [['local-fc0_tempMin', { 'data': { 'id': 'local-fc0_tempMin', 'invalid': false, 'value': '-2', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc0_tempMin' }], ['local-fc0_tempMax', { 'data': { 'id': 'local-fc0_tempMax', 'invalid': false, 'value': '1', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc0_tempMax' }], ['local-fc0_rain', { 'data': { 'id': 'local-fc0_rain', 'invalid': false, 'value': '7.1', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc0_rain' }], ['local-fc0_chOfRainDay', { 'data': { 'id': 'local-fc0_chOfRainDay', 'invalid': false, 'value': '15', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc0_chOfRainDay' }], ['local-fc0_weatherDay', { 'data': { 'id': 'local-fc0_weatherDay', 'invalid': false, 'value': 'stark bewölkt', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}, {}] }, 'device': 'local', 'reading': 'fc0_weatherDay' }], ['local-fc0_date', { 'data': { 'id': 'local-fc0_date', 'invalid': false, 'value': '27.01.2021', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc0_date' }], ['local-fc1_tempMin', { 'data': { 'id': 'local-fc1_tempMin', 'invalid': false, 'value': '0', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc1_tempMin' }], ['local-fc1_tempMax', { 'data': { 'id': 'local-fc1_tempMax', 'invalid': false, 'value': '2', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc1_tempMax' }], ['local-fc1_rain', { 'data': { 'id': 'local-fc1_rain', 'invalid': false, 'value': '8.7', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc1_rain' }], ['local-fc1_chOfRainDay', { 'data': { 'id': 'local-fc1_chOfRainDay', 'invalid': false, 'value': '80', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc1_chOfRainDay' }], ['local-fc1_weatherDay', { 'data': { 'id': 'local-fc1_weatherDay', 'invalid': false, 'value': 'Regen', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}, {}] }, 'device': 'local', 'reading': 'fc1_weatherDay' }], ['local-fc1_date', { 'data': { 'id': 'local-fc1_date', 'invalid': false, 'value': '28.01.2021', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc1_date' }], ['local-fc2_tempMin', { 'data': { 'id': 'local-fc2_tempMin', 'invalid': false, 'value': '-2', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc2_tempMin' }], ['local-fc2_tempMax', { 'data': { 'id': 'local-fc2_tempMax', 'invalid': false, 'value': '0', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc2_tempMax' }], ['local-fc2_rain', { 'data': { 'id': 'local-fc2_rain', 'invalid': false, 'value': '10.5', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc2_rain' }], ['local-fc2_chOfRainDay', { 'data': { 'id': 'local-fc2_chOfRainDay', 'invalid': false, 'value': '80', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc2_chOfRainDay' }], ['local-fc2_weatherDay', { 'data': { 'id': 'local-fc2_weatherDay', 'invalid': false, 'value': 'Schneeregen', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}, {}] }, 'device': 'local', 'reading': 'fc2_weatherDay' }], ['local-fc2_date', { 'data': { 'id': 'local-fc2_date', 'invalid': false, 'value': '29.01.2021', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc2_date' }], ['local-fc3_tempMin', { 'data': { 'id': 'local-fc3_tempMin', 'invalid': false, 'value': '-6', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc3_tempMin' }], ['local-fc3_tempMax', { 'data': { 'id': 'local-fc3_tempMax', 'invalid': false, 'value': '2', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc3_tempMax' }], ['local-fc3_rain', { 'data': { 'id': 'local-fc3_rain', 'invalid': false, 'value': '13.4', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc3_rain' }], ['local-fc3_chOfRainDay', { 'data': { 'id': 'local-fc3_chOfRainDay', 'invalid': false, 'value': '80', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc3_chOfRainDay' }], ['local-fc3_weatherDay', { 'data': { 'id': 'local-fc3_weatherDay', 'invalid': false, 'value': 'Schneefall', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}, {}] }, 'device': 'local', 'reading': 'fc3_weatherDay' }], ['local-fc3_date', { 'data': { 'id': 'local-fc3_date', 'invalid': false, 'value': '30.01.2021', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc3_date' }], ['local-fc4_tempMin', { 'data': { 'id': 'local-fc4_tempMin', 'invalid': false, 'value': '-7', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc4_tempMin' }], ['local-fc4_tempMax', { 'data': { 'id': 'local-fc4_tempMax', 'invalid': false, 'value': '-1', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc4_tempMax' }], ['local-fc4_rain', { 'data': { 'id': 'local-fc4_rain', 'invalid': false, 'value': '1.3', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc4_rain' }], ['local-fc4_chOfRainDay', { 'data': { 'id': 'local-fc4_chOfRainDay', 'invalid': false, 'value': '80', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc4_chOfRainDay' }], ['local-fc4_weatherDay', { 'data': { 'id': 'local-fc4_weatherDay', 'invalid': false, 'value': 'Schneefall', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}, {}] }, 'device': 'local', 'reading': 'fc4_weatherDay' }], ['local-fc4_date', { 'data': { 'id': 'local-fc4_date', 'invalid': false, 'value': '31.01.2021', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc4_date' }], ['local-fc5_tempMin', { 'data': { 'id': 'local-fc5_tempMin', 'invalid': false, 'value': '-4', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc5_tempMin' }], ['local-fc5_tempMax', { 'data': { 'id': 'local-fc5_tempMax', 'invalid': false, 'value': '3', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc5_tempMax' }], ['local-fc5_rain', { 'data': { 'id': 'local-fc5_rain', 'invalid': false, 'value': '6.7', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc5_rain' }], ['local-fc5_chOfRainDay', { 'data': { 'id': 'local-fc5_chOfRainDay', 'invalid': false, 'value': '80', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc5_chOfRainDay' }], ['local-fc5_weatherDay', { 'data': { 'id': 'local-fc5_weatherDay', 'invalid': false, 'value': 'Schneeregen', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}, {}] }, 'device': 'local', 'reading': 'fc5_weatherDay' }], ['local-fc5_date', { 'data': { 'id': 'local-fc5_date', 'invalid': false, 'value': '01.02.2021', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc5_date' }], ['local-fc6_tempMin', { 'data': { 'id': 'local-fc6_tempMin', 'invalid': false, 'value': '3', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc6_tempMin' }], ['local-fc6_tempMax', { 'data': { 'id': 'local-fc6_tempMax', 'invalid': false, 'value': '6', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc6_tempMax' }], ['local-fc6_rain', { 'data': { 'id': 'local-fc6_rain', 'invalid': false, 'value': '16.1', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc6_rain' }], ['local-fc6_chOfRainDay', { 'data': { 'id': 'local-fc6_chOfRainDay', 'invalid': false, 'value': '80', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc6_chOfRainDay' }], ['local-fc6_weatherDay', { 'data': { 'id': 'local-fc6_weatherDay', 'invalid': false, 'value': 'Regen', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}, {}] }, 'device': 'local', 'reading': 'fc6_weatherDay' }], ['local-fc6_date', { 'data': { 'id': 'local-fc6_date', 'invalid': false, 'value': '02.02.2021', 'time': '2021-01-27 07:09:53', 'update': '2021-01-27 07:41:48' }, 'events': { 'observers': [{}] }, 'device': 'local', 'reading': 'fc6_date' }]];
 
     document.addEventListener('ftuiComponentsAdded', () => {
       mockData.forEach(([key, value]) => {
@@ -28,9 +28,10 @@
 
 <body>
 
-  <ftui-grid base-width="75" base-height="60" margin="1" shape="round">
+  <ftui-grid base-width="30" base-height="30" margin="1" shape="round">
 
-     <ftui-grid-tile row="2" col="2" height="4" width="4">
+    <!-- weather swiper -->
+    <ftui-grid-tile row="2" col="2" height="8" width="10">
 
       <ftui-swiper id="swiper1" scrollbar>
         <ftui-content id="sw1_1" file="examples/contents/content-weather-day.html" day="fc0"></ftui-content>
@@ -44,51 +45,33 @@
 
     </ftui-grid-tile>
 
-    <ftui-grid-tile row="4" col="6" height="1" width="2" is-row>
+    <!-- weather selector -->
+    <ftui-grid-tile row="4" col="12" height="2" width="4" is-row>
       <ftui-icon name="chevron-left" @click="swiper1.back()"></ftui-icon>
       <ftui-icon name="chevron-right" @click="swiper1.next()"></ftui-icon>
     </ftui-grid-tile>
 
-    <ftui-grid-tile row="7" col="2" height="2" width="2">
-
-      <ftui-swiper id="swiper2" dots>
+    <!-- icon swiper -->
+    <ftui-grid-tile row="11" col="4" height="4" width="4">
+      <ftui-swiper id="swiper2" [(value)]=local:swiper2 dots>
         <ftui-icon id="sw2_1" name="washing-machine" size="6"></ftui-icon>
         <ftui-icon id="sw2_2" name="garage-variant" size="6"></ftui-icon>
         <ftui-icon id="sw2_3" name="car-battery" size="6"></ftui-icon>
         <ftui-icon id="sw2_4" name="mower" size="6"></ftui-icon>
         <ftui-icon id="sw2_5" name="projector" size="6"></ftui-icon>
       </ftui-swiper>
-
     </ftui-grid-tile>
 
-    <ftui-grid-tile row="9" col="1" height="1" width="4" is-row>
+    <!-- icon selector -->
+    <ftui-grid-tile row="15" col="2" height="2" width="8" is-row>
       <ftui-icon name="chevron-left" onclick="swiper2.back()"></ftui-icon>
       <ftui-icon name="garage-variant" onclick="swiper2.value = 'sw2_2'"></ftui-icon>
-      <ftui-icon name="projector" onclick="swiper2.value = 'sw2_5'"></ftui-icon>
+      <ftui-icon name="projector" onclick="swiper2.value = 'sw2_5'" [color]="local:swiper2 | map('sw2_5:primary,.*:currentColor')"></ftui-icon>
       <ftui-icon name="chevron-right" onclick="swiper2.next()"></ftui-icon>
     </ftui-grid-tile>
 
-    <ftui-grid-tile row="7" col="6" height="2" width="2">
-
-      <ftui-swiper id="swiper3" dots auto-play interval="3">
-        <ftui-image src="https://i.pravatar.cc/100?img=1" width="90px" shape="circle"></ftui-image>
-        <ftui-image src="https://i.pravatar.cc/100?img=2" width="90px" shape="circle"></ftui-image>
-        <ftui-image src="https://i.pravatar.cc/100?img=3" width="90px" shape="circle"></ftui-image>
-        <ftui-image src="https://i.pravatar.cc/100?img=4" width="90px" shape="circle"></ftui-image>
-        <ftui-image src="https://i.pravatar.cc/100?img=5" width="90px" shape="circle"></ftui-image>
-      </ftui-swiper>
-
-    </ftui-grid-tile>
-
-    <ftui-grid-tile row="7" col="8" height="2" width="2">
-      <label>auto-play</label>
-      <ftui-switch value="on" @value-change="swiper3.autoPlay = (event.detail==='on')">
-      </ftui-switch>
-
-    </ftui-grid-tile>
-
-    <ftui-grid-tile row="9" col="6" height="2" width="2">
-
+    <!-- image swiper -->
+    <ftui-grid-tile row="18" col="4" height="4" width="4">
       <ftui-swiper id="swiper4" auto-play>
         <ftui-image src="https://i.pravatar.cc/100?img=6" width="90px" shape="circle"></ftui-image>
         <ftui-image src="https://i.pravatar.cc/100?img=7" width="90px" shape="circle"></ftui-image>
@@ -96,7 +79,104 @@
         <ftui-image src="https://i.pravatar.cc/100?img=9" width="90px" shape="circle"></ftui-image>
         <ftui-image src="https://i.pravatar.cc/100?img=10" width="90px" shape="circle"></ftui-image>
       </ftui-swiper>
+    </ftui-grid-tile>
 
+    <!-- image swiper -->
+    <ftui-grid-tile row="18" col="8" height="4" width="4">
+      <ftui-swiper id="swiper3" dots auto-play interval="3">
+        <ftui-image src="https://i.pravatar.cc/100?img=1" width="90px" shape="circle"></ftui-image>
+        <ftui-image src="https://i.pravatar.cc/100?img=2" width="90px" shape="circle"></ftui-image>
+        <ftui-image src="https://i.pravatar.cc/100?img=3" width="90px" shape="circle"></ftui-image>
+        <ftui-image src="https://i.pravatar.cc/100?img=4" width="90px" shape="circle"></ftui-image>
+        <ftui-image src="https://i.pravatar.cc/100?img=5" width="90px" shape="circle"></ftui-image>
+      </ftui-swiper>
+    </ftui-grid-tile>
+
+    <!-- image auto play switch -->
+    <ftui-grid-tile row="18" col="12" height="4" width="4">
+      <label>auto-play</label>
+      <ftui-switch value="on" @value-change="swiper3.autoPlay = (event.detail==='on')">
+      </ftui-switch>
+    </ftui-grid-tile>
+
+    <!-- warn swiper - on / off multiple readings -->
+    <ftui-grid-tile row="2" col="20" height="6" width="6">
+      <ftui-swiper scrollbar auto-play interval="2">
+        <ftui-content [hidden]="local:warn1 | is('off')" file="examples/contents/content-warn.html" warn="1">
+        </ftui-content>
+        <ftui-content [hidden]="local:warn2 | is('off')" file="examples/contents/content-warn.html" warn="2">
+        </ftui-content>
+        <ftui-content [hidden]="local:warn3 | is('off')" file="examples/contents/content-warn.html" warn="3">
+        </ftui-content>
+        <ftui-content [hidden]="local:warn4 | is('off')" file="examples/contents/content-warn.html" warn="4">
+        </ftui-content>
+        <ftui-content [hidden]="local:warn5 | is('off')" file="examples/contents/content-warn.html" warn="5">
+        </ftui-content>
+        <ftui-content [hidden]="local:warn6 | is('off')" file="examples/contents/content-warn.html" warn="6">
+        </ftui-content>
+        <ftui-content [hidden]="local:warn7 | is('off')" file="examples/contents/content-warn.html" warn="7">
+        </ftui-content>
+      </ftui-swiper>
+    </ftui-grid-tile>
+
+    <!-- warn selector - on / off multiple readings -->
+    <ftui-grid-tile row="8" col="18" height="2" width="10">
+      <ftui-row>
+        <ftui-button [(value)]="local:warn1" value="on" [fill]="local:warn1 | map('off: outline, on: solid')">1
+        </ftui-button>
+        <ftui-button [(value)]="local:warn2" value="on" [fill]="local:warn2 | map('off: outline, on: solid')">2
+        </ftui-button>
+        <ftui-button [(value)]="local:warn3" value="on" [fill]="local:warn3 | map('off: outline, on: solid')">3
+        </ftui-button>
+        <ftui-button [(value)]="local:warn4" value="on" [fill]="local:warn4 | map('off: outline, on: solid')">4
+        </ftui-button>
+        <ftui-button [(value)]="local:warn5" value="on" [fill]="local:warn5 | map('off: outline, on: solid')">5
+        </ftui-button>
+        <ftui-button [(value)]="local:warn6" value="on" [fill]="local:warn6 | map('off: outline, on: solid')">6
+        </ftui-button>
+        <ftui-button [(value)]="local:warn7" value="on" [fill]="local:warn7 | map('off: outline, on: solid')">7
+        </ftui-button>
+      </ftui-row>
+    </ftui-grid-tile>
+
+    <!-- warn swiper - count in single reading -->
+    <ftui-grid-tile row="11" col="20" height="6" width="6">
+      <ftui-swiper scrollbar auto-play interval="2">
+        <ftui-content [hidden]="local:count | step('0:true, 1:false')" file="examples/contents/content-warn.html"
+                      warn="1"></ftui-content>
+        <ftui-content [hidden]="local:count | step('0:true, 2:false')" file="examples/contents/content-warn.html"
+                      warn="2"></ftui-content>
+        <ftui-content [hidden]="local:count | step('0:true, 3:false')" file="examples/contents/content-warn.html"
+                      warn="3"></ftui-content>
+        <ftui-content [hidden]="local:count | step('0:true, 4:false')" file="examples/contents/content-warn.html"
+                      warn="4"></ftui-content>
+        <ftui-content [hidden]="local:count | step('0:true, 5:false')" file="examples/contents/content-warn.html"
+                      warn="5"></ftui-content>
+        <ftui-content [hidden]="local:count | step('0:true, 6:false')" file="examples/contents/content-warn.html"
+                      warn="6"></ftui-content>
+        <ftui-content [hidden]="local:count | step('0:true, 7:false')" file="examples/contents/content-warn.html"
+                      warn="7"></ftui-content>
+      </ftui-swiper>
+    </ftui-grid-tile>
+
+    <!-- warn selector - count in single reading -->
+    <ftui-grid-tile row="17" col="18" height="2" width="10">
+      <ftui-row>
+        <ftui-button [(value)]="local:count" states="1" fill="outline" [fill]="local:count | step('1: solid')">1
+        </ftui-button>
+        <ftui-button [(value)]="local:count" states="2" fill="outline" [fill]="local:count | step('2: solid')">2
+        </ftui-button>
+        <ftui-button [(value)]="local:count" states="3" fill="outline" [fill]="local:count | step('3: solid')">3
+        </ftui-button>
+        <ftui-button [(value)]="local:count" states="4" fill="outline" [fill]="local:count | step('4: solid')">4
+        </ftui-button>
+        <ftui-button [(value)]="local:count" states="5" fill="outline" [fill]="local:count | step('5: solid')">5
+        </ftui-button>
+        <ftui-button [(value)]="local:count" states="6" fill="outline" [fill]="local:count | step('6: solid')">6
+        </ftui-button>
+        <ftui-button [(value)]="local:count" states="7" fill="outline" [fill]="local:count | step('7: solid')">7
+        </ftui-button>
+      </ftui-row>
     </ftui-grid-tile>
 
   </ftui-grid>

@@ -19,7 +19,9 @@ export class FtuiPopup extends FtuiElement {
     this.window = this.shadowRoot.querySelector('.window');
     const header = this.querySelector('header');
     header && header.setAttribute('slot', 'header');
+    // check for popup-target attribute
     document.addEventListener('click', event => this.onClickOutside(event));
+    // check for popup-close attribute
     this.window.addEventListener('click', event => this.onClickInside(event));
     this.overlay.addEventListener('click', event => this.onClickOverlay(event));
 
@@ -61,7 +63,7 @@ export class FtuiPopup extends FtuiElement {
       width: '50%',
       left: '',
       top: '',
-      open: false,
+      active: false,
       trigger: '',
       timeout: 10,
       hidden: true,
@@ -105,7 +107,7 @@ export class FtuiPopup extends FtuiElement {
       case 'top':
         this.arrangeWindow();
         break;
-      case 'open':
+      case 'active':
         this.setState(newValue !== null);
         break;
       case 'trigger':
@@ -133,6 +135,14 @@ export class FtuiPopup extends FtuiElement {
       this.setAttribute('hidden', '');
       this.emitEvent('close');
     }
+  }
+
+  open() {
+    this.setState(true);
+  }
+
+  close() {
+    this.setState(false);
   }
 
   startTimeout() {

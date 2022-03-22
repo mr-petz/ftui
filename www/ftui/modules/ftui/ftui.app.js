@@ -14,9 +14,10 @@ class FtuiApp {
       lang: 'de',
       refreshDelay: 0,
       toastPosition: 'bottomLeft',
+      toastDuration: 5,
       styleList: [
-        'modules/vanilla-notify/vanilla-notify.css'
-      ]
+        'modules/vanilla-notify/vanilla-notify.css',
+      ],
     };
     this.states = {
       lastSetOnline: 0,
@@ -37,7 +38,8 @@ class FtuiApp {
     this.config.updateCheckInterval = this.getMetaNumber('update_check_interval', 5);
     this.config.enableDebug = (this.config.debugLevel > 0);
     this.config.enableToast = this.getMetaNumber('toast', 5); // 1,2,3...= n Toast-Messages, 0: No Toast-Messages
-    this.config.toastPosition = this.getMetaString('toast_position', 'bottomLeft');
+    this.config.toastDuration = this.getMetaString('toast_duration', 5);
+    this.config.toastPosition = this.getMetaString('toast_position', this.config.toastPosition);
     this.config.refreshInterval = this.getMetaNumber('refresh_interval', 15 * 60); // 15 minutes
     this.config.refreshDelay = this.getMetaString('refresh_restart_delay', 3);
     // self path
@@ -87,6 +89,7 @@ class FtuiApp {
     if (this.config.debugLevel > 1) this.toast(dur);
     ftui.log(1, '[ftuiApp] ' + dur);
 
+    this.setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
     document.body.classList.remove('loading');
   }
 
@@ -213,6 +216,17 @@ class FtuiApp {
     return defaultVal;
   }
 
+  setTheme(isDark) {
+    const now = ftui.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss');
+    fhemService.updateReadingItem('local-dark', {
+      id: 'local-dark',
+      invalid: false,
+      value: isDark,
+      time: now,
+      update: now,
+    });
+  }
+
   toast(text, level = 'debug') {
     // https://github.com/MLaritz/Vanilla-Notify
 
@@ -221,19 +235,20 @@ class FtuiApp {
         return vNotify.error({
           text: text,
           visibleDuration: 20000, // in milliseconds
-          position: this.config.toastPosition
+          position: this.config.toastPosition,
         });
       } else if (level === 'info') {
         return vNotify.info({
           text: text,
           visibleDuration: 5000, // in milliseconds
-          position: this.config.toastPosition
+          position: this.config.toastPosition,
         });
       }
       else {
         return vNotify.notify({
           text: text,
-          position: this.config.toastPosition
+          visibleDuration: this.config.toastDuration * 1000 || 5000,
+          position: this.config.toastPosition,
         });
       }
     }

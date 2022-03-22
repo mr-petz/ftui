@@ -1,3 +1,5 @@
+import { fhemService } from '../../modules/ftui/fhem.service.js';
+
 export function getPart(value, part) {
   if (this.isDefined(part)) {
     if (this.isNumeric(part)) {
@@ -175,7 +177,7 @@ export function isDefined(value) {
 
 export function isUndefined(value) {
   return typeof value === 'undefined'
-  || value === null;
+    || value === null;
 }
 
 export function isString(value) {
@@ -225,13 +227,13 @@ export function dateFormat(date, format) {
   const userLang = navigator.language || navigator.userLanguage;
   const lang = window.ftuiApp ? ftuiApp.config.lang : isDefined(userLang) ? userLang.split('-')[0] : 'de';
   let ret = String(format);
-  if (!date) {return ret;}
+  if (!date) { return ret; }
   const weekday_de = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
   const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const months_de = ['Januar', 'Februar', '&#077;&auml;rz', 'April', '&#077;ai', 'Juni', 'Juli', 'Augu&#115;t', 'Septe&#109;ber', 'Oktober', 'Nove&#109;ber', '&#068;e&#122;e&#109;ber'];
-  const months = ['January', 'February', '&#077;arc&#104;', 'April', '&#077;ay', 'June', 'July', 'Augu&#115;t', 'Septe&#109;ber', 'October', 'Nove&#109;ber', '&#068;ece%#109;ber'];
+  const months_de = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+  const months = ['January', 'February', 'March;', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const YYYY = date.getFullYear().toString();
-  const YY = date.getFullYear().toString().substr(-2);
+  const YY = date.getFullYear().toString().substring(-2);
   const month = date.getMonth();
   const MM = (month + 1).toString(); // getMonth() is zero-based
   const MMMM = (lang === 'de') ? months_de[month] : months[month];
@@ -240,28 +242,28 @@ export function dateFormat(date, format) {
   const mm = date.getMinutes().toString();
   const ss = date.getSeconds().toString();
   const zzz = date.getMilliseconds().toString();
-  const zz = zzz.substr(0, 2);
-  const z = zzz.substr(0, 1);
+  const zz = zzz.substring(0, 2);
+  const z = zzz.substring(0, 1);
   const d = date.getDay();
   const eeee = (lang === 'de') ? weekday_de[d] : weekday[d];
-  const eee = eeee.substr(0, 3);
-  const ee = eeee.substr(0, 2);
+  const eee = eeee.substring(0, 3);
+  const ee = eeee.substring(0, 2);
   ret = ret.replace('DD', (dd > 9) ? dd : '0' + dd);
   ret = ret.replace('D', dd);
   ret = ret.replace('MMMM', MMMM);
-  ret = ret.replace('MM', (MM > 9) ? MM : '0' + MM);
-  ret = ret.replace('M', MM);
+  ret = ret.replace(/MM/g, (MM > 9) ? MM : '0' + MM);
+  ret = ret.replace(/M[^aäs]/g, MM);
   ret = ret.replace('YYYY', YYYY);
   ret = ret.replace('YY', YY);
   ret = ret.replace('hh', (hh > 9) ? hh : '0' + hh);
   ret = ret.replace('mm', (mm > 9) ? mm : '0' + mm);
   ret = ret.replace('ss', (ss > 9) ? ss : '0' + ss);
-  ret = ret.replace('h', hh);
-  ret = ret.replace('m', mm);
-  ret = ret.replace('s', ss);
+  ret = ret.replace(/[\shmsz]h/g, hh);
+  ret = ret.replace(/m[^b]/g, mm);
+  ret = ret.replace(/[^u]s/g, ss);
   ret = ret.replace('zzz', zzz);
   ret = ret.replace('zz', zz);
-  ret = ret.replace('z', z);
+  ret = ret.replace('/z[^e]/g', z);
   ret = ret.replace('eeee', eeee);
   ret = ret.replace('eee', eee);
   ret = ret.replace('ee', ee);
@@ -392,6 +394,11 @@ export function scale(value, minIn, maxIn, minOut, maxOut) {
   return value * slope + intercept;
 }
 
+export function limit(value, minIn, maxIn) {
+  return value < minIn ? minIn
+    : value > maxIn ? maxIn : value;
+}
+
 export function countDecimals(value) {
   const val = value.toString().split('.')[1] || '';
   return val.length || 0;
@@ -428,6 +435,11 @@ export function getStylePropertyValue(property, element = document.body) {
   return getComputedStyle(element).getPropertyValue(property).trim();
 }
 
+export async function sendCommand(command) {
+  const result = await fhemService.sendCommand(command);
+  return await result.text();
+}
+
 export function timeoutPromise(promises, ms = 5000) {
 
   // Create a promise that rejects in <ms> milliseconds
@@ -441,7 +453,7 @@ export function timeoutPromise(promises, ms = 5000) {
   // Returns a race between our timeout and the passed in promise
   return Promise.race([
     Promise.all(promises),
-    timeout
+    timeout,
   ])
 }
 

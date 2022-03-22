@@ -4,7 +4,7 @@ import {
   log, error,
   dateFormat,
   getReadingID,
-  triggerEvent, isAppVisible
+  triggerEvent, isAppVisible,
 } from './ftui.helper.js';
 
 class FhemService {
@@ -18,7 +18,7 @@ class FhemService {
       refreshInterval: 0,
       refresh: {},
       update: {
-        filter: ''
+        filter: '',
       },
     };
     this.states = {
@@ -29,13 +29,13 @@ class FhemService {
         lastTimestamp: new Date(),
         timer: null,
         request: null,
-        result: null
+        result: null,
       },
       connection: {
         lastEventTimestamp: new Date(),
         timer: null,
-        result: null
-      }
+        result: null,
+      },
     };
 
     // define debounced function
@@ -52,21 +52,21 @@ class FhemService {
 
   getReadingEvents(readingName) {
     if (isDefined(readingName)) {
-      const [readingId, device, reading] = parseReadingId(readingName);
-      if (!this.readingsMap.has(readingId)) {
-        this.readingsMap.set(readingId, { data: { id: readingId }, events: new Subject(), device: device, reading: reading });
-      }
-      return this.readingsMap.get(readingId).events;
+      const readingItem = this.getReadingItem(readingName);
+      return readingItem.events;
     } else {
       // empty dummy object
       return { subscribe: () => { }, unsubscribe: () => { } }
     }
   }
 
-  getReadingItem(readingID) {
-    const id = readingID.replace(':', '-');
-    if (this.readingsMap.has(id)) {
-      return this.readingsMap.get(id);
+  getReadingItem(readingIdOrName) {
+    const [readingId, device, reading] = parseReadingId(readingIdOrName);
+    if (!this.readingsMap.has(readingId)) {
+      this.readingsMap.set(readingId, { data: { id: readingId }, events: new Subject(), device: device, reading: reading });
+    }
+    if (this.readingsMap.has(readingId)) {
+      return this.readingsMap.get(readingId);
     } else {
       return {};
     }
@@ -75,7 +75,6 @@ class FhemService {
   updateReadingItem(readingID, newData, doPublish = true) {
     log(3, 'FhemService.updateReadingItem - update for ', readingID, 'newData=', newData, 'doPublish=', doPublish);
     const readingItem = this.getReadingItem(readingID);
-
     if (readingItem.data) {
       readingItem.data = Object.assign(readingItem.data, newData);
       if (doPublish) {
@@ -85,7 +84,8 @@ class FhemService {
   }
 
   createFilterParameter() {
-    const readingsArray = Array.from(this.readingsMap.values()).filter(value => value.events.observers.length);
+    const readingsArray = Array.from(this.readingsMap.values())
+      .filter(value => value.events.observers.length && value.device !== 'local');
     const devs = [... new Set(readingsArray.map(value => value.device))];
     const reads = [... new Set(readingsArray.map(value => value.reading || 'STATE'))];
     const devicelist = devs.length ? devs.join() : '';
@@ -124,23 +124,21 @@ class FhemService {
     if (
       !isAppVisible() ||
       (this.config.refresh.filter
-      && this.config.refresh.filter.length < 2)
+        && this.config.refresh.filter.length < 2)
       || (now - this.states.lastRefresh) < this.config.refreshInterval
     ) { return; }
     log(1, '[refresh] start now');
-    console.log(new Date(), '[refresh] start now isOffline:', this.states.isOffline, 'isAppVisible()', isAppVisible());
     window.performance.mark('start refresh');
     this.states.lastRefresh = now;
 
     // invalidate all readings for detection of outdated ones
     this.readingsMap.forEach(reading => reading.data.invalid = true);
-
     window.performance.mark('start get jsonlist2');
     this.states.refresh.request =
       this.sendCommand('jsonlist2 ' + this.config.refresh.filter)
         .then(res => res.json())
         .catch(error => this.debugEvents.publish('<u>FHEM Command failed</u><br>' + error))
-        .then(fhemJSON => this.parseRefreshResult(fhemJSON)
+        .then(fhemJSON => this.parseRefreshResult(fhemJSON),
         );
   }
 
@@ -202,7 +200,7 @@ class FhemService {
       if (typeof parameter !== 'object') {
         parameter = {
           'Value': parameter,
-          'Time': ''
+          'Time': '',
         };
       }
 
@@ -229,7 +227,6 @@ class FhemService {
   }
 
   connect() {
-    console.log('connect visible:', isAppVisible());
     if (this.states.connection.websocket) {
       log(3, '[websocket] a valid instance has been found - do not newly connect');
       return;
@@ -347,15 +344,23 @@ class FhemService {
       cmd: cmdline,
       asyncCmd: async,
       fwcsrf: this.config.csrf,
-      XHR: '1'
+      XHR: '1',
     };
     const options = {
       username: this.config.username,
-      password: this.config.password
+      password: this.config.password,
     };
     url.search = new URLSearchParams(params)
     log(1, '[fhemService] send to FHEM: ' + cmdline);
     return fetch(url, options);
+  }
+
+  checkText(response) {
+    if (response.status >= 200 && response.status <= 299) {
+      return response.text();
+    } else {
+      throw Error(response.statusText);
+    }
   }
 
   onUpdateDone() {
@@ -374,7 +379,7 @@ class FhemService {
 
   fetchCSrf() {
     return fetch(this.config.fhemDir + '?XHR=1', {
-      cache: 'no-cache'
+      cache: 'no-cache',
     })
       .then(response => {
         this.config.csrf = response.headers.get('X-FHEM-csrfToken');
@@ -396,7 +401,6 @@ class FhemService {
 
   healthCheck() {
     const timeDiff = new Date() - this.states.connection.lastEventTimestamp;
-    console.log('[healthCheck] ', new Date(), timeDiff / 1000, 'isAppVisible():', isAppVisible())
     if (isAppVisible() && timeDiff / 1000 > 6) {
       log(1, 'No update event since ' + timeDiff / 1000 + 'secondes -> restart connection');
       this.reconnect();

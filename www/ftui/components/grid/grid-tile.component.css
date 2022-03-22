@@ -1,11 +1,10 @@
 :host([shape="round"]) {
-  --grid-tile-border-radius: 1.5em;
+  --grid-tile-border-radius: 1rem;
 }
 
 :host {
   --color-base: var(--grid-background-color, #333333);
   background: var(--color-base);
-  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,10 +13,15 @@
   border-radius: var(--grid-tile-border-radius);
 }
 
+:host([align-items~=center]) { justify-content: center; }
+:host([align-items~=top]) { justify-content: start; }
+:host([align-items~=bottom]) { justify-content: end; }
+:host([align-items~=around]) { justify-content: space-around; }
+
 ::slotted(ftui-grid-header),
 ::slotted(header) {
-  color: var(--color-contrast, --grid-header-color);
-  background: var(--color-base, --grid-header-background-color);
+  color: var(--color-contrast, var(--grid-header-color));
+  background: var(--color-base, var(--grid-header-background-color));
   font-weight: bold;
   padding: 0.25em;
   text-align: center;

@@ -27,6 +27,7 @@
     #myKnob1 {
       --knob-needle-color: #da3745;
     }
+
   </style>
   <title>FTUI Expamle Knob</title>
 </head>
@@ -54,8 +55,8 @@
     </ftui-grid-tile>
 
     <ftui-grid-tile row="2" col="2" height="1" width="1">
-      <header>Fill Color</header>
-      <ftui-knob [(value)]="dummy1" color="danger"></ftui-knob>
+      <header>GRADIENT</header>
+      <ftui-knob [(value)]="dummy1" color="ok-alert"></ftui-knob>
     </ftui-grid-tile>
 
     <ftui-grid-tile row="1" col="3" height="1" width="1">
@@ -110,7 +111,7 @@
 
     <ftui-grid-tile row="3" col="5" height="1" width="1">
       <header>STEPS</header>
-      <ftui-knob value="1.2" max="2.0" min="1.0" ticks="6" type="scale" has-value-text has-scale-text></ftui-knob>
+      <ftui-knob value="1.2" min="1.0" max="2.0" ticks="10" type="scale" has-value-text has-scale-text></ftui-knob>
     </ftui-grid-tile>
 
     <ftui-grid-tile row="4" col="1" height="1" width="1">
@@ -136,6 +137,39 @@
     <ftui-grid-tile row="4" col="5" height="1" width="1">
       <header>desired-value</header>
       <ftui-knob value="33" desired-value="20" type="handle" has-desired has-value-text></ftui-knob>
+    </ftui-grid-tile>
+
+
+    <ftui-grid-tile row="5" col="1" height="1" width="1">
+      <header>1/2 STEP</header>
+      <ftui-knob value="18" max="26" scale-decimals="0" step="0.5" min="18" ticks="8"
+                 value-size="2em" type="scale" has-value-text has-scale-text></ftui-knob>
+    </ftui-grid-tile>
+
+    <ftui-grid-tile row="5" col="2" height="0.6" width="0.6">
+      <header>SMALL</header>
+      <ftui-knob value="-1"
+                 height="90" width="90" offset-y="10" has-arc min="-20" max="40" unit="°C" readonly
+                 margin="-18px 0 0 0" unit-offset-y="13" value-offset-y="-5"
+                 has-value-text value-size="22px" stroke-width="6" class="bold">
+      </ftui-knob>
+      <ftui-label margin="-20px 0 0 0">Flur</ftui-label>
+    </ftui-grid-tile>
+
+    <ftui-grid-tile row="5" col="3" height="0.6" width="0.6">
+      <header>SMALL</header>
+      <ftui-knob value="10"
+                 height="90" width="90" offset-y="10" has-arc min="-20" max="40" unit="°C"
+                 margin="-18px 0 0 0" unit-offset-y="13" value-offset-y="-5"
+                 color="cold-hot"
+                 has-value-text value-size="22px" stroke-width="8" class="bold">
+      </ftui-knob>
+      <ftui-label margin="-20px 0 0 0">Outdoor</ftui-label>
+    </ftui-grid-tile>
+
+    <ftui-grid-tile row="5" col="4" height="1.5" width="1.5">
+      <header>BIG</header>
+      <ftui-knob [(value)]="dummy1" color="cold-hot" width=300 height=300 stroke-width="65" ></ftui-knob>
     </ftui-grid-tile>
 
   </ftui-grid>

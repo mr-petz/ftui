@@ -1,7 +1,7 @@
 /*
 * Swiper component for FTUI version 3
 *
-* Copyright (c) 2021 Mario Stephan <mstephan@shared-files.de>
+* Copyright (c) 2021-2022 Mario Stephan <mstephan@shared-files.de>
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
 * https://github.com/knowthelist/ftui
@@ -78,17 +78,19 @@ class FtuiSwiper extends FtuiElement {
     observer.observe(elem,
       {
         attributes: true,
-        attributeFilter: ['hidden']
+        attributeFilter: ['hidden'],
       });
   }
 
   onIntersectionChange(entries) {
-    entries.forEach(entry => {
-      entry.target.isVisible = ('isVisible' in entry) ? entry.isVisible : entry.isIntersecting;
-      if (entry.target.isVisible && this.value !== entry.target.id) {
-        this.submitChange('value', entry.target.id);
-      }
-    });
+    if (!this.autoPlay) {
+      entries.forEach(entry => {
+        entry.target.isVisible = ('isVisible' in entry) ? entry.isVisible : entry.isIntersecting;
+        if (entry.target.isVisible && this.value !== entry.target.id) {
+          this.submitChange('value', entry.target.id);
+        }
+      });
+    }
   }
 
   // refresh if a slide changes visibility
@@ -106,15 +108,14 @@ class FtuiSwiper extends FtuiElement {
           const target = this.slides.find(item => item.id === newValue);
           this.currentIndex = this.slides.indexOf(target);
           this.updateDots();
-          if (target && !target.isVisible) {
-            target.scrollIntoView();
+          if (target) {
+            this.container.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
           }
         }
       }
         break;
       case 'interval':
       case 'auto-play':
-        console.log('auto-play')
         this.checkInterval();
         break;
     }
@@ -142,7 +143,6 @@ class FtuiSwiper extends FtuiElement {
   }
 
   next(iteration = 0) {
-    console.log('next')
     this.currentIndex++;
     if (this.currentIndex >= this.slides.length) {
       this.currentIndex = 0;
@@ -198,7 +198,6 @@ class FtuiSwiper extends FtuiElement {
 
   checkInterval() {
     clearInterval(this.intervalTimer);
-    console.log(this.interval,this.autoPlay)
     if (this.interval && this.autoPlay) {
       this.intervalTimer = setInterval(() => this.next(), this.interval * 1000);
     }

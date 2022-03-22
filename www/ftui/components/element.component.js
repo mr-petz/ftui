@@ -99,6 +99,13 @@ export class FtuiElement extends HTMLElement {
     }
   }
 
+  /**
+   * sets the property of the element to this value
+   * and forwards this new value to FHEM when a output binding is defined
+   * and emits a change event for this property
+   * @param {*} property
+   * @param {*} value
+   */
   submitChange(property, value) {
     this.isActiveChange[property] = true;
     this[property] = value;
@@ -154,21 +161,21 @@ export class FtuiElement extends HTMLElement {
         } else {
           this.removeAttribute(attr);
         }
-      }
+      },
     });
   }
 
   defineNumberProperty(name, attr) {
     Object.defineProperty(this, name, {
       get() { return Number(this.getAttribute(attr)); },
-      set(value) { this.setAttribute(attr, value); }
+      set(value) { this.setAttribute(attr, value); },
     });
   }
 
   defineStringProperty(name, attr) {
     Object.defineProperty(this, name, {
       get() { return this.getAttribute(attr); },
-      set(value) { this.setAttribute(attr, value); }
+      set(value) { this.setAttribute(attr, value); },
     });
   }
 }

@@ -3,14 +3,14 @@
 *
 * for FTUI version 3
 *
-* Copyright (c) 2021 Mario Stephan <mstephan@shared-files.de>
+* Copyright (c) 2021-2022 Mario Stephan <mstephan@shared-files.de>
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
 * https://github.com/knowthelist/ftui
 */
 
 import { FtuiElement } from '../element.component.js';
-import { scale } from '../../modules/ftui/ftui.helper.js';
+import { limit, scale } from '../../modules/ftui/ftui.helper.js';
 
 export class FtuiMeter extends FtuiElement {
 
@@ -19,55 +19,37 @@ export class FtuiMeter extends FtuiElement {
 
     this.progress = this.shadowRoot.querySelector('.progress');
     this.bar = this.shadowRoot.querySelector('.progress-bar');
+    this.minElement = this.shadowRoot.querySelector('.min');
+    this.maxElement = this.shadowRoot.querySelector('.max');
 
+    this.progress.style.width = this.width || (this.isVertical ? '1em' : '10em');
+    this.progress.style.height = this.height || (this.isVertical ? '10em' : '1em');
   }
 
   template() {
-    return `
-          <style>
-          .container {
-            width: 100%;
-            text-align: center;
-          }
-          .progress {
-            width: ${this.width};
-            height: ${this.height};
-            padding: 0.15em 0 0.07em 0.1em;
-            background: var(--meter-background-color,var(--dark-color));
-            border-radius: var(--meter-border-radius, 1em);
-            -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
-            box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
-          }
-          .progress-bar {
-            height: 100%;
-            max-width: 100%;
-            background-color: var(--meter-bar-color,var(--color-base, #20639b));
-            border-radius: var(--meter-border-radius, 1em);
-            -webkit-transition: 0.4s linear;
-            transition: 0.4s linear;
-            -webkit-transition-property: width, background-color;
-            transition-property: width, background-color;
-            -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
-          }
-            </style>
+    return `<style> @import "components/meter/meter.component.css";</style>
             <div class="container">
+              <slot></slot>
               <div class="progress">
                 <div class="progress-bar"></div>
-                <slot></slot>
+              </div>
+              <div class="scale">
+                <div class="min"></div>
+                <slot name="scale"></slot>
+                <div class="max"></div>
               </div>
             </div>`;
-
   }
 
   static get properties() {
     return {
-      height: '1em',
-      width: '10em',
+      height: '',
+      width: '',
       color: 'primary',
       min: 0,
       max: 100,
       value: 0,
+      isVertical: false,
     };
   }
 
@@ -86,10 +68,13 @@ export class FtuiMeter extends FtuiElement {
   }
 
   updateBar() {
-    const value = scale(this.value, this.min, this.max, 0, 100);
-    this.bar.style.width = value + '%';
+    const limitedValue = limit(this.value, this.min, this.max);
+    const value = scale(limitedValue, this.min, this.max, 0, 100);
+    const direction = this.isVertical ? 'height' : 'width';
+    this.bar.style[direction] = value + '%';
+    this.minElement.textContent = this.min;
+    this.maxElement.textContent = this.max;
   }
-
 }
 
 window.customElements.define('ftui-meter', FtuiMeter);

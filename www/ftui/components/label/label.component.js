@@ -11,6 +11,7 @@ import { FtuiElement } from '../element.component.js';
 import { isNumeric } from '../../modules/ftui/ftui.helper.js';
 
 const sizes = [0.75, 0.875, 1, 1.25, 1.5, 1.75, 2, 2.5, 3, 3.5, 4, 6, 8];
+
 export class FtuiLabel extends FtuiElement {
 
   constructor(properties) {
@@ -23,13 +24,16 @@ export class FtuiLabel extends FtuiElement {
   template() {
     return `
       <style>
+      :host([text-align=left])   { text-align: left; width: 100%;}
+      :host([text-align=right])  { text-align: right; width: 100%;}
+      :host([text-align=center])   { text-align: center; width: 100%;}
         :host {
           --color-base: currentColor;
           color: var(--color-base);
           white-space: nowrap;
         }
-        :host(:empty:not([text])) slot[name="unit"]
-        , :host([text=""]) slot[name="unit"] { visibility: hidden; }
+        :host(:empty:not([text])) slot[name="unit"],
+        :host([text=""]) slot[name="unit"] { visibility: hidden; }
         :host([scroll]) { overflow: auto; white-space: normal; }
         :host([bold]) { font-weight: bold; }
         :host(:empty[text=""][placeholder]) { display: inline-block;
@@ -69,11 +73,11 @@ export class FtuiLabel extends FtuiElement {
   onAttributeChanged(name, value) {
     switch (name) {
       case 'text':
-        this.mainSlotElement.innerHTML = this.text;
+        this.mainSlotElement.innerHTML = value;
         this.checkInterval();
         break;
       case 'unit':
-        this.unitSlotElement.innerHTML = this.unit;
+        this.unitSlotElement.textContent = this.unit;
         break;
       case 'interval':
         this.checkInterval();
@@ -112,7 +116,7 @@ export class FtuiLabel extends FtuiElement {
   }
 
   refresh() {
-    this.binding.forceUpdate('text');
+    this.binding && this.binding.forceUpdate('text');
   }
 }
 

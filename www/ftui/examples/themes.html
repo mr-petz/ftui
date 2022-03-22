@@ -9,7 +9,7 @@
     *
     * Version: 3.0.0
     *
-    * Copyright (c) 2015-2021 Mario Stephan <mstephan@shared-files.de>
+    * Copyright (c) 2015-2022 Mario Stephan <mstephan@shared-files.de>
     * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
     * https://github.com/knowthelist/ftui
     */
@@ -19,7 +19,12 @@
   <link href="ftui.css" rel="stylesheet">
   <link href="themes/ftui-theme.css" rel="stylesheet">
   <link href="themes/bright-theme.css" rel="stylesheet"
-        id="lightCSS" ftui-binding [disabled]="dummy11 | map('dark:true, light:false') | toBool()">
+        ftui-binding [disabled]="local:theme | map('`.*`:true, light:false') | toBool()">
+  <link href="themes/vivid-theme.css" rel="stylesheet"
+        ftui-binding [disabled]="local:theme | map('`.*`:true, vivid:false') | toBool()">
+  <link href="themes/retro-theme.css" rel="stylesheet"
+        ftui-binding [disabled]="local:theme | map('`.*`:true, retro:false') | toBool()">
+
   <link href="favicon.ico" rel="icon" type="image/x-icon" />
 
   <title>FTUI Day Night</title>
@@ -29,9 +34,10 @@
 
   <ftui-grid base-width="80" base-height="75" shape="round">
 
-    <ftui-grid-tile row="1" col="1" height="1" width="2">
+    <ftui-grid-tile row="1" col="1" height="1" width="1.5">
       <!-- Change color theme via FHEM reading-->
-      <ftui-button [(value)]="dummy11" states="dark,light">Dark,Light</ftui-button>
+      <ftui-button [(value)]="local:theme" states="dark,light,retro,vivid">Try me!</ftui-button>
+      <ftui-label [text]="local:theme"></ftui-label>
     </ftui-grid-tile>
 
     <!-- BLINDS -->
@@ -52,7 +58,7 @@
     </ftui-grid-tile>
 
     <!-- WINDOWS -->
-    <ftui-grid-tile row="3" col="4" height="2" width="2">
+    <ftui-grid-tile row="3" col="4" height="2" width="2" color="success">
       <ftui-label size="3">Windows</ftui-label>
       <ftui-icon name="classic-window" size="3"></ftui-icon>
       <ftui-label>All closed</ftui-label>
@@ -68,31 +74,50 @@
       <ftui-label>secure</ftui-label>
     </ftui-grid-tile>
 
+    <!-- DIMMER -->
+    <ftui-grid-tile row="5" col="2" height="2" width="2">
+      <ftui-slider
+                   value="30" max="60" tooltips="always"></ftui-slider>
+    </ftui-grid-tile>
+
+    <!-- POWER -->
+    <ftui-grid-tile row="5" col="4" height="2" width="2" align-items="top">
+      <ftui-cell  height="40%">
+         <ftui-label size="3">Power</ftui-label>
+      </ftui-cell>
+     
+      <ftui-meter value="3" max="6" height="0.5em" has-scale> 
+        <div slot="scale">2</div>
+        <div slot="scale">4</div></ftui-meter>
+    </ftui-grid-tile>
+
+    <!-- WITH GRID HEADERS -->
+
+    <!-- POWER -->
+    <ftui-grid-tile row="8" col="2" height="2" width="2">
+      <ftui-grid-header size="3">Power</ftui-grid-header>
+      <ftui-icon name="classic-window" size="3"></ftui-icon>
+      <ftui-label>All closed</ftui-label>
+    </ftui-grid-tile>
+
+    <!-- BLINDS -->
+    <ftui-grid-tile row="8" col="4" height="2" width="2">
+      <ftui-grid-header size="3">Blinds</ftui-grid-header>
+      <ftui-row height="33%">
+        <ftui-icon name="window-shutter" class="size-4"></ftui-icon>
+      </ftui-row>
+      <ftui-label unit="%" size="1" value="90"></ftui-label>
+    </ftui-grid-tile>
+
+    <!-- LAMPS -->
+    <ftui-grid-tile row="8" col="6" height="2" width="2">
+      <ftui-grid-header size="3">Lamps</ftui-grid-header>
+      <ftui-icon name="lightbulb-on" size="3"></ftui-icon>
+      <ftui-label>All off</ftui-label>
+    </ftui-grid-tile>
+
   </ftui-grid>
 
 </body>
-
-<!--  automatic change of color theme -->
-<script>
-
-  const darkSchema = '(prefers-color-scheme: dark)';
-  const isDark = window.matchMedia && window.matchMedia(darkSchema).matches;
-  // set theme on start
-  setTheme(isDark);
-
-  window.matchMedia(darkSchema).addEventListener('change', e => {
-    const isDark = e.matches;
-    // set theme on change
-    setTheme(isDark);
-  });
-
-  function setTheme(isDark) {
-    if (isDark) {
-      lightCSS.setAttribute('disabled', '');
-    } else {
-      lightCSS.removeAttribute('disabled');
-    }
-  }
-</script>
 
 </html>

@@ -8,7 +8,7 @@
 */
 
 import { FtuiElement } from '../element.component.js';
-import {countDecimals, round} from '../../modules/ftui/ftui.helper.js';
+import { countDecimals, round, limit, scale } from '../../modules/ftui/ftui.helper.js';
 
 
 export class FtuiKnob extends FtuiElement {
@@ -52,8 +52,19 @@ export class FtuiKnob extends FtuiElement {
     this.svg.addEventListener('touchmove', (evt) => this.onPointerMoveEvent(evt), false);
     this.svg.addEventListener('mousemove', (evt) => this.onPointerMoveEvent(evt), false);
 
-    if (this.decimals < 0 ) {
-      this.decimals = countDecimals(this.getAttribute('max'));
+    if (this.step < 0) {
+      const range = Math.abs(this.max - this.min);
+      this.step = range <= 1 ? (this.max - this.min) / this.ticks : 1;
+    }
+    if (this.valueDecimals < 0) {
+      this.valueDecimals = countDecimals(this.step);
+    }
+    if (this.scaleDecimals < 0) {
+      this.scaleDecimals = countDecimals(this.step);
+    }
+    if (this.unit && this.unitOffsetY === 0 && this.valueOffsetY === 0) {
+      this.unitOffsetY = 20;
+      this.valueOffsetY = -5;
     }
     this.draw(this.valueToAngle(this.value));
   }
@@ -63,10 +74,27 @@ export class FtuiKnob extends FtuiElement {
     <style> @import "components/knob/knob.component.css"</style>
     <svg class="svg" height="${this.height}" width="${this.width}" focusable="false">
    
+    <defs>
+        <linearGradient id="gradient1" gradientTransform="rotate(100)">
+        <stop class="mix" offset="0%" />
+        <stop id="min" offset="10%" />
+      </linearGradient>
+      <linearGradient id="gradient2" gradientTransform="rotate(80)">
+        <stop class="mix" offset="5%" />
+        <stop id="max" offset="15%" />
+      </linearGradient>
+        <pattern id="pattern" x="0" y="0" width="100%" height="100%" patternUnits="userSpaceOnUse">
+          <g transform="rotate(0, 0, 0)">
+            <rect shape-rendering="crispEdges" x="0" y="5%" width="100%" height="300%" fill="url(#gradient1)"/>
+            <rect shape-rendering="crispEdges" x="50%" y="20%" width="100%" height="300%" fill="url(#gradient2)"/>
+          </g>
+        </pattern>
+      </defs>
+
       <g class="scale" stroke="gray"></g>
    
       <path class="outline" d="" fill="none" stroke-width="${this.strokeWidth}" />
-      <path class="fill" d="" fill="none" stroke-width="${this.strokeWidth}" />
+      <path class="fill" d="" fill="none" stroke="url(#pattern)" stroke-width="${this.strokeWidth}" />
       <polygon class="needle" />
       <circle class="handle" r="9" fill="none" />
       <circle class="desired" r="5" fill="none" />
@@ -85,7 +113,9 @@ export class FtuiKnob extends FtuiElement {
       max: 100,
       offsetY: 20,
       ticks: 10,
-      decimals: -1,
+      step: -1,
+      valueDecimals: -1,
+      scaleDecimals: -1,
       height: '150',
       width: '150',
       strokeWidth: 15,
@@ -101,6 +131,11 @@ export class FtuiKnob extends FtuiElement {
       color: 'primary',
       valueSize: '2.5em',
       unitSize: '1em',
+      unitOffsetY: 0,
+      unitOffsetX: 0,
+      valueOffsetY: 0,
+      valueOffsetX: 0,
+      scaleTextOffset: 4,
     };
   }
 
@@ -132,7 +167,7 @@ export class FtuiKnob extends FtuiElement {
               this.hasHandle = false;
               this.hasScale = true;
               this.hasNeedle = true;
-              this.strokeWidth = 15;
+              this.strokeWidth = 10;
               break;
             default:
               break;
@@ -210,7 +245,7 @@ export class FtuiKnob extends FtuiElement {
   drawScale() {
     const upperRadius = this.radius + 5;
     const lowerRadius = this.radius - this.strokeWidth
-    const textRadius = this.radius + this.strokeWidth + 4
+    const textRadius = this.radius + this.strokeWidth + this.scaleTextOffset
 
     this.clearRect(this.scale);
     if (this.hasScale) {
@@ -223,7 +258,7 @@ export class FtuiKnob extends FtuiElement {
           x1: this.centerX + upperRadius * Math.cos(angleInRadians),
           y1: this.centerY + upperRadius * Math.sin(angleInRadians),
           x2: this.centerX + lowerRadius * Math.cos(angleInRadians),
-          y2: this.centerY + lowerRadius * Math.sin(angleInRadians)
+          y2: this.centerY + lowerRadius * Math.sin(angleInRadians),
         };
         this.setSVGAttributes(scaleLine, scaleLineObj);
         this.scale.appendChild(scaleLine);
@@ -234,10 +269,10 @@ export class FtuiKnob extends FtuiElement {
           const scaleTextObj = {
             class: 'scale',
             x: this.centerX + textRadius * Math.cos(a * this.radian),
-            y: this.centerY + textRadius * Math.sin(a * this.radian)
+            y: this.centerY + textRadius * Math.sin(a * this.radian),
           };
           this.setSVGAttributes(scaleText, scaleTextObj);
-          scaleText.textContent = this.angleToValue(a).toFixed(this.decimals);
+          scaleText.textContent = this.angleToValue(a).toFixed(this.scaleDecimals);
           this.scale.appendChild(scaleText);
         }
       }
@@ -264,11 +299,11 @@ export class FtuiKnob extends FtuiElement {
     const nx1 = this.centerX + lowerRadius * Math.cos((angle - expansion) * this.radian);
     const ny1 = this.centerY + lowerRadius * Math.sin((angle - expansion) * this.radian);
 
-    const nx2 = this.centerX + this.radius * Math.cos((angle - 3) * this.radian);
-    const ny2 = this.centerY + this.radius * Math.sin((angle - 3) * this.radian);
+    const nx2 = this.centerX + (this.radius + 5) * Math.cos((angle - 3) * this.radian);
+    const ny2 = this.centerY + (this.radius + 5) * Math.sin((angle - 3) * this.radian);
 
-    const nx3 = this.centerX + this.radius * Math.cos((angle + 3) * this.radian);
-    const ny3 = this.centerY + this.radius * Math.sin((angle + 3) * this.radian);
+    const nx3 = this.centerX + (this.radius + 5) * Math.cos((angle + 3) * this.radian);
+    const ny3 = this.centerY + (this.radius + 5) * Math.sin((angle + 3) * this.radian);
 
     const nx4 = this.centerX + lowerRadius * Math.cos((angle + expansion) * this.radian);
     const ny4 = this.centerY + lowerRadius * Math.sin((angle + expansion) * this.radian);
@@ -301,12 +336,12 @@ export class FtuiKnob extends FtuiElement {
     const scaleText = document.createElementNS(this.NS, 'text');
     const scaleTextObj = {
       class: 'value',
-      x: this.centerX,
-      y: this.centerY + (this.unit ? -5 : 0),
-      'alignment-baseline': 'middle'
+      x: this.centerX + this.valueOffsetX,
+      y: this.centerY + this.valueOffsetY,
+      'alignment-baseline': 'middle',
     };
     this.setSVGAttributes(scaleText, scaleTextObj);
-    scaleText.textContent = this.angleToValue(angle).toFixed(this.decimals);
+    scaleText.textContent = this.angleToValue(angle).toFixed(this.valueDecimals);
     scaleText.style.fontSize = this.valueSize;
     this.scale.appendChild(scaleText);
   }
@@ -315,9 +350,9 @@ export class FtuiKnob extends FtuiElement {
     const scaleText = document.createElementNS(this.NS, 'text');
     const scaleTextObj = {
       class: 'unit',
-      x: this.centerX,
-      y: this.centerY + 20,
-      'alignment-baseline': 'middle'
+      x: this.centerX + this.unitOffsetX,
+      y: this.centerY + this.unitOffsetY,
+      'alignment-baseline': 'middle',
     };
     this.setSVGAttributes(scaleText, scaleTextObj);
     scaleText.textContent = this.unit;
@@ -332,15 +367,16 @@ export class FtuiKnob extends FtuiElement {
 
     return {
       x: centerX + (radius * Math.cos(angleInRadians)),
-      y: centerY + (radius * Math.sin(angleInRadians))
+      y: centerY + (radius * Math.sin(angleInRadians)),
     };
   }
 
   valueToAngle(val) {
     const min = parseFloat(this.min);
     const max = parseFloat(this.max);
-    const newVal = (!isNaN(val) && val >= min && val <= max) ? parseFloat(val) : min;
-    return ((newVal - min) * this.rangeAngle / (max - min) - this.rangeAngle) + this.endAngle;
+    const numericValue = !isNaN(val) ? parseFloat(val) : min;
+    const limitedValue = limit(numericValue, min, max);
+    return scale(limitedValue, min, max, this.startAngle, this.endAngle)
   }
 
   angleToValue(angle) {
@@ -348,9 +384,8 @@ export class FtuiKnob extends FtuiElement {
     const max = parseFloat(this.max);
     let normAngle = (angle - 360 >= this.startAngle) ? angle - 360 : angle;
     normAngle = (normAngle < this.startAngle) ? this.startAngle : (normAngle > this.endAngle) ? this.endAngle : normAngle;
-    const value = round((((normAngle - this.startAngle) * (max - min)) / this.rangeAngle) + min, this.decimals);
-
-    return value
+    const value = round((((normAngle - this.startAngle) * (max - min)) / this.rangeAngle) + min, this.valueDecimals);
+    return value;
   }
 
   describeArc(x, y, radius, startArc, endArc) {
@@ -366,7 +401,7 @@ export class FtuiKnob extends FtuiElement {
 
     const d = [
       'M', start.x, start.y,
-      'A', radius, radius, 0, largeArcFlag, 0, end.x, end.y
+      'A', radius, radius, 0, largeArcFlag, 0, end.x, end.y,
     ].join(' ');
 
     return d;
@@ -380,7 +415,11 @@ export class FtuiKnob extends FtuiElement {
     const y = Math.round(clientY - clientRect.top - this.centerY);
     let angle = Math.atan2(y, x) * 180 / Math.PI;
     angle = angle < 0 ? angle + 360 : angle;
-    return Math.floor(angle);
+    const min = this.startAngle < 0 ? this.startAngle + 360 : this.startAngle;
+    const step = (this.rangeAngle / ((this.max - this.min) / this.step));
+    const offset = min - ((Math.ceil(min / step)) * step);
+    const out = ((Math.ceil(angle / step)) * step) + offset;
+    return Math.floor(out);
   }
 
   clearRect(node) {
