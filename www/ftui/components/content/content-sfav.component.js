@@ -135,7 +135,7 @@ export class FtuiContentSonosFavRG extends FtuiContent {
     if (oldValue !== newValue) {
       switch (newValue) {
         case 'content':
-          const deviceName = this.binding.getReadingsOfAttribute('content')[0].replace('-',' ');
+          const deviceName = this.binding.getReadingsOfAttribute('content')[0].replace('-',' ').split(' ');
           const regexp = /informid="(\w*)-item:1:1"/gi;
           const rgName = regexp.exec(this.content);
           if (rgName) {
