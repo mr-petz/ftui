@@ -1,11 +1,31 @@
-/*:host {
+
+/*
+@import "../../themes/color-attributes.css";
+
+:host {
   height: 100%;
-}*/
+}
+*/
+
+.svg {
+  margin: 0px;
+  padding: 0;
+  top: -63%;
+  position: relative;
+}
+
+.outline {
+  stroke: var(--thermostat-outline-color, var(--dark-color));
+}
+
+.fill {
+  stroke: var(--thermostat-fill-color, var(--color-base));
+}
 
 .batt{
   position: absolute;
   top: var(--thermostat-battery-top, 55%);
-  left: 45%;
+  left: 49%;
   white-space: nowrap;
   font-size: 0.7em;
   color: var(--thermostat-battery-color, var(--text-color));
@@ -14,7 +34,7 @@
 .batt-icon{
   position: absolute;
   top: var(--thermostat-battery-icon-top, 58%);
-  left: 29%;
+  left: 41%;
   white-space: nowrap;
   font-size: 0.25em;
   transform: rotate(-90deg);
@@ -24,7 +44,7 @@
 .valve{
   position: absolute;
   top: var(--thermostat-valve-top, 76%);
-  left: 45%;
+  left: 49%;
   white-space: nowrap;
   font-size: 0.7em;
   color: var(--thermostat-valve-color, var(--text-color));
@@ -33,7 +53,7 @@
 .valve-icon{
   position: absolute;
   top: var(--thermostat-valve-icon-top, 80%);
-  left: 29%;
+  left: 41%;
   white-space: nowrap;
   font-size: 0.25em;
   color: var(--thermostat-valve-icon, var(--color-base));
@@ -42,7 +62,7 @@
 .humidity{
   position: absolute;
   top: var(--thermostat-humidity-top, 97%);
-  left: 45%;
+  left: 49%;
   white-space: nowrap;
   font-size: 0.7em;
   color: var(--thermostat-humidity-color, var(--text-color));
@@ -51,7 +71,7 @@
 .humidity-icon{
   position: absolute;
   top: var(--thermostat-humidity-icon-top, 100%);
-  left: 28%;
+  left: 40%;
   white-space: nowrap;
   font-size: 0.3em;
   color: var(--thermostat-humidity-icon, var(--color-base));
@@ -59,26 +79,24 @@
 
 .center {
   width: var(--value-width);
-  height: var(--value-width);
+  height: var(--value-height);
 }
 
 .current-value {
   top: 15%;
-  position: relative;
+  position: absolute;
   text-align: center;
   white-space: nowrap;
   color: var(--thermostat-value-color, var(--text-color));
   font-size: var(--thermostat-value-size);
-  width: 200%;
-  left: -50%;
+  width: 100%;
 }
 
 .knob {
   position: absolute;
-  width: 200%;
+  width: 100%;
   height: 200%;
   top: -50%;
-  left: -50%;
   z-index: 10;
   cursor: pointer;
 }
@@ -189,4 +207,14 @@
   50% {
     opacity: 0.3;
   }
+}
+
+.min {
+  stop-color: var(--color-min, var(--thermostat-min-color, rgb(0,0,255)));
+}
+.mix {
+  stop-color: var(--color-mix, var(--thermostat-mix-color, rgb(255,0,255)));
+}
+.max {
+  stop-color: var(--color-max, var(--thermostat-max-color, rgb(255,0,0)));
 }
