@@ -154,13 +154,13 @@ export class FtuiEbusdWDT extends FtuiElement {
       Sa[num] = this.Readings['Timer.Saturday_'+num+'_value'].Value;
       So[num] = this.Readings['Timer.Sunday_'+num+'_value'].Value;
     }
-    this.daysel[0] = [this.Readings['Timer.Monday_6_value'].Value,'Mo','Mo-Fr','Mo-So'];
-    this.daysel[1] = [this.Readings['Timer.Tuesday_6_value'].Value,'Di','Mo-Fr','Mo-So'];
-    this.daysel[2] = [this.Readings['Timer.Wednesday_6_value'].Value,'Mi','Mo-Fr','Mo-So'];
-    this.daysel[3] = [this.Readings['Timer.Thursday_6_value'].Value,'Do','Mo-Fr','Mo-So'];
-    this.daysel[4] = [this.Readings['Timer.Friday_6_value'].Value,'Fr','Mo-Fr','Mo-So'];
-    this.daysel[5] = [this.Readings['Timer.Saturday_6_value'].Value,'Sa','Sa-So','Mo-So'];
-    this.daysel[6] = [this.Readings['Timer.Sunday_6_value'].Value,'So','Sa-So','Mo-So'];
+    this.daysel[0] = [this.Readings['Timer.Monday_6_value'].Value,'selected','Mo-Fr','Mo-So'];
+    this.daysel[1] = [this.Readings['Timer.Tuesday_6_value'].Value,'selected','Mo-Fr','Mo-So'];
+    this.daysel[2] = [this.Readings['Timer.Wednesday_6_value'].Value,'selected','Mo-Fr','Mo-So'];
+    this.daysel[3] = [this.Readings['Timer.Thursday_6_value'].Value,'selected','Mo-Fr','Mo-So'];
+    this.daysel[4] = [this.Readings['Timer.Friday_6_value'].Value,'selected','Mo-Fr','Mo-So'];
+    this.daysel[5] = [this.Readings['Timer.Saturday_6_value'].Value,'selected','Sa-So','Mo-So'];
+    this.daysel[6] = [this.Readings['Timer.Sunday_6_value'].Value,'selected','Sa-So','Mo-So'];
 
     this.weekd.push(Mo,Di,Mi,Do,Fr,Sa,So);
 
