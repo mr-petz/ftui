@@ -14,12 +14,14 @@ export class FtuiContentSonosFavRG extends FtuiContent {
 
   constructor(properties) {
     super(Object.assign(FtuiContentSonosFavRG.properties, properties));
-    this.drop = this.shadowRoot.querySelector('.label');
+    this.name = this.shadowRoot.querySelector('.label');
+    this.drop = this.shadowRoot.querySelector('.drop');
     this.dropList = this.shadowRoot.querySelector('.list');
     this.dropOverlay = this.shadowRoot.querySelector('.overlay');
-    this.drop.addEventListener('click', () => this.showList());
+    this.name.addEventListener('click', () => this.showList());
     this.dropList.addEventListener('click', () => this.showList());
     this.dropOverlay.addEventListener('click', () => this.showList());
+    this.deviceName = this.binding.getReadingsOfAttribute('content')[0].replace('-',' ').split(' ');
   }
 
   template() {
@@ -34,7 +36,7 @@ export class FtuiContentSonosFavRG extends FtuiContent {
         cursor: pointer;
         margin-left: 2px;
         color: var(--text-color);
-        z-index: 9999;
+        z-index: 9;
       }
 
       .drop {
@@ -46,6 +48,11 @@ export class FtuiContentSonosFavRG extends FtuiContent {
         width: 90%;
         left: 5%;
         height: 160px;
+        z-index: -1;
+      }
+
+      .zIndex {
+        z-index: 8;
       }
 
       .drop .list {
@@ -64,7 +71,7 @@ export class FtuiContentSonosFavRG extends FtuiContent {
         scrollbar-width: none;
         -ms-overflow-style: none;
         cursor: pointer;
-        z-index: 9998;
+        z-index: 8;
       }
 
       .drop .overlay {
@@ -75,11 +82,11 @@ export class FtuiContentSonosFavRG extends FtuiContent {
         top: 0;
         left: 0;
         opacity: 0;
-        z-index: 9997;
+        z-index: 7;
       }
 
       .drop .show {
-        visibility: visible;      
+        visibility: visible;     
         -webkit-animation: fadeIn 1s;
         animation: fadeIn 1s;
       }
@@ -121,10 +128,21 @@ export class FtuiContentSonosFavRG extends FtuiContent {
   static get properties() {
     return {
       label: 'FavSonos',
+      fav: '',
       content: '',
       logowidth: '70',
-      logoheight: '70',    
+      logoheight: '70',
+      width: '',
+      height: '180',
+      left: '',     
     };
+  }
+
+  onConnected() {
+    this.style.width = this.width;
+    this.drop.style.height = this.height;
+    this.name.style.left = this.left;
+    this.drop.style.left = this.left;
   }
 
   static get observedAttributes() {
@@ -135,32 +153,36 @@ export class FtuiContentSonosFavRG extends FtuiContent {
     if (oldValue !== newValue) {
       switch (newValue) {
         case 'content':
-          const deviceName = this.binding.getReadingsOfAttribute('content')[0].replace('-',' ').split(' ');
           const regexp = /informid="(\w*)-item:1:1"/gi;
           const rgName = regexp.exec(this.content);
           if (rgName) {
             const sonosList = rgName[1].split('_').pop();
-            const replaceString ="onclick=\"FW_cmd('/fhem?XHR=1&cmd."+deviceName[0]+"%3Dset%20"+deviceName[0]+"%20";
-            const setString ='><ftui-label style="display:block;" width="'+this.logowidth+'px" '+(sonosList==='Playlists'?'':'height="'+this.logoheight+'px"')+' @click="sendFhem(\''+'set '+deviceName[0]+' ';
-            const logoSize ='width: '+this.logowidth+'px; height: '+this.logoheight+'px;';
+            const replaceString = "onclick=\"FW_cmd('/fhem?XHR=1&cmd."+this.deviceName[0]+"%3Dset%20"+this.deviceName[0]+"%20";
+            const setString = '><ftui-label style="display:block;" width="'+this.logowidth+'px" '+(sonosList==='Playlists'?'':'height="'+this.logoheight+'px"')+' @click="sendFhem(\''+'set '+this.deviceName[0]+' ';
+            const logoSize = 'width: '+this.logowidth+'px; height: '+this.logoheight+'px;';
             this.dropList.innerHTML = this.content.replaceAll(replaceString,setString).replace(/%20/g,' ').replace(/%2520/g,'%20').replace(/%2528/g,'%28').replace(/%2529/g,'%29').replace(/width\: 70px\; height\: 70px\;/g,logoSize);
             const view = 'div[informid="'+rgName[1]+'-item:1:1"]';
-            this.dropList.innerHTML=this.dropList.querySelector(view).innerHTML;
+            this.dropList.innerHTML = this.dropList.querySelector(view).innerHTML;
           } else {
             this.dropList.innerHTML = '...kein getHTML() definiert <br>oder keine Daten vorhanden...'
           }
         break;
         case 'label':
-          this.drop.innerHTML = this.label+' <span class="caret"></span>';
+        case 'fav':
+          this.name.innerHTML = (this.fav?this.fav:this.label)+' <span class="caret"></span>';
         break;
       }
     }
   }
 
   showList() {
+    if (this.name.offsetParent.offsetHeight < (this.drop.offsetHeight+this.drop.offsetTop)) this.dropList.style.top = '-'+(this.height*1+this.name.offsetHeight*0.8)+'px';
+    if (this.name.offsetParent.offsetWidth < (this.drop.offsetWidth+this.drop.offsetLeft)) this.dropList.style.right = (this.drop.offsetWidth+this.drop.offsetLeft)/3+'px';
+    this.drop.classList.toggle('zIndex');
     this.dropList.classList.toggle('show');
     this.dropOverlay.classList.toggle('show');
   }
 }
 
 window.customElements.define('ftui-content-sfav', FtuiContentSonosFavRG);
+
