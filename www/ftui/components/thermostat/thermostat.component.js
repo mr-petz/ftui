@@ -287,7 +287,7 @@ export class FtuiThermostat extends FtuiElement {
             scale.style.setProperty('--value', '"'+this.min+'"');
             if (Math.round(deg) === 0) {
               scale.style.setProperty('--top', '');
-              scale.style.setProperty('top', '150%');
+              scale.style.setProperty('top', '93%');
               (this.min>=10||this.min<=(-10)?(this.min<=(-10)?scale.style.setProperty('left', '43%'):scale.style.setProperty('left', '45.5%')):scale.style.setProperty('left', '48%'));
               scale.style.setProperty('--transform', 'rotate(0deg)');
             }
@@ -300,7 +300,7 @@ export class FtuiThermostat extends FtuiElement {
             scale.style.setProperty('--value', '"'+this.max+'"');
             if (Math.round(deg) === 360) {
               scale.style.setProperty('--top', '');
-              scale.style.setProperty('top', '150%');
+              scale.style.setProperty('top', '93%');
               (this.min>=10||this.min<=(-10)?(this.min<=(-10)?scale.style.setProperty('left', '46%'):scale.style.setProperty('left', '43%')):scale.style.setProperty('left', '47%'));
               scale.style.setProperty('--transform', 'rotate(0deg)');
             } else {
@@ -567,7 +567,7 @@ export class FtuiThermostat extends FtuiElement {
     });
     if (!this.noMinMax) {
       scale.forEach(txt => {
-        (txt.style.top==='150%'?txt.style.setProperty('top', "165%"):txt.style.setProperty('--top', (this.size*0.92) + "px"));
+        txt.style.setProperty('--top', (this.size*0.92) + "px");
       });
     }
     temp[1].style.setProperty('--top', (this.size*0.93) + "px");
@@ -594,7 +594,7 @@ export class FtuiThermostat extends FtuiElement {
     });
     if (!this.noMinMax) {
       scale.forEach(txt => {
-       (txt.style.top==='165%'?txt.style.setProperty('top', "150%"):txt.style.setProperty('--top', (this.size*0.8) + "px"));
+       txt.style.setProperty('--top', (this.size*0.8) + "px");
       });
     }
     temp[1].style.setProperty('--top', (this.size*0.82) + "px");
