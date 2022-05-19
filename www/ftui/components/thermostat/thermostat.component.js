@@ -23,6 +23,7 @@ export class FtuiThermostat extends FtuiElement {
     this.scale = this.shadowRoot.querySelector('.scale');
     this.minColor = this.shadowRoot.querySelector('.min');
     this.mixColor = this.shadowRoot.querySelector('.mix');
+    this.mix2Color = this.shadowRoot.querySelector('.mix2');
     this.maxColor = this.shadowRoot.querySelector('.max');
     this.newValue=0;
     this.tempValue=0;
@@ -73,7 +74,7 @@ export class FtuiThermostat extends FtuiElement {
                 <stop offset="25%" class="min"/>
               </linearGradient>
                <linearGradient id="Gradient2" gradientTransform="rotate(80)">
-                <stop offset="10%" class="mix"/>
+                <stop offset="10%" class="mix2"/>
                 <stop offset="30%" class="max"/>
               </linearGradient>
               <pattern id="Pattern" x="0" y="0" width="100%" height="100%" patternUnits="userSpaceOnUse">
@@ -197,6 +198,7 @@ export class FtuiThermostat extends FtuiElement {
   rgbGradient() {
     this.minColor.style.stopColor = (getStylePropertyValue('--color-min', this)?getStylePropertyValue('--color-min', this):getStylePropertyValue('--thermostat-min-color', this)?getStylePropertyValue('--thermostat-min-color', this):'rgb('+(this.lowcolor.match('#')?this.hex2rgba(this.lowcolor):this.lowcolor)+')');
     this.mixColor.style.stopColor = (getStylePropertyValue('--color-mix', this)?getStylePropertyValue('--color-mix', this):getStylePropertyValue('--thermostat-mix-color', this)?getStylePropertyValue('--thermostat-mix-color', this):'rgb('+(this.mediumcolor.match('#')?this.hex2rgba(this.mediumcolor):this.mediumcolor)+')');
+    this.mix2Color.style.stopColor = (getStylePropertyValue('--color-mix2', this)?getStylePropertyValue('--color-mix2', this):getStylePropertyValue('--thermostat-mix2-color', this)?getStylePropertyValue('--thermostat-mix2-color', this):'rgb('+(this.mediumcolor.match('#')?this.hex2rgba(this.mediumcolor):this.mediumcolor)+')');
     this.maxColor.style.stopColor = (getStylePropertyValue('--color-max', this)?getStylePropertyValue('--color-max', this):getStylePropertyValue('--thermostat-max-color', this)?getStylePropertyValue('--thermostat-max-color', this):'rgb('+(this.highcolor.match('#')?this.hex2rgba(this.highcolor):this.highcolor)+')');
     const low = this.minColor.style.stopColor.replace(/rgb\((.*)\)/g,'$1').split(',');
     const medium = this.mixColor.style.stopColor.replace(/rgb\((.*)\)/g,'$1').split(',');
