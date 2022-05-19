@@ -80,7 +80,7 @@ export class FtuiThermostat extends FtuiElement {
               <pattern id="Pattern" x="0" y="0" width="100%" height="100%" patternUnits="userSpaceOnUse">
                 <g transform="rotate(${360-(this.endAngle-this.startAngle)+(this.rotation/2)+(this.degrees-360)}, 0, 0)">
                   <rect shape-rendering="crispEdges" x="${this.startAngle===0?'-80%':0}" y="${this.startAngle===0?10:0}" width="100%" height="300%" fill="url(#Gradient1)"/>
-                  <rect shape-rendering="crispEdges"  x="${this.startAngle===0?(360-this.degrees)/this.size-10+'%':'50%'}" y="${this.startAngle===0?10:0}" width="100%" height="300%" fill="url(#Gradient2)"/>
+                  <rect shape-rendering="crispEdges" x="${this.startAngle===0?(360-this.degrees)/this.size-10+'%':'50%'}" y="${this.startAngle===0?10:0}" width="100%" height="300%" fill="url(#Gradient2)"/>
                 </g>
               </pattern>
             </defs> 
@@ -98,7 +98,6 @@ export class FtuiThermostat extends FtuiElement {
           <ftui-icon ${(!this.isThermometer && !this.isHumidity && this.hasAttribute('[humidity]') && this.getAttribute('[humidity]') ? 'name="tint" ' : '')} class="humidity-icon"></ftui-icon>
           <div class="humidity"></div>
         </div>
-        <!--<canvas class="canvas"></canvas>-->
       `;
   }
 
@@ -198,7 +197,7 @@ export class FtuiThermostat extends FtuiElement {
   rgbGradient() {
     this.minColor.style.stopColor = (getStylePropertyValue('--color-min', this)?getStylePropertyValue('--color-min', this):getStylePropertyValue('--thermostat-min-color', this)?getStylePropertyValue('--thermostat-min-color', this):'rgb('+(this.lowcolor.match('#')?this.hex2rgba(this.lowcolor):this.lowcolor)+')');
     this.mixColor.style.stopColor = (getStylePropertyValue('--color-mix', this)?getStylePropertyValue('--color-mix', this):getStylePropertyValue('--thermostat-mix-color', this)?getStylePropertyValue('--thermostat-mix-color', this):'rgb('+(this.mediumcolor.match('#')?this.hex2rgba(this.mediumcolor):this.mediumcolor)+')');
-    this.mix2Color.style.stopColor = (getStylePropertyValue('--color-mix', this)?getStylePropertyValue('--color-mix', this):getStylePropertyValue('--thermostat-mix-color', this)?getStylePropertyValue('--thermostat-mix-color', this):'rgb('+(this.mediumcolor.match('#')?this.hex2rgba(this.mediumcolor):this.mediumcolor)+')');
+    this.mix2Color.style.stopColor = this.mixColor.style.stopColor;
     this.maxColor.style.stopColor = (getStylePropertyValue('--color-max', this)?getStylePropertyValue('--color-max', this):getStylePropertyValue('--thermostat-max-color', this)?getStylePropertyValue('--thermostat-max-color', this):'rgb('+(this.highcolor.match('#')?this.hex2rgba(this.highcolor):this.highcolor)+')');
     const low = this.minColor.style.stopColor.replace(/rgb\((.*)\)/g,'$1').split(',');
     const medium = this.mixColor.style.stopColor.replace(/rgb\((.*)\)/g,'$1').split(',');
