@@ -209,7 +209,7 @@
   stop-color: var(--color-mix, var(--thermostat-mix-color, rgb(255,0,255)));
 }
 .mix2 {
-  stop-color: var(--color-mix2, var(--thermostat-mix2-color, rgb(255,0,255)));
+  stop-color: var(--color-mix, var(--thermostat-mix-color, rgb(255,0,255)));
 }
 .max {
   stop-color: var(--color-max, var(--thermostat-max-color, rgb(255,0,0)));
