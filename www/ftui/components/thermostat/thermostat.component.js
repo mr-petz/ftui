@@ -503,10 +503,10 @@ export class FtuiThermostat extends FtuiElement {
       this.knob.addEventListener("touchstart", moveHandler);
     });
     this.knob.addEventListener("touchend", e => {
-      (this.hasZoom?this.zoomOut():'');
       this.knob.removeEventListener("touchmove", moveHandler);
       this.knob.removeEventListener("touchstart", moveHandler);
       this.knob.removeEventListener("touchend", moveHandler);
+      (this.hasZoom?this.zoomOut():'');
     });
   }
 
@@ -598,6 +598,8 @@ export class FtuiThermostat extends FtuiElement {
       });
     }
     temp[1].style.setProperty('--top', (this.size*0.82) + "px");
+    this.valueView();
+    this.setAngle();
   }
 
   actTemp() {
