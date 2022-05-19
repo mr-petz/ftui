@@ -25,9 +25,10 @@ export class FtuiThermostat extends FtuiElement {
     this.mixColor = this.shadowRoot.querySelector('.mix');
     this.mix2Color = this.shadowRoot.querySelector('.mix2');
     this.maxColor = this.shadowRoot.querySelector('.max');
-    this.newValue=0;
-    this.tempValue=0;
-    this.rgbgradient=[];
+    this.newValue = 0;
+    this.tempValue = 0;
+    this.gripStep = 0;
+    this.rgbgradient = [];
     (this.tick<0.1?this.tick=Math.round((this.max-this.min)/this.step):this.tick);
     (!this.hasThermometer?this.step=this.step:this.step=0.01);
     this.knobs = this.shadowRoot.querySelector('.knob-style');
@@ -344,9 +345,9 @@ export class FtuiThermostat extends FtuiElement {
 
   setAngle() {
     // rotate knob
-    const gripStep = (((this.newValue - this.min) * (this.endAngle-this.startAngle) / (this.max - this.min) - (this.endAngle-this.startAngle)) + this.endAngle);
-    this.knob.style.setProperty('-webkit-transform','rotate(' + (gripStep<this.startAngle?this.startAngle:gripStep>this.endAngle?this.endAngle:gripStep) + 'deg)');
-    this.knob.style.setProperty('-moz-transform','rotate(' + (gripStep<this.startAngle?this.startAngle:gripStep>this.endAngle?this.endAngle:gripStep) + 'deg)');
+    this.gripStep = (((this.newValue - this.min) * (this.endAngle-this.startAngle) / (this.max - this.min) - (this.endAngle-this.startAngle)) + this.endAngle);
+    this.knob.style.setProperty('-webkit-transform','rotate(' + (this.gripStep<this.startAngle?this.startAngle:this.gripStep>this.endAngle?this.endAngle:this.gripStep) + 'deg)');
+    this.knob.style.setProperty('-moz-transform','rotate(' + (this.gripStep<this.startAngle?this.startAngle:this.gripStep>this.endAngle?this.endAngle:this.gripStep) + 'deg)');
 
     // highlight ticks
     const tickActive = this.shadowRoot.querySelectorAll('.tick');
@@ -360,7 +361,9 @@ export class FtuiThermostat extends FtuiElement {
         i++;
         //svg hasArc
         if (this.hasArc || this.hasArcTick) {
-          this.fill.setAttributeNS(null, 'd', this.describeArc(this.size*0.9, this.size*0.9, this.size*0.7, this.startAngle-0.0001, gripStep));
+          if (this.svg.style.top !== '-4px') {
+            this.fill.setAttributeNS(null, 'd', this.describeArc(this.size*0.9, this.size*0.9, this.size*0.7, this.startAngle-0.0001, this.gripStep));
+          }
           if (!this.hasArcTick) {
             tickActive[i].style.setProperty('--thermostat-tick-color', `rgba(0,0,0,0)`);
             tickActive[0].classList.remove('thick','activetick','thick-active','blink');
@@ -440,14 +443,14 @@ export class FtuiThermostat extends FtuiElement {
               }
             }
             if (!this.hasOldStyle) {
-              if (Math.round(tempValue)<Math.round(actValue)&&gripStep<=this.endAngle) {
+              if (Math.round(tempValue)<Math.round(actValue)&&this.gripStep<=this.endAngle) {
                 tickActive[Math.round(tempValue)+1].classList.add('activetick','thick-active','blink');
               }
             }
           }
-        if (gripStep<this.startAngle) {
+        if (this.gripStep<this.startAngle) {
           this.knob.style.setProperty('--grip',(this.size*0.4) + "px" + ` solid rgba(${this.rgbgradient[0].red}, ${this.rgbgradient[0].green}, ${this.rgbgradient[0].blue},0.5)`);
-        } else if (gripStep>this.endAngle) {
+        } else if (this.gripStep>this.endAngle) {
           this.knob.style.setProperty('--grip',(this.size*0.4) + "px" + ` solid rgba(${this.rgbgradient[this.tick].red}, ${this.rgbgradient[this.tick].green}, ${this.rgbgradient[this.tick].blue},0.5)`);
         }
       }
@@ -559,7 +562,7 @@ export class FtuiThermostat extends FtuiElement {
       this.svg.style.setProperty('width',this.size*2.1+'px');
       this.svg.style.setProperty('height',this.size*2.1+'px');
       this.outline.setAttributeNS(null, 'd', this.describeArc(this.size*1.1, this.size*1.1, this.size*0.85, this.startAngle-0.0001, this.endAngle));
-      this.fill.setAttributeNS(null, 'd', this.describeArc(this.size*1.1, this.size*1.1, this.size*0.85, this.startAngle-0.0001, this.endAngle));
+      this.fill.setAttributeNS(null, 'd', this.describeArc(this.size*1.1, this.size*1.1, this.size*0.85, this.startAngle-0.0001, this.gripStep));
     }
     this.grip.style.setProperty('top','72%');
     tickAll.forEach(tick => {
@@ -588,6 +591,7 @@ export class FtuiThermostat extends FtuiElement {
       this.svg.style.setProperty('width',this.size*1.8+'px');
       this.svg.style.setProperty('height',this.size*1.8+'px');
       this.outline.setAttributeNS(null, 'd', this.describeArc(this.size*0.9, this.size*0.9, this.size*0.7, this.startAngle-0.0001, this.endAngle));
+      this.fill.setAttributeNS(null, 'd', this.describeArc(this.size*0.9, this.size*0.9, this.size*0.7, this.startAngle-0.0001, this.gripStep));
     }
     tickAll.forEach(tick => {
       tick.style.setProperty('--margin','0');
@@ -599,7 +603,6 @@ export class FtuiThermostat extends FtuiElement {
     }
     temp[1].style.setProperty('--top', (this.size*0.82) + "px");
     this.valueView();
-    this.setAngle();
   }
 
   actTemp() {
