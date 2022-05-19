@@ -42,10 +42,9 @@ export class FtuiThermostat extends FtuiElement {
     this.vp = this.shadowRoot.querySelector('.valve');
     this.hum = this.shadowRoot.querySelector('.humidity');
     this.knob.addEventListener((('ontouchend' in document.documentElement) ? 'touchend' : 'mouseup'), () => this.onClick()&this.valueView());
-    this.knob.addEventListener('mousemove', () => this.knobs.getBoundingClientRect()&this.startDrag()&this.valueView());
+    this.knob.addEventListener('mousemove', () => this.knobs.getBoundingClientRect()&(this.isThermometer||this.isHumidity||this.fixed?'':this.startDrag())&this.valueView());
     this.knob.addEventListener('mousedown', () => this.valueView());
-    this.knob.addEventListener('touchmove', () => this.knobs.getBoundingClientRect()&this.startDrag()&this.valueView());
-    (this.readonly||this.isThermometer||this.isHumidity?this.knob.style.setProperty('pointer-events', 'none'):'');
+    this.knob.addEventListener('touchmove', () => this.knobs.getBoundingClientRect()&(this.isThermometer||this.isHumidity||this.fixed?'':this.startDrag())&this.valueView());
     if (this.valueDecimals < 0) {
       this.valueDecimals = countDecimals(this.step);
     }
@@ -127,7 +126,7 @@ export class FtuiThermostat extends FtuiElement {
       isThermometer: false,
       isHumidity: false,
       hasZoom: false,
-      readonly: false,
+      fixed: false,
       noMinMax: false,
       hasOldStyle: false,
       valueInRgb: false,
