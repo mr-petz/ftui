@@ -42,10 +42,9 @@ export class FtuiThermostat extends FtuiElement {
     this.batt = this.shadowRoot.querySelector('.batt');
     this.vp = this.shadowRoot.querySelector('.valve');
     this.hum = this.shadowRoot.querySelector('.humidity');
-    this.knob.addEventListener((('ontouchend' in document.documentElement) ? 'touchend' : 'mouseup'), () => this.onClick()&this.valueView());
-    this.knob.addEventListener('mousemove', () => this.knobs.getBoundingClientRect()&(this.isThermometer||this.isHumidity||this.fixed?'':this.startDrag())&this.valueView());
-    this.knob.addEventListener('mousedown', () => this.valueView());
-    this.knob.addEventListener('touchmove', () => this.knobs.getBoundingClientRect()&(this.isThermometer||this.isHumidity||this.fixed?'':this.startDrag())&this.valueView());
+    this.knob.addEventListener((('ontouchend' in document.documentElement) ? 'touchend' : 'mouseup'), () => this.onClick());
+    this.knob.addEventListener('mousemove', () => this.knobs.getBoundingClientRect()&(this.isThermometer||this.isHumidity||this.fixed?'':this.startDrag()));
+    this.knob.addEventListener('touchmove', () => this.knobs.getBoundingClientRect()&(this.isThermometer||this.isHumidity||this.fixed?'':this.startDrag()));
     if (this.valueDecimals < 0) {
       this.valueDecimals = countDecimals(this.step);
     }
@@ -386,13 +385,13 @@ export class FtuiThermostat extends FtuiElement {
           }
         } else if (this.isThermometer) {
             //Thermometer
-            if (i<=Math.round(actValue)) {
+            if (i <= Math.round(actValue)) {
               tickActive[i].classList.add('activetick');
               tickActive[i].classList.remove('thick-active');
             } else {
               tickActive[i].classList.remove('activetick','thick-active');
             }
-            if (i===Math.round(actValue)) {
+            if (i === Math.round(actValue)) {
               tickActive[Math.round(actValue)].classList.add('activetick','thick-active');
               this.knob.style.setProperty('--grip',(this.size*0.4) + "px" + ` solid rgba(${this.rgbgradient[i].red}, ${this.rgbgradient[i].green}, ${this.rgbgradient[i].blue},0.5)`);
               if (this.valueInRgb) {
@@ -401,7 +400,7 @@ export class FtuiThermostat extends FtuiElement {
             }
           } else if (this.isHumidity) {
           //Humidity
-            if (i===Math.round(actValue)) {
+            if (i === Math.round(actValue)) {
               tickActive[Math.round(actValue)].classList.add('thick-active');
               this.knob.style.setProperty('--grip',(this.size*0.4) + "px" + ` solid rgba(${this.rgbgradient[i].red}, ${this.rgbgradient[i].green}, ${this.rgbgradient[i].blue},0.5)`);
               if (this.valueInRgb) {
@@ -429,14 +428,14 @@ export class FtuiThermostat extends FtuiElement {
                   tickActive[i].classList.remove('activetick','thick-active','blink');
               }
             }
-            if (i===Math.round(actValue)) {
+            if (i === Math.round(actValue)) {
               tickActive[Math.round(actValue)].classList.add('activetick','thick-active');
               this.knob.style.setProperty('--grip',(this.size*0.4) + "px" + ` solid rgba(${this.rgbgradient[i].red}, ${this.rgbgradient[i].green}, ${this.rgbgradient[i].blue},0.5)`);
               if (this.valueInRgb){
                 this.currentValue.style.setProperty('--thermostat-value-color', `rgba(${this.rgbgradient[i].red}, ${this.rgbgradient[i].green}, ${this.rgbgradient[i].blue},0.5)`);
               }
             }
-            if (i===Math.round(tempValue)) {
+            if (i === Math.round(tempValue)) {
               tickActive[Math.round(tempValue)].classList.add('activetick','thick-active');
               if (this.tempInRgb) {
                 this.tempvalue.style.setProperty('--thermostat-temp-color', `rgba(${this.rgbgradient[i].red}, ${this.rgbgradient[i].green}, ${this.rgbgradient[i].blue},0.5)`);
@@ -448,7 +447,7 @@ export class FtuiThermostat extends FtuiElement {
               }
             }
           }
-        if (this.gripStep<this.startAngle) {
+        if (this.gripStep < this.startAngle) {
           this.knob.style.setProperty('--grip',(this.size*0.4) + "px" + ` solid rgba(${this.rgbgradient[0].red}, ${this.rgbgradient[0].green}, ${this.rgbgradient[0].blue},0.5)`);
         } else if (this.gripStep>this.endAngle) {
           this.knob.style.setProperty('--grip',(this.size*0.4) + "px" + ` solid rgba(${this.rgbgradient[this.tick].red}, ${this.rgbgradient[this.tick].green}, ${this.rgbgradient[this.tick].blue},0.5)`);
@@ -483,7 +482,7 @@ export class FtuiThermostat extends FtuiElement {
           currentDeg
         )
       );
-      this.newValue=(Math.round(newValue/this.step)*this.step).toFixed(this.valueDecimals);
+      this.newValue = (Math.round(newValue/this.step)*this.step).toFixed(this.valueDecimals);
       this.setAngle(currentDeg);
       (this.hasZoom?this.zoomIn():'');
     };
@@ -542,10 +541,11 @@ export class FtuiThermostat extends FtuiElement {
      ftuiApp.toast('set ' + this.device[0] + ' thermostatSetpointSet ' + this.newValue + ' C ' + (this.deviceMode==='heating'?'1':'11'));
      this.timer1 = setTimeout(()=>{fhemService.sendCommand('get ' + this.device[0] + ' setpoint ' + (this.deviceMode==='heating'?'1':'11'));ftuiApp.toast('get ' + this.device[0] + ' setpoint ' + (this.deviceMode==='heating'?'1':'11'))}, 3000);
     }
+    this.valueView();
   }
 
   valueView() {
-    this.currentValue.innerHTML=(!this.isThermometer&&!this.isHumidity?(this.hasOldStyle?'':'Soll: ')+this.newValue+this.unit:this.newValue+this.unit);
+    this.currentValue.innerHTML = (!this.isThermometer&&!this.isHumidity?(this.hasOldStyle?'':'Soll: ')+this.newValue+this.unit:this.newValue+this.unit);
   }
 
   zoomIn() {
@@ -630,15 +630,15 @@ export class FtuiThermostat extends FtuiElement {
 
   batteryValue() {
     (this.battery<25?this.battIcon.classList.add('blink'):this.battIcon.classList.remove('blink'));
-    this.batt.innerHTML=this.battery+" %";
+    this.batt.innerHTML = this.battery+" %";
   }
  
   valvePosition() {
-    this.vp.innerHTML=this.valve;
+    this.vp.innerHTML = this.valve;
   }
  
   humidityValue() {
-    this.hum.innerHTML=this.humidity+" %";
+    this.hum.innerHTML = this.humidity+" %";
   }
 
   polarToCartesian(centerX, centerY, radius, angleInDegrees) {
