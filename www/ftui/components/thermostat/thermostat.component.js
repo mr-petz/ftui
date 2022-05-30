@@ -188,19 +188,19 @@ export class FtuiThermostat extends FtuiElement {
     }
   }
 
-  hex2rgba(hex) {
-    const [r, g, b] = hex.match(/\w\w/g).map(x => parseInt(x, 16));
-    return `${r},${g},${b}`;
+  hex2rgb(hex) {
+    if (hex.match('#')) {
+      const [r, g, b] = hex.match(/\w\w/g).map(x => parseInt(x, 16));
+      return `${r},${g},${b}`;
+    } else {
+      return (hex.match('rgb')?hex.replace(/rgb\((.*)\)/g,'$1'):hex.replace(/rgba\((.*)\)/g,'$1'));
+    }
   }
 
   rgbGradient() {
-    this.minColor.style.stopColor = (getStylePropertyValue('--color-min', this)?getStylePropertyValue('--color-min', this):getStylePropertyValue('--thermostat-min-color', this)?getStylePropertyValue('--thermostat-min-color', this):'rgb('+(this.lowcolor.match('#')?this.hex2rgba(this.lowcolor):this.lowcolor)+')');
-    this.mixColor.style.stopColor = (getStylePropertyValue('--color-mix', this)?getStylePropertyValue('--color-mix', this):getStylePropertyValue('--thermostat-mix-color', this)?getStylePropertyValue('--thermostat-mix-color', this):'rgb('+(this.mediumcolor.match('#')?this.hex2rgba(this.mediumcolor):this.mediumcolor)+')');
-    this.mix2Color.style.stopColor = this.mixColor.style.stopColor;
-    this.maxColor.style.stopColor = (getStylePropertyValue('--color-max', this)?getStylePropertyValue('--color-max', this):getStylePropertyValue('--thermostat-max-color', this)?getStylePropertyValue('--thermostat-max-color', this):'rgb('+(this.highcolor.match('#')?this.hex2rgba(this.highcolor):this.highcolor)+')');
-    const low = this.minColor.style.stopColor.replace(/rgb\((.*)\)/g,'$1').split(',');
-    const medium = this.mixColor.style.stopColor.replace(/rgb\((.*)\)/g,'$1').split(',');
-    const high = this.maxColor.style.stopColor.replace(/rgb\((.*)\)/g,'$1').split(',');
+    const low = (getStylePropertyValue('--color-min', this)?this.hex2rgb(getStylePropertyValue('--color-min', this)):getStylePropertyValue('--thermostat-min-color', this)?this.hex2rgb(getStylePropertyValue('--thermostat-min-color', this)):this.hex2rgb(this.lowcolor)).split(',');
+    const medium = (getStylePropertyValue('--color-mix', this)?this.hex2rgb(getStylePropertyValue('--color-mix', this)):getStylePropertyValue('--thermostat-mix-color', this)?this.hex2rgb(getStylePropertyValue('--thermostat-mix-color', this)):this.hex2rgb(this.mediumcolor)).split(',');
+    const high = (getStylePropertyValue('--color-max', this)?this.hex2rgb(getStylePropertyValue('--color-max', this)):getStylePropertyValue('--thermostat-max-color', this)?this.hex2rgb(getStylePropertyValue('--thermostat-max-color', this)):this.hex2rgb(this.highcolor)).split(',');
     const lowColor = {
       red: parseInt(low[0]),
       green: parseInt(low[1]),
@@ -338,6 +338,10 @@ export class FtuiThermostat extends FtuiElement {
     }
     if (this.hasArc || this.hasArcTick) {
       this.outline.setAttributeNS(null, 'd', this.describeArc(this.size*0.9, this.size*0.9, this.size*0.7, this.startAngle-0.0001, this.endAngle));
+      this.minColor.style.stopColor = 'rgba('+this.rgbgradient[0].red+','+this.rgbgradient[0].green+','+this.rgbgradient[0].blue+',1)';
+      this.mixColor.style.stopColor = 'rgba('+this.rgbgradient[this.tick/2].red+','+this.rgbgradient[this.tick/2].green+','+this.rgbgradient[this.tick/2].blue+',1)';
+      this.mix2Color.style.stopColor = this.mixColor.style.stopColor;
+      this.maxColor.style.stopColor = 'rgba('+this.rgbgradient[this.tick].red+','+this.rgbgradient[this.tick].green+','+this.rgbgradient[this.tick].blue+',1)';
     }
     this.setAngle();//for offline
   }
