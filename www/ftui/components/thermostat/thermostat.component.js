@@ -339,7 +339,7 @@ export class FtuiThermostat extends FtuiElement {
     if (this.hasArc || this.hasArcTick) {
       this.outline.setAttributeNS(null, 'd', this.describeArc(this.size*0.9, this.size*0.9, this.size*0.7, this.startAngle-0.0001, this.endAngle));
       this.minColor.style.stopColor = 'rgba('+this.rgbgradient[0].red+','+this.rgbgradient[0].green+','+this.rgbgradient[0].blue+',1)';
-      this.mixColor.style.stopColor = 'rgba('+this.rgbgradient[this.tick/2].red+','+this.rgbgradient[this.tick/2].green+','+this.rgbgradient[this.tick/2].blue+',1)';
+      this.mixColor.style.stopColor = 'rgba('+this.rgbgradient[Math.round(this.tick/2)].red+','+this.rgbgradient[Math.round(this.tick/2)].green+','+this.rgbgradient[Math.round(this.tick/2)].blue+',1)';
       this.mix2Color.style.stopColor = this.mixColor.style.stopColor;
       this.maxColor.style.stopColor = 'rgba('+this.rgbgradient[this.tick].red+','+this.rgbgradient[this.tick].green+','+this.rgbgradient[this.tick].blue+',1)';
     }
