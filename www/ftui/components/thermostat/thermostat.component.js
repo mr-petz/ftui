@@ -365,7 +365,11 @@ export class FtuiThermostat extends FtuiElement {
         //svg hasArc
         if (this.hasArc || this.hasArcTick) {
           if (this.svg.style.top !== '-4px') {
-            this.fill.setAttributeNS(null, 'd', this.describeArc(this.size*0.9, this.size*0.9, this.size*0.7, this.startAngle-0.0001, this.gripStep));
+            if (this.isHumidity) {
+              this.fill.setAttributeNS(null, 'd', this.describeArc(this.size*0.9, this.size*0.9, this.size*0.7, this.startAngle-0.0001, this.endAngle));
+            } else {
+              this.fill.setAttributeNS(null, 'd', this.describeArc(this.size*0.9, this.size*0.9, this.size*0.7, this.startAngle-0.0001, this.gripStep));
+            }
           }
           if (!this.hasArcTick) {
             tickActive[i].style.setProperty('--thermostat-tick-color', `rgba(0,0,0,0)`);
@@ -381,7 +385,7 @@ export class FtuiThermostat extends FtuiElement {
                 this.currentValue.style.setProperty('--thermostat-value-color', `rgba(${this.rgbgradient[i].red}, ${this.rgbgradient[i].green}, ${this.rgbgradient[i].blue},0.5)`);
              }
           }
-          if (i===Math.round(tempValue)) {
+          if (i===Math.round(tempValue) && !this.hasThermometer && !this.isHumidity) {
              tickActive[Math.round(tempValue)].classList.add('activetick','thick-active');
              if (this.tempInRgb) {
                this.tempvalue.style.setProperty('--thermostat-temp-color', `rgba(${this.rgbgradient[i].red}, ${this.rgbgradient[i].green}, ${this.rgbgradient[i].blue},0.5)`);
@@ -404,14 +408,12 @@ export class FtuiThermostat extends FtuiElement {
             }
           } else if (this.isHumidity) {
           //Humidity
+            tickActive[i].classList.add('activetick,thick-active');
             if (i === Math.round(actValue)) {
-              tickActive[Math.round(actValue)].classList.add('thick-active');
               this.knob.style.setProperty('--grip',(this.size*0.4) + "px" + ` solid rgba(${this.rgbgradient[i].red}, ${this.rgbgradient[i].green}, ${this.rgbgradient[i].blue},0.5)`);
               if (this.valueInRgb) {
                 this.currentValue.style.setProperty('--thermostat-value-color', `rgba(${this.rgbgradient[i].red}, ${this.rgbgradient[i].green}, ${this.rgbgradient[i].blue},0.5)`);
               }
-            } else {
-              tickActive[i].classList.remove('thick-active');
             }
           } else {
           //Thermostat
