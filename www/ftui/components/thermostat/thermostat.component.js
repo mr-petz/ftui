@@ -10,8 +10,11 @@
 
 import { FtuiElement } from '../element.component.js';
 import { fhemService } from '../../modules/ftui/fhem.service.js';
-import { FtuiIcon } from '../icon/icon.component.js';
 import { getStylePropertyValue, countDecimals} from '../../modules/ftui/ftui.helper.js';
+//import { FtuiIcon } from '../icon/icon.component.js';
+if (!document.querySelector('ftui-icon')) {
+import { FtuiIcon } from '../icon/icon.component.js';
+}
 
 export class FtuiThermostat extends FtuiElement {
   constructor(properties) {
