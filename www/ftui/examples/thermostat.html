@@ -159,7 +159,8 @@
      <ftui-grid-tile row="12" col="3" height="6" width="2" shape="round">
       <header>Trigger readonly</header>
        <ftui-thermostat class="size-1" color="cold-hot"
-         [(value)]="dummy"
+         [value]="dummy | map('15.0:off')"
+         (value)="dummy"
          [temp]="dummy0"
          [readonly]="dummy6 | map('on:true,off:false')"
          unit=" °C"
