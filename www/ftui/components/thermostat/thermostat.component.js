@@ -155,7 +155,7 @@ export class FtuiThermostat extends FtuiElement {
   onAttributeChanged(name) {
     switch (name) {
     case 'value':
-      this.newValue = Number(this.value).toFixed(this.valueDecimals);
+      this.newValue = isNaN(this.value)?this.newValue=Number(this.min).toFixed(this.valueDecimals):Number(this.value).toFixed(this.valueDecimals);
       this.setAngle();
       this.valueView();
     break;
@@ -497,11 +497,13 @@ export class FtuiThermostat extends FtuiElement {
     };
     this.knob.addEventListener("touchmove", e => {
       this.knob.addEventListener("touchmove", moveHandler);
+      this.grip.style.display==='none'?this.grip.style.setProperty('display','block'):'';
     });
     this.knob.addEventListener("mousedown", moveHandler);
     this.knob.addEventListener('mousedown', e => {
       (this.hasZoom?this.zoomIn():'');
       this.knob.addEventListener("mousemove", moveHandler);
+      this.grip.style.display==='none'?this.grip.style.setProperty('display','block'):'';
     });
     this.knob.addEventListener('mouseup', e => {
       this.knob.removeEventListener("mousedown", moveHandler);
