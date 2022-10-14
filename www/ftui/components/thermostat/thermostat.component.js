@@ -155,7 +155,7 @@ export class FtuiThermostat extends FtuiElement {
   onAttributeChanged(name) {
     switch (name) {
     case 'value':
-      this.newValue = parseInt(this.value).toFixed(this.valueDecimals);
+      this.newValue = Number(this.value).toFixed(this.valueDecimals);
       this.setAngle();
       this.valueView();
     break;
@@ -554,7 +554,8 @@ export class FtuiThermostat extends FtuiElement {
   }
 
   valueView() {
-    this.currentValue.innerHTML = (!this.isThermometer&&!this.isHumidity?(this.hasOldStyle?'':'Soll: ')+this.value+(this.value==='off'?'':this.unit):this.value+(this.value==='off'?'':this.unit));
+    this.currentValue.innerHTML = (!this.isThermometer&&!this.isHumidity?isNaN(this.value)?this.value:(this.hasOldStyle?'':'Soll: ')+this.newValue+this.unit:this.newValue+this.unit);
+    isNaN(this.value)?this.grip.style.setProperty('display','none'):this.grip.style.setProperty('display','block');
   }
 
   zoomIn() {
