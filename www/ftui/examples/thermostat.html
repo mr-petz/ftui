@@ -43,14 +43,14 @@
        <ftui-thermostat class="size-1" style="--thermostat-temp-size:10px;--thermostat-value-size:1.2em"
          [(value)]="dummy"
          [temp]="dummy0"
-         [battery]="dummy2"
+         [battery]="dummy2 | append(' %')"
          [valve]="dummy7"
-         [humidity]="dummy7"
+         [humidity]="dummy7 | append(' %')"
          unit=" °C"
          size="70"
          has-zoom
          temp-in-rgb
-         value="22" temp="20.5" battery="22" valve="1" humidity="75"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+         value="22" temp="20.5" battery="22 %" valve="1" humidity="75 %"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
        >
        </ftui-thermostat>
        <ftui-thermostat style="--thermostat-value-size:18px;" class="size-1"
@@ -70,14 +70,14 @@
        <ftui-thermostat class="size-1"
          [(value)]="dummy99"
          [temp]="dummy1"
-         [battery]="dummy2"
+         [battery]="dummy2 | append(' %')"
          unit=" °C"
          size="100"
          has-zoom
          tick="40"
          value-decimals="2"
          step="0.05"
-         value="22" temp="20.5" battery="100"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+         value="22" temp="20.5" battery="100 %"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
        >
        </ftui-thermostat>
        <center>try it</center>
@@ -89,14 +89,14 @@
        <ftui-thermostat class="size-1"
          [(value)]="dummy"
          [temp]="dummy1"
-         [battery]="dummy3"
+         [battery]="dummy3 | append(' %')"
          battery-icon="step('-99:battery-0, 20:battery-2, 51: battery')"
          battery-icon-color="step('-99:red, 20:yellow, 51:green')"
          unit=" °C"
          has-zoom
          size="100"
          degrees="270"
-         value="22" temp="20.5" battery="100"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+         value="22" temp="20.5" battery="100 %"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
        >
        </ftui-thermostat>
        <center>try it</center>
@@ -108,9 +108,9 @@
        <ftui-thermostat class="size-1"
          [(value)]="dummy8"
          [temp]="dummy99"
-         [battery]="dummy7"
+         [battery]="dummy7 | append(' %')"
          [valve]="dummy7"
-         [humidity]="75"
+         [humidity]="75  | append(' %')"
          size="110"
          degrees="270"
          rotation="-90"
@@ -126,7 +126,7 @@
          has-arc-tick
          lowcolor="0,0,255"
          temp-decimals="2"
-         value="17.2" temp="18.6" battery="89" valve="1" humidity="75"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+         value="17.2" temp="18.6" battery="89 %" valve="1" humidity="75 %"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
        >
        </ftui-thermostat>
     </ftui-grid-tile>
