@@ -493,7 +493,7 @@ export class FtuiThermostat extends FtuiElement {
       );
       this.newValue = (Math.round(newValue/this.step)*this.step).toFixed(this.valueDecimals);
       this.setAngle(currentDeg);
-      (this.hasZoom?this.zoomIn():'');
+      (this.hasZoom?this.zoomIn():this.currentValue.textContent = this.newValue);
     };
     this.knob.addEventListener("touchmove", e => {
       this.knob.addEventListener("touchmove", moveHandler);
@@ -556,7 +556,7 @@ export class FtuiThermostat extends FtuiElement {
   }
 
   valueView() {
-    this.currentValue.innerHTML = (!this.isThermometer&&!this.isHumidity?isNaN(this.value)?this.value:(this.hasOldStyle?'':'Soll: ')+this.newValue+this.unit:this.newValue+this.unit);
+    this.currentValue.textContent = (!this.isThermometer&&!this.isHumidity?isNaN(this.value)?this.value:(this.hasOldStyle?'':'Soll: ')+this.newValue+this.unit:this.newValue+this.unit);
     isNaN(this.value)?this.grip.style.setProperty('display','none'):this.grip.style.setProperty('display','block');
   }
 
@@ -567,7 +567,7 @@ export class FtuiThermostat extends FtuiElement {
     this.currentValue.style.setProperty('font-size','2.4em');
     this.currentValue.style.setProperty('top','-7%');
     this.currentValue.style.setProperty('left','45%');
-    this.currentValue.innerHTML = this.newValue;
+    this.currentValue.textContent = this.newValue;
     if (this.hasArc || this.hasArcTick) {
       this.svg.style.setProperty('left','-2.5%');
       this.svg.style.setProperty('top','-4px');
@@ -642,7 +642,7 @@ export class FtuiThermostat extends FtuiElement {
 
   batteryValue() {
     (this.battery<25?this.battIcon.classList.add('blink'):this.battIcon.classList.remove('blink'));
-    this.batt.innerHTML = this.battery+" %";
+    this.batt.innerHTML = this.battery;
   }
  
   valvePosition() {
@@ -650,7 +650,7 @@ export class FtuiThermostat extends FtuiElement {
   }
  
   humidityValue() {
-    this.hum.innerHTML = this.humidity+" %";
+    this.hum.innerHTML = this.humidity;
   }
 
   polarToCartesian(centerX, centerY, radius, angleInDegrees) {
