@@ -33,11 +33,12 @@
 
 .batt-icon{
   position: absolute;
-  top: var(--thermostat-battery-icon-top, 55%);
-  left: 41%;
+  top: var(--thermostat-battery-icon-top, 54.5%);
+  left: 32.5%;
   white-space: nowrap;
-  font-size: 0.25em;
   transform: rotate(-90deg);
+  width: 0.7em;
+  height:0.7em;
   color: var(--thermostat-battery-icon, var(--color-base));
 }
 
@@ -52,10 +53,11 @@
 
 .valve-icon{
   position: absolute;
-  top: var(--thermostat-valve-icon-top, 63.5%);
-  left: 41%;
+  top: var(--thermostat-valve-icon-top, 55%);
+  left: 40.5%;
   white-space: nowrap;
-  font-size: 0.25em;
+  width: 0.7em;
+  height:0.7em;
   color: var(--thermostat-valve-icon, var(--color-base));
 }
 
@@ -70,10 +72,11 @@
 
 .humidity-icon{
   position: absolute;
-  top: var(--thermostat-humidity-icon-top, 71.5%);
-  left: 40.5%;
+  top: var(--thermostat-humidity-icon-top, 63.5%);
+  left: 41.5%;
   white-space: nowrap;
-  font-size: 0.3em;
+  width: 0.5em;
+  height:0.5em;
   color: var(--thermostat-humidity-icon, var(--color-base));
 }
 
