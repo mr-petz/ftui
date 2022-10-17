@@ -45,7 +45,8 @@ export class FtuiThermostat extends FtuiElement {
     this.batt = this.shadowRoot.querySelector('.batt');
     this.vp = this.shadowRoot.querySelector('.valve');
     this.hum = this.shadowRoot.querySelector('.humidity');
-    this.knob.addEventListener((('ontouchend' in document.documentElement) ? 'touchend' : 'mouseup'), () => this.onClick());
+    this.knob.addEventListener('touchend', () => this.onClick());
+    this.knob.addEventListener('mouseup', () => this.onClick());
     this.knob.addEventListener('mousemove', () => this.knobs.getBoundingClientRect()&(this.isThermometer||this.isHumidity||this.fixed?'':this.startDrag()));
     this.knob.addEventListener('touchmove', () => this.knobs.getBoundingClientRect()&(this.isThermometer||this.isHumidity||this.fixed?'':this.startDrag()));
     if (this.valueDecimals < 0) {
