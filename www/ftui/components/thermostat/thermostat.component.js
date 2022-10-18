@@ -45,8 +45,11 @@ export class FtuiThermostat extends FtuiElement {
     this.batt = this.shadowRoot.querySelector('.batt');
     this.vp = this.shadowRoot.querySelector('.valve');
     this.hum = this.shadowRoot.querySelector('.humidity');
-    this.knob.addEventListener('touchend', () => this.onClick());
-    this.knob.addEventListener('mouseup', () => this.onClick());
+    const supportTouch = 'ontouchstart' in document;
+    this.knob.addEventListener((supportTouch ? 'touchend' : 'mouseup'), () => {
+     supportTouch?this.knobs.getBoundingClientRect()&this.startDrag():'';
+     supportTouch?setTimeout(()=>{this.onClick()}, 100):this.onClick();
+     });
     this.knob.addEventListener('mousemove', () => this.knobs.getBoundingClientRect()&(this.isThermometer||this.isHumidity||this.fixed?'':this.startDrag()));
     this.knob.addEventListener('touchmove', () => this.knobs.getBoundingClientRect()&(this.isThermometer||this.isHumidity||this.fixed?'':this.startDrag()));
     if (this.valueDecimals < 0) {
@@ -466,8 +469,8 @@ export class FtuiThermostat extends FtuiElement {
     }
   }
 
-  startDrag (e)  {
-    let knob = this.knobs.getBoundingClientRect();
+  startDrag ()  {
+    const knob = this.knobs.getBoundingClientRect();
     const pts = {
         x: knob.left + knob.width / 2,
         y: knob.top + knob.height / 2,
@@ -475,15 +478,15 @@ export class FtuiThermostat extends FtuiElement {
 
     const moveHandler = e => {
       // this.touches = e;
-      e.preventDefault();
+      //e.preventDefault();
       //let currentDeg = 0;
       if (e.touches && e.touches.length) {
         e.clientX = e.touches[0].clientX;
         e.clientY = e.touches[0].clientY;
       }
 
-      let currentDeg = this.getDeg(e.clientX, e.clientY, pts);
-      let newValue = (
+      const currentDeg = this.getDeg(e.clientX, e.clientY, pts);
+      const newValue = (
         this.convertRange(
           this.startAngle,
           this.endAngle,
@@ -496,27 +499,27 @@ export class FtuiThermostat extends FtuiElement {
       this.setAngle(currentDeg);
       (this.hasZoom?this.zoomIn():this.currentValue.textContent = this.newValue);
     };
-    this.knob.addEventListener("touchmove", e => {
+    this.knob.addEventListener("touchmove", () => {
       this.knob.addEventListener("touchmove", moveHandler);
       this.grip.style.display==='none'?this.grip.style.setProperty('display','block'):'';
     });
     this.knob.addEventListener("mousedown", moveHandler);
-    this.knob.addEventListener('mousedown', e => {
+    this.knob.addEventListener('mousedown', () => {
       (this.hasZoom?this.zoomIn():'');
       this.knob.addEventListener("mousemove", moveHandler);
       this.grip.style.display==='none'?this.grip.style.setProperty('display','block'):'';
     });
-    this.knob.addEventListener('mouseup', e => {
+    this.knob.addEventListener('mouseup', () => {
       this.knob.removeEventListener("mousedown", moveHandler);
       this.knob.removeEventListener("mousemove", moveHandler);
       this.knob.removeEventListener("mouseup", moveHandler);
       (this.hasZoom?this.zoomOut():'');
     });
-    this.knob.addEventListener("touchstart", e => {
+    this.knob.addEventListener("touchstart", () => {
       (this.hasZoom?this.zoomIn():'');
       this.knob.addEventListener("touchstart", moveHandler);
     });
-    this.knob.addEventListener("touchend", e => {
+    this.knob.addEventListener("touchend", () => {
       this.knob.removeEventListener("touchmove", moveHandler);
       this.knob.removeEventListener("touchstart", moveHandler);
       this.knob.removeEventListener("touchend", moveHandler);
