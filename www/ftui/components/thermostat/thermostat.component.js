@@ -47,7 +47,6 @@ export class FtuiThermostat extends FtuiElement {
     this.hum = this.shadowRoot.querySelector('.humidity');
     const supportTouch = 'ontouchstart' in document;
     this.knob.addEventListener((supportTouch ? 'touchend' : 'mouseup'), () => {
-     supportTouch?this.knobs.getBoundingClientRect()&this.startDrag():'';
      supportTouch?setTimeout(()=>{this.onClick()}, 100):this.onClick();
      });
     this.knob.addEventListener('mousemove', () => this.knobs.getBoundingClientRect()&(this.isThermometer||this.isHumidity||this.fixed?'':this.startDrag()));
