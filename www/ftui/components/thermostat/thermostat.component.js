@@ -72,7 +72,7 @@ export class FtuiThermostat extends FtuiElement {
           <div class="temp"></div>
           <div class="txts"></div>
           <div class="current-value"></div>
-          <svg class="svg" height="${this.size*1.8}" width="${this.size*1.8}" focusable="false">
+          <svg class="svg" height="${this.size*1.76}" width="${this.size*1.8}" focusable="false">
             <defs>
               <linearGradient id="Gradient1" gradientTransform="rotate(100)">
                 <stop offset="0%" class="mix"/>
@@ -222,21 +222,18 @@ export class FtuiThermostat extends FtuiElement {
       green: parseInt(high[1]),
       blue: parseInt(high[2])
     };
-    const rgbColor1 = lowColor;
-    const rgbColor2 = mediumColor;
-    const rgbColor3 = highColor;
-    let color1 = rgbColor1;
-    let color2 = rgbColor2;
-    const color3 = rgbColor3;
+    let color1 = lowColor;
+    let color2 = mediumColor;
+    const color3 = highColor;
     
     for (let i = 0;  this.rgbgradient.length <= this.tick; i++) {
       let fade = (i*(this.max-this.min)/this.tick)/(this.max+this.fadegradient);
-      if (rgbColor3) {
+      if (highColor) {
         fade = fade * this.movegradient;
         if (fade >= 1) {
           fade -= 1;
-          color1 = rgbColor2;
-          color2 = rgbColor3;
+          color1 = mediumColor;
+          color2 = highColor;
         }
     }
 
@@ -572,10 +569,8 @@ export class FtuiThermostat extends FtuiElement {
     this.currentValue.style.setProperty('left','45%');
     this.currentValue.textContent = this.newValue;
     if (this.hasArc || this.hasArcTick) {
-      this.svg.style.setProperty('left','-2.5%');
-      this.svg.style.setProperty('top','-4px');
-      this.svg.style.setProperty('width',this.size*2.1+'px');
-      this.svg.style.setProperty('height',this.size*2.1+'px');
+      this.svg.style.setProperty('width',this.size*2.2+'px');
+      this.svg.style.setProperty('height',this.size*2.16+'px');
       this.outline.setAttributeNS(null, 'd', this.describeArc(this.size*1.1, this.size*1.1, this.size*0.85, this.startAngle-0.0001, this.endAngle));
       this.fill.setAttributeNS(null, 'd', this.describeArc(this.size*1.1, this.size*1.1, this.size*0.85, this.startAngle-0.0001, this.gripStep));
     }
@@ -601,10 +596,8 @@ export class FtuiThermostat extends FtuiElement {
     this.grip.style.setProperty('bottom','');
     this.grip.style.setProperty('top','67%');
     if (this.hasArc || this.hasArcTick) {
-      this.svg.style.setProperty('left','0%');
-      this.svg.style.setProperty('top','1.5px');
       this.svg.style.setProperty('width',this.size*1.8+'px');
-      this.svg.style.setProperty('height',this.size*1.8+'px');
+      this.svg.style.setProperty('height',this.size*1.76+'px');
       this.outline.setAttributeNS(null, 'd', this.describeArc(this.size*0.9, this.size*0.9, this.size*0.7, this.startAngle-0.0001, this.endAngle));
       this.fill.setAttributeNS(null, 'd', this.describeArc(this.size*0.9, this.size*0.9, this.size*0.7, this.startAngle-0.0001, this.gripStep));
     }
@@ -645,15 +638,15 @@ export class FtuiThermostat extends FtuiElement {
 
   batteryValue() {
     (this.battery<25?this.battIcon.classList.add('blink'):this.battIcon.classList.remove('blink'));
-    this.batt.innerHTML = this.battery;
+    this.batt.textContent = this.battery;
   }
  
   valvePosition() {
-    this.vp.innerHTML = this.valve;
+    this.vp.textContent = this.valve;
   }
  
   humidityValue() {
-    this.hum.innerHTML = this.humidity;
+    this.hum.textContent = this.humidity;
   }
 
   polarToCartesian(centerX, centerY, radius, angleInDegrees) {
