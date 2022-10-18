@@ -8,9 +8,8 @@
 */
 
 .svg {
-  position: relative;
-  top: 1.5px;
-  margin: 0px;
+  position: initial;
+  margin: 0;
   padding: 0;
 }
 
