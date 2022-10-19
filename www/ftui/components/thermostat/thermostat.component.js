@@ -564,9 +564,9 @@ export class FtuiThermostat extends FtuiElement {
     const tickAll = this.shadowRoot.querySelectorAll('.tick');
     const scale = this.shadowRoot.querySelectorAll('.txt');
     const temp = this.shadowRoot.querySelectorAll('.temp');
-    this.currentValue.style.setProperty('font-size','2.4em');
-    this.currentValue.style.setProperty('top','-7%');
-    this.currentValue.style.setProperty('left','45%');
+    this.currentValue.style.setProperty('font-size','var(--thermostat-zoom-value-size,2.4em)');
+    this.currentValue.style.setProperty('top','var(--thermostat-zoom-value-top,-7%)');
+    this.currentValue.style.setProperty('left','var(--thermostat-zoom-value-left,45%)');
     this.currentValue.textContent = this.newValue;
     if (this.hasArc || this.hasArcTick) {
       this.svg.style.setProperty('width',this.size*2.2+'px');
