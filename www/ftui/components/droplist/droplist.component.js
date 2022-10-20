@@ -188,7 +188,7 @@ export class FtuiDropList extends FtuiElement {
      this.drop.style.left = this.offsetParent.offsetWidth-this.selectElement.offsetWidth-1+'px';
     } else {
      if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-       this.drop.style.left = (this.label+1)+'px';
+       this.drop.style.left = this.left;
      } else {
      this.drop.style.left = (this.label.offsetLeft+1)+'px';
      }
