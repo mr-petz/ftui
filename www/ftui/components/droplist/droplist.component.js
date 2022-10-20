@@ -187,7 +187,11 @@ export class FtuiDropList extends FtuiElement {
     if (this.offsetParent.offsetWidth-this.selectElement.offsetWidth-this.label.offsetLeft < 0) {
      this.drop.style.left = this.offsetParent.offsetWidth-this.selectElement.offsetWidth-1+'px';
     } else {
+     if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+       this.drop.style.left = (this.label+1)+'px';
+     } else {
      this.drop.style.left = (this.label.offsetLeft+1)+'px';
+     }
     }
     this.selectElement.classList.toggle('show');
     this.dropOverlay.classList.toggle('show');
