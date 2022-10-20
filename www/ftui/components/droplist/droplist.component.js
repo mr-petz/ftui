@@ -41,7 +41,7 @@ export class FtuiDropList extends FtuiElement {
         position: relative;
         cursor: pointer;
         margin-left: 2px;
-        color: var(--text-color);
+        color: var(--droplist-text-color, var(--text-color);
         background-color: var(--label-background-color, var(--grid-background-color));
         z-index: 0;
       }
@@ -62,7 +62,7 @@ export class FtuiDropList extends FtuiElement {
         height: 100%;
         padding: 0 1% 1% 1%;
         background-color: var(--droplist-background-color, var(--gray));
-        color: var(--text-color);
+        color: var(--droplist-text-color, var(--text-color));
         border-radius: 5px;
         left: 0;
         overflow-y: scroll;
@@ -98,7 +98,7 @@ export class FtuiDropList extends FtuiElement {
       }
 
       .caret {
-        color: var(--text-color);
+        color: var(--droplist-text-color, var(--text-color);
         display: inline-block;
         margin-left: 0;
         width: 0;
@@ -116,7 +116,7 @@ export class FtuiDropList extends FtuiElement {
         padding: 2% 5px 2% 5px;
         width: 100%;
         display: block;
-        border-color: var(--droplistline-color, rgba(0,0,0,0.2));
+        border-color: var(--droplist-line-color, rgba(0,0,0,0.2));
       }
 
       @-webkit-keyframes fadeIn {
