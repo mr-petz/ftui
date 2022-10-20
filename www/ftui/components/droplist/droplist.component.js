@@ -41,7 +41,7 @@ export class FtuiDropList extends FtuiElement {
         position: relative;
         cursor: pointer;
         margin-left: 2px;
-        color: var(--droplist-text-color, var(--text-color);
+        color: var(--droplist-text-color, var(--text-color));
         background-color: var(--label-background-color, var(--grid-background-color));
         z-index: 0;
       }
@@ -98,7 +98,7 @@ export class FtuiDropList extends FtuiElement {
       }
 
       .caret {
-        color: var(--droplist-text-color, var(--text-color);
+        color: var(--droplist-text-color, var(--text-color));
         display: inline-block;
         margin-left: 0;
         width: 0;
