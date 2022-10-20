@@ -149,6 +149,7 @@ export class FtuiDropList extends FtuiElement {
       width: 'max-content',
       height: '80px',
       left: '',
+      timeout: 60,
     };
   }
 
@@ -212,6 +213,16 @@ export class FtuiDropList extends FtuiElement {
      });
     }
     this.label.innerHTML = (this.value?this.value+' <span class="caret"></span>':this.name+' <span class="caret"></span>');
+  }
+
+  startTimeout() {
+    clearTimeout(this.timer);
+    if (this.timeout) {
+      this.timer = setTimeout(() => {
+       this.selectElement.classList.remove('show');
+       this.dropOverlay.classList.remove('show');  
+      }, this.timeout * 1000);
+    }
   }
 
 }
