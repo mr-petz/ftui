@@ -1,9 +1,9 @@
 /*
 * Droplist component for FTUI version 3
 *
-* initial Mario Stephan <mstephan@shared-files.de>
-*
 * by mr_petz
+*
+* initial Mario Stephan <mstephan@shared-files.de>
 *
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
@@ -24,10 +24,9 @@ export class FtuiDropList extends FtuiElement {
     if (this.list.length > 0 ) {
       this.fillList();
     }
-    this.label.addEventListener('click', () => this.showList());
-    this.selectElement.addEventListener('click', () => this.showList());
-    this.dropOverlay.addEventListener('click', () => this.showList());
-    
+    this.label.addEventListener('mousedown', () => this.showList());
+    this.selectElement.addEventListener('click', () => this.toggleShow());
+    this.dropOverlay.addEventListener('click', () => this.toggleShow());
   }
 
   template() {
@@ -39,11 +38,19 @@ export class FtuiDropList extends FtuiElement {
 
       .label {
         position: relative;
+        width: max-content;
         cursor: pointer;
         margin-left: 2px;
         color: var(--droplist-text-color, var(--text-color));
         background-color: var(--label-background-color, var(--grid-background-color));
         z-index: 0;
+      }
+ 
+      :host([border]) .label{
+        border: solid var(--droplist-text-color, var(--text-color));
+        border-radius: 5px;
+        padding: 2px;
+        border-width: 1px;
       }
 
       .drop {
@@ -52,6 +59,7 @@ export class FtuiDropList extends FtuiElement {
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+        padding-top: 2px;
         visibility: hidden;
       }
 
@@ -150,6 +158,7 @@ export class FtuiDropList extends FtuiElement {
       height: '80px',
       left: '',
       timeout: 60,
+      overflow: false,
     };
   }
 
@@ -161,8 +170,7 @@ export class FtuiDropList extends FtuiElement {
     this.selectElement.style.width = this.width;
     this.drop.style.height = this.height;
     this.label.style.left = this.left;
-    this.drop.style.left = this.left;
-    
+    this.drop.style.left = this.left;  
   }
 
   onAttributeChanged(name) {
@@ -183,12 +191,12 @@ export class FtuiDropList extends FtuiElement {
 
   showList() {
     if (this.label.offsetParent.offsetHeight < (this.drop.offsetHeight+this.drop.offsetTop)) {
-     this.selectElement.style.top = '-'+(parseInt(this.height)+this.label.offsetHeight)+'px';
+     this.selectElement.style.top = '-'+(parseInt(this.height)+this.label.offsetHeight+2)+'px';
     }
-    if (this.offsetParent.offsetWidth-this.selectElement.offsetWidth-this.label.offsetLeft < 0) {
+    if (this.offsetParent.offsetWidth-this.selectElement.offsetWidth-this.label.offsetLeft < 0 && this.selectElement.offsetWidth < this.offsetParent.offsetWidth) {
      this.drop.style.left = this.offsetParent.offsetWidth-this.selectElement.offsetWidth-1+'px';
     } else {
-     if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+     if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
        this.drop.style.left = this.left;
      } else {
      this.drop.style.left = (this.label.offsetLeft+1)+'px';
@@ -196,6 +204,14 @@ export class FtuiDropList extends FtuiElement {
     }
     this.selectElement.classList.toggle('show');
     this.dropOverlay.classList.toggle('show');
+    this.overflow ? this.offsetParent.style.setProperty('overflow','unset') : '';
+    this.startTimeout();
+  }
+
+  toggleShow() {
+    this.selectElement.classList.toggle('show');
+    this.dropOverlay.classList.toggle('show'); 
+    this.offsetParent.style.setProperty('overflow','hidden');
   }
 
   fillList() {
@@ -218,10 +234,7 @@ export class FtuiDropList extends FtuiElement {
   startTimeout() {
     clearTimeout(this.timer);
     if (this.timeout) {
-      this.timer = setTimeout(() => {
-       this.selectElement.classList.remove('show');
-       this.dropOverlay.classList.remove('show');  
-      }, this.timeout * 1000);
+      this.timer = setTimeout(() => this.toggleShow(), this.timeout * 1000);
     }
   }
 
