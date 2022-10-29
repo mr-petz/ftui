@@ -234,7 +234,11 @@ export class FtuiDropList extends FtuiElement {
   startTimeout() {
     clearTimeout(this.timer);
     if (this.timeout) {
-      this.timer = setTimeout(() => this.toggleShow(), this.timeout * 1000);
+      this.timer = setTimeout(() => {
+       this.selectElement.classList.remove('show');
+       this.dropOverlay.classList.remove('show'); 
+       this.offsetParent.style.setProperty('overflow','hidden');       
+      }, this.timeout * 1000);
     }
   }
 
