@@ -200,8 +200,8 @@ export class FtuiLabelNice extends FtuiLabel {
       this.spanSlotElement.style.setProperty('line-height','1');
     }
     if (this.shape==='circle') {
-      this.elementBgColor.style.width = this.width ? this.width.replace('px','') : size + 'px';
-      this.elementBgColor.style.height = this.width ? this.width.replace('px','') : size + 'px';
+      this.elementBgColor.style.width = this.width ? this.width.replace('px','') + 'px' : size + 'px';
+      this.elementBgColor.style.height = this.width ? this.width.replace('px','') + 'px' : size + 'px';
     } else {
       if (this.text) {
        this.elementBgColor.style.width = this.width ? this.width.replace('px','') + 'px' : '';
