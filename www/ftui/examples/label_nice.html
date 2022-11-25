@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <!--
+    /* FHEM tablet ui */
+    /**
+    * UI builder framework for FHEM
+    *
+    * Version: 3.0.0
+    *
+    * Copyright (c) 2015-2019 Mario Stephan <mstephan@shared-files.de>
+    * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
+    * https://github.com/knowthelist/ftui
+    */
+    -->
+  <base href="../" />
+  <script src="ftui.js"></script>
+  <link href="ftui.css" rel="stylesheet">
+  <link href="themes/ftui-theme.css" rel="stylesheet">
+  <link href="favicon.ico" rel="icon" type="image/x-icon" />
+
+  <meta name="debug" content="0">
+  <meta name="toast_position" content="top">
+
+  <title>FTUI Example Label</title>
+</head>
+
+<body>
+
+  <ftui-grid base-width="120" base-height="120" shape="round" margin="6">
+    <ftui-grid-tile row="1" col="1" height="3" width="6">
+      <ftui-row height="100px">
+        <ftui-label-nice size="5" shape="circle" fill="outline_color" text="22.8" class="thin">
+          <span size="2" slot="unit">°C</span>
+        </ftui-label-nice>
+
+        <ftui-label-nice shape="circle" rgb="var(--primary)">
+          <ftui-icon name="sun" size="5" color="yellow"></ftui-icon>
+        </ftui-label-nice>
+
+        <ftui-label-nice size="5" shape="circle" fill="outline_color" text="22.8" class="thin" rgb="var(--yellow)">
+          <span size="2" slot="unit">°C</span>
+          <ftui-icon name="sun" size="3" color="yellow"></ftui-icon>
+        </ftui-label-nice>
+
+        <ftui-label-nice shape="circle" size="5" fill="outline" text="22.8" class="thin">
+          <span size="2" slot="unit">°C</span>
+          <ftui-icon name="sun" size="3"></ftui-icon>
+        </ftui-label-nice>
+
+        <ftui-label-nice shape="circle" color="white" fill="outline_color" text="22.8" class="bold" hex="#eeca82" size="5" horizontal-reverse>
+          <span size="2" slot="unit">°C</span>
+          <ftui-icon name="sun" size="3" color="yellow"></ftui-icon>
+        </ftui-label-nice>
+
+        <ftui-label-nice size="5" shape="circle" color="white" text="22.8" rgb="var(--primary)">
+          <span size="2" slot="unit">°C</span>
+          <ftui-icon name="sun" size="3"></ftui-icon>
+        </ftui-label-nice>
+
+        <ftui-label-nice size="5" horizontal-reverse shape="circle" color="white" text="22.8" class="bold" rgb="var(--primary)">
+          <span size="2" slot="unit">°C</span>
+          <ftui-icon name="sun" size="3" color="yellow"></ftui-icon>
+        </ftui-label-nice>
+      </ftui-row>
+      <ftui-row height="100px">
+        <ftui-label-nice size="5" text="22.8" fill="outline" small>
+          <span size="2" slot="unit">°C</span>
+        </ftui-label-nice>
+
+        <ftui-label-nice fill="outline" small>
+          <ftui-icon name="sun" size="5" color="yellow"></ftui-icon>
+        </ftui-label-nice>
+
+        <ftui-label-nice size="5" text="22.8" fill="outline" shape="round">
+          <span size="2" slot="unit">°C</span>
+        </ftui-label-nice>
+
+        <ftui-label-nice fill="outline_color" shape="round" hex="#eeca82">
+          <ftui-icon name="sun" size="5" color="yellow"></ftui-icon>
+        </ftui-label-nice>
+
+        <ftui-label-nice shape="round" size="5" vertical color="gray" text="22.8" class="bold" rgb="var(--yellow)" large>
+          <span classs="size-0" size="2" slot="unit">°C</span>
+          <ftui-icon name="sun" size="3" color="gray"></ftui-icon>
+        </ftui-label-nice>
+
+        <ftui-label-nice shape="round" size="5" color="gray" text="22.8" class="bold" rgb="var(--yellow)" width="40px">
+          <span classs="size-0" size="2" slot="unit">°C</span>
+          <ftui-icon name="sun" size="3" color="gray"></ftui-icon>
+        </ftui-label-nice>
+      </ftui-row>
+    </ftui-grid-tile>
+  </ftui-grid>
+</body>
+
+</html>
