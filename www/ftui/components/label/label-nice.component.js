@@ -42,7 +42,6 @@ export class FtuiLabelNice extends FtuiLabel {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        width: 100%;
         border-radius: var(--border-radius);
         padding-top: var(--padding-top);
         padding-bottom: var(--padding-bottom);
@@ -65,7 +64,7 @@ export class FtuiLabelNice extends FtuiLabel {
         flex-direction: row-reverse;
       }
 
-      /* size */
+      /* width-border-size */
 
       :host([small]) {
         --padding-top: 0;
@@ -99,7 +98,7 @@ export class FtuiLabelNice extends FtuiLabel {
       /* shape */
 
       :host([shape="round"]) {
-        --border-radius: 0.25em;
+        --border-radius: 0.35em;
       }
 
       :host([shape="circle"]) {
@@ -118,10 +117,8 @@ export class FtuiLabelNice extends FtuiLabel {
       .slot { 
         display: flex;
         justify-content: center;
-        widths: 100%;
         height: 40%;
         align-items: center;
-        overflows: hidden;
       }
 
       :host(:empty:not([text])) slot[name="unit"],
@@ -131,10 +128,7 @@ export class FtuiLabelNice extends FtuiLabel {
         display: flex;
         font-size: initial;
         justify-content: center;
-        widths: 100%;
-        heights: 45%;
         align-items: center;
-        overflows: hidden;
       }
 
       :host slot[name="content"] { justify-content: center; }
@@ -186,27 +180,26 @@ export class FtuiLabelNice extends FtuiLabel {
      spanSize[i] = span[i] && span[i].attributes.size ? span[i].attributes.size.value : '';
      span[i].style.fontSize = sizes[spanSize[i]]+'rem';
     }
-    let size = Number(getStylePropertyValue('font-size', this.text?this.mainSlotElement:this.slotElement).replace('px',''))*2.5;
+    let size = Number(getStylePropertyValue('font-size', this.mainSlotElement).replace('px',''))*2.5;
     if (this.innerHTML.includes('ftui')){
       this.slotElement.style.setProperty('height','45%');
       size = size + (this.text ? size*0.33 : 15);
       if (!this.text) {
         this.spanSlotElement.remove();
         this.style.setProperty('display','unset');
-        this.elementBgColor.style.width = this.width ? this.width.replace('px','') + 'px' : 'auto';
-        this.elementBgColor.style.height = this.height ? this.height.replace('px','') + 'px' : '';
+        this.slotElement.style.setProperty('height','');
       }
     } else {
       this.spanSlotElement.style.setProperty('line-height','1');
     }
-    if (this.shape==='circle') {
+    if (this.shape==='circle' && this.text) {
       this.elementBgColor.style.width = this.width ? this.width.replace('px','') + 'px' : size + 'px';
       this.elementBgColor.style.height = this.width ? this.width.replace('px','') + 'px' : size + 'px';
     } else {
-      if (this.text) {
+      if (!this.text) {
        this.elementBgColor.style.width = this.width ? this.width.replace('px','') + 'px' : '';
+       this.elementBgColor.style.height = this.height ? this.height.replace('px','') + 'px' : '';
       }
-      this.elementBgColor.style.height = this.height ? this.height.replace('px','') + 'px' : '';
     }
   }
 }
