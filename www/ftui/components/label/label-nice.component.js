@@ -151,6 +151,7 @@ export class FtuiLabelNice extends FtuiLabel {
       rgb: '',
       hex: '',
       size: '',
+      br: false,
     };
   }
 
@@ -184,6 +185,7 @@ export class FtuiLabelNice extends FtuiLabel {
     if (this.innerHTML.includes('ftui')){
       this.slotElement.style.setProperty('height','45%');
       size = size + (this.text ? size*0.33 : 15);
+      this.br ? this.slotElement.style.setProperty('display','contents') : '';
       if (!this.text) {
         this.spanSlotElement.remove();
         this.style.setProperty('display','unset');
@@ -196,10 +198,8 @@ export class FtuiLabelNice extends FtuiLabel {
       this.elementBgColor.style.width = this.width ? this.width.replace('px','') + 'px' : size + 'px';
       this.elementBgColor.style.height = this.width ? this.width.replace('px','') + 'px' : size + 'px';
     } else {
-      if (!this.text) {
        this.elementBgColor.style.width = this.width ? this.width.replace('px','') + 'px' : '';
        this.elementBgColor.style.height = this.height ? this.height.replace('px','') + 'px' : '';
-      }
     }
   }
 }
