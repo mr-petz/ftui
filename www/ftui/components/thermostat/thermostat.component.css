@@ -15,10 +15,12 @@
 
 .outline {
   stroke: var(--thermostat-outline-color, var(--dark-color));
+  stroke-width: var(--thermostat-arc-bg);
 }
 
 .fill {
   stroke: var(--thermostat-fill-color, var(--color-base));
+  stroke-width: var(--thermostat-arc-fill);
 }
 
 .batt{
