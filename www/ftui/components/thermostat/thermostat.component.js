@@ -90,8 +90,8 @@ export class FtuiThermostat extends FtuiElement {
               </pattern>
             </defs> 
             <g class="scale" stroke="gray"></g> 
-            <path class="outline" d="" fill="none" style="--thermostat-arc-bg:${this.size*0.14}" />
-            <path class="fill" d="" fill="none" style="stroke:url(#Pattern); --thermostat-arc-fill:${this.size*0.15}" />
+            <path class="outline" d="" fill="none" style="--thermostat-arc-bg-size:${this.size*0.14}" />
+            <path class="fill" d="" fill="none" style="stroke:url(#Pattern); --thermostat-arc-fill-size:${this.size*0.15}" />
             <polygon class="needle" />
             <circle class="handle" r="9" fill="none" />
             <circle class="desired" r="5" fill="none" />  
