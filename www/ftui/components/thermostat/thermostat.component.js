@@ -72,7 +72,7 @@ export class FtuiThermostat extends FtuiElement {
           <div class="temp"></div>
           <div class="txts"></div>
           <div class="current-value"></div>
-          <svg class="svg" height="${this.size*1.76}" width="${this.size*1.8}" focusable="false">
+          <svg class="svg" height="${this.size*1.76}" width="${this.size*1.8}" focusable="false" style="${this.startAngle===0?'transform: translate3d(-0.5px, -0.5px, 0px)':''}">
             <defs>
               <linearGradient id="Gradient1" gradientTransform="rotate(100)">
                 <stop offset="0%" class="mix"/>
@@ -88,7 +88,7 @@ export class FtuiThermostat extends FtuiElement {
                   <rect shape-rendering="crispEdges" x="${this.startAngle===0?(360-this.degrees)/this.size-10+'%':'50%'}" y="${this.startAngle===0?10:0}" width="100%" height="300%" fill="url(#Gradient2)"/>
                 </g>
               </pattern>
-            </defs> 
+            </defs>
             <g class="scale" stroke="gray"></g> 
             <path class="outline" d="" fill="none" style="--thermostat-arc-bg-size:${this.size*0.14}" />
             <path class="fill" d="" fill="none" style="stroke:url(#Pattern); --thermostat-arc-fill-size:${this.size*0.15}" />
@@ -277,6 +277,8 @@ export class FtuiThermostat extends FtuiElement {
       scale.style.setProperty('--top', (this.size*0.8) + "px");
       temp.style.setProperty('--size-after', `0.9em`);
       scale.style.setProperty('--size-after', `0.5em`);
+      tick.style.setProperty('--thermostat-tick-height', getStylePropertyValue('font-size',this.knobs));
+      tick.style.setProperty('font-size', this.size*0.012 + "rem");
       scale.style.setProperty('--transform', 'rotate(180deg)');
         if ((i * (this.tick*2)) % this.tick === 0) {
           tick.style.setProperty('--gradient', `linear-gradient(to bottom, rgba(${this.rgbgradient[i].red},${this.rgbgradient[i].green},${this.rgbgradient[i].blue},0.3),rgba(${this.rgbgradient[i].red},${this.rgbgradient[i].green},${this.rgbgradient[i].blue},1))`);
