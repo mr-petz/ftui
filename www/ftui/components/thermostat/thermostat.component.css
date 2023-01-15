@@ -136,10 +136,10 @@
 .tick:after {
   content: "";
   width: 0.08em;
-  height: 1em;
+  height: var(--thermostat-tick-height);
   background: var(--thermostat-tick-color, rgba(255, 255, 255, 0.2));
   position: absolute;
-  top: var(--top);
+  top: var(--thermostat-tick-radius, var(--top));
   left: 50%;
   margin-top: var(--margin);
 }
