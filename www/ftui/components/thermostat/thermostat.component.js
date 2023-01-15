@@ -277,7 +277,7 @@ export class FtuiThermostat extends FtuiElement {
       scale.style.setProperty('--top', (this.size*0.8) + "px");
       temp.style.setProperty('--size-after', `0.9em`);
       scale.style.setProperty('--size-after', `0.5em`);
-      tick.style.setProperty('--thermostat-tick-height', getStylePropertyValue('font-size',this.knobs));
+      tick.style.setProperty('--thermostat-tick-height-size', getStylePropertyValue('font-size',this.knobs));
       tick.style.setProperty('font-size', this.size*0.012 + "rem");
       scale.style.setProperty('--transform', 'rotate(180deg)');
         if ((i * (this.tick*2)) % this.tick === 0) {
