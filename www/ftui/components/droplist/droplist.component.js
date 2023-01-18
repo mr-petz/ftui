@@ -69,7 +69,7 @@ export class FtuiDropList extends FtuiElement {
         width: auto;
         height: 100%;
         padding: 0 1% 1% 1%;
-        background-color: var(--droplist-background-color, var(--gray));
+        background-color: var(--droplist-background-color, var(--dark));
         color: var(--droplist-text-color, var(--text-color));
         border-radius: 5px;
         left: 0;
