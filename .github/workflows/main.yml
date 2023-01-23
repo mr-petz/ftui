@@ -17,19 +17,19 @@ jobs:
         uses: fhem/fhem-controls-actions@main
         with:
           directory: www/ftui/components/row
-          extension: .js
+          extension: .js|.css
           filename: controls_1.txt
       - name: generate file controls_2.txt
         uses: fhem/fhem-controls-actions@main
         with:
           directory: www/ftui/components/cell
-          extension: .css
+          extension: .js|.css
           filename: controls_2.txt
       - name: generate file controls_3.txt
         uses: fhem/fhem-controls-actions@main
         with:
           directory: www/ftui/components/label
-          extension: .js
+          extension: .js|.css
           filename: controls_3.txt
       - name: generate final control files
         run: |
