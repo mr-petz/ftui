@@ -14,12 +14,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: generate file controls_callview.txt
+      - name: generate file controls_calview.txt
         uses: fhem/fhem-controls-actions@main
         with:
-          directory: www/ftui/components/callview
+          directory: www/ftui/components/calview
           extension: .js|.css
-          filename: controls_callview.txt
+          filename: controls_calview.txt
       - name: generate file controls_local.txt
         uses: fhem/fhem-controls-actions@main
         with:
@@ -34,7 +34,7 @@ jobs:
           filename: controls_thermostat.txt
       - name: generate final control files
         run: |
-          cat controls_callview.txt controls_thermostat.txt controls_local.txt > controls_all.txt
+          cat controls_calview.txt controls_thermostat.txt controls_local.txt > controls_all.txt
       - name: update history_all.txt
         run: |
           histDATE=$(date +"%Y-%m-%d, %H:%M:%S %Z (%a)")
