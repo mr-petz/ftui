@@ -1,4 +1,4 @@
-# action.yml
+# upd_controls.yml
 name: CI
 
 on: [push]
