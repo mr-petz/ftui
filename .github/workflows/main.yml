@@ -10,7 +10,9 @@ jobs:
     steps:
       # This action checks-out your repository under GITHUB_WORKSPACE
       - name: checkout your repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: generate file controls_1.txt
         uses: fhem/fhem-controls-actions@main
         with:
