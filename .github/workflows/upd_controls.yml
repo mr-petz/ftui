@@ -35,7 +35,9 @@ jobs:
       - name: generate final control files
         run: |
           cat controls_calview.txt controls_thermostat.txt controls_local.txt > controls_all.txt
-          cat controls_calview.txt
+        name: generate control file local
+        run: |
+          cat controls_local.txt > controls_local.txt
       - name: update history_all.txt
         run: |
           histDATE=$(date +"%Y-%m-%d, %H:%M:%S %Z (%a)")
@@ -45,6 +47,7 @@ jobs:
         run: |
           git config --global user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git add $histFILE controls_local.txt || true
           git add $histFILE controls_all.txt || true
           git commit $histFILE controls_local.txt -m "Updated via Actions" || true
           git commit $histFILE controls_all.txt -m "Updated via Actions" || true
