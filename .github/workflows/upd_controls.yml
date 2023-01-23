@@ -45,13 +45,12 @@ jobs:
           echo -e "$histDATE\n$histLINE" > temp && echo -n "" >> $histFILE && cat $histFILE >> temp && mv temp $histFILE
       - name: Commit generated files
         run: |
-          histLINE="  $(git log -1 --pretty=%B)"
           git config --global user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add $histFILE controls_local.txt || true
           git add $histFILE controls_all.txt || true
-          git commit $histFILE controls_local.txt -m $histLINE || true
-          git commit $histFILE controls_all.txt -m $histLINE || true
+          git commit $histFILE controls_local.txt -m "$(git log -1 --pretty=%B)" || true
+          git commit $histFILE controls_all.txt -m "$(git log -1 --pretty=%B)" || true
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
