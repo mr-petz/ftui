@@ -28,7 +28,7 @@ jobs:
       - name: generate file controls_3.txt
         uses: fhem/fhem-controls-actions@main
         with:
-          directory: www/ftui/components/label
+          directory: www/ftui/components/knob
           extension: .js|.css
           filename: controls_3.txt
       - name: generate final control files
