@@ -12,19 +12,19 @@ jobs:
       - name: checkout your repository
         uses: actions/checkout@v2
       - name: generate file controls_1.txt
-        uses: fhem/fhem-controls-actions@master
+        uses: fhem/fhem-controls-actions@main
         with:
           directory: www/ftui/components/row
           extension: .js
           filename: controls_1.txt
       - name: generate file controls_2.txt
-        uses: fhem/fhem-controls-actions@master
+        uses: fhem/fhem-controls-actions@main
         with:
           directory: www/ftui/components/cell
           extension: .css
           filename: controls_2.txt
       - name: generate file controls_3.txt
-        uses: fhem/fhem-controls-actions@master
+        uses: fhem/fhem-controls-actions@main
         with:
           directory: www/ftui/components/label
           extension: .js
