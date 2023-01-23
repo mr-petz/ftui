@@ -42,6 +42,11 @@ jobs:
       - name: Commit generated files
         run: |
           git config --global user.email "action@github.com"
+          #
+          # git config --local user.name "GitHub Action"
+          # git config --local user.name "${{ github.actor }}"
+          # git config --global user.name "${{ github.actor }}"
+          #
           git config --local user.name "GitHub Action"
           git add $histFILE controls_test.txt || true
           git commit $histFILE controls_test.txt -m "Updated via Actions" || true
