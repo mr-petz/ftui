@@ -1,2 +1,4 @@
+2023-01-23, 14:14:32 UTC (Mon)
+  Delete history_all.txt
 2023-01-23, 14:13:01 UTC (Mon)
   upd_controls updated
