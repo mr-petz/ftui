@@ -1,0 +1,49 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    env:
+      histFILE: history_test.txt
+    runs-on: ubuntu-latest
+    steps:
+      # This action checks-out your repository under GITHUB_WORKSPACE
+      - name: checkout your repository
+        uses: actions/checkout@v2
+      - name: generate file controls_1.txt
+        uses: fhem/fhem-controls-actions@master
+        with:
+          directory: www/ftui/components/row
+          extension: .js
+          filename: controls_1.txt
+      - name: generate file controls_2.txt
+        uses: fhem/fhem-controls-actions@master
+        with:
+          directory: www/ftui/components/cell
+          extension: .css
+          filename: controls_2.txt
+      - name: generate file controls_3.txt
+        uses: fhem/fhem-controls-actions@master
+        with:
+          directory: www/ftui/components/label
+          extension: .js
+          filename: controls_3.txt
+      - name: generate final control files
+        run: |
+          cat controls_1.txt controls_2.txt controls_3.txt > controls_test.txt
+      - name: update history_test.txt
+        run: |
+          histDATE=$(date +"%Y-%m-%d, %H:%M:%S %Z (%a)")
+          histLINE="  $(git log -1 --pretty=%B)"
+          echo -e "$histDATE\n$histLINE" > temp && echo -n "" >> $histFILE && cat $histFILE >> temp && mv temp $histFILE
+      - name: Commit generated files
+        run: |
+          git config --global user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add $histFILE controls_test.txt || true
+          git commit $histFILE controls_test.txt -m "Updated via Actions" || true
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
