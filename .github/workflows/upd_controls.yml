@@ -6,7 +6,7 @@ on: [push]
 jobs:
   build:
     env:
-      histFILE: history_all.txt
+      histFILE: history_ftui_addons.txt
     runs-on: ubuntu-latest
     steps:
       # This action checks-out your repository under GITHUB_WORKSPACE
@@ -14,43 +14,45 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
       - name: generate file controls_calview.txt
         uses: fhem/fhem-controls-actions@main
         with:
           directory: www/ftui/components/calview
           extension: .js|.css
           filename: controls_calview.txt
+
       - name: generate file local.txt
         uses: fhem/fhem-controls-actions@main
         with:
           directory: www/ftui/components/local
           extension: .js
-          filename: local.txt
+          filename: controls_local.txt
+
       - name: generate file controls_thermostat.txt
         uses: fhem/fhem-controls-actions@main
         with:
           directory: www/ftui/components/thermostat
           extension: .js|.css
           filename: controls_thermostat.txt
+
       - name: generate final control files
         run: |
-          cat controls_calview.txt controls_thermostat.txt local.txt > controls_all.txt
-      - name: generate control file controls_local.txt
-        run: |
-          cat local.txt > controls_local.txt
-      - name: update history_all.txt
+          cat controls_calview.txt controls_thermostat.txt controls_local.txt > controls_ftui_addons.txt
+
+      - name: update history_ftui_addons.txt
         run: |
           histDATE=$(date +"%Y-%m-%d, %H:%M:%S %Z (%a)")
           histLINE="  $(git log -1 --pretty=%B)"
           echo -e "$histDATE\n$histLINE" > temp && echo -n "" >> $histFILE && cat $histFILE >> temp && mv temp $histFILE
+
       - name: Commit generated files
         run: |
           git config --global user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add $histFILE controls_local.txt || true
-          git add $histFILE controls_all.txt || true
-          git commit $histFILE controls_local.txt -m "$(git log -1 --pretty=%B)" || true
-          git commit $histFILE controls_all.txt -m "$(git log -1 --pretty=%B)" || true
+          git add $histFILE controls_ftui_addons.txt || true
+          git commit $histFILE controls_ftui_addons.txt -m "$(git log -1 --pretty=%B)" || true
+          
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
