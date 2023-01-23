@@ -35,7 +35,7 @@ jobs:
       - name: generate final control files
         run: |
           cat controls_calview.txt controls_thermostat.txt local.txt > controls_all.txt
-        name: generate control file local
+        name: generate control file controls_local.txt
         run: |
           cat local.txt > controls_local.txt
       - name: update history_all.txt
