@@ -45,8 +45,8 @@ jobs:
         run: |
           git config --global user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add $histFILE controls_local.txt || true
           git add $histFILE controls_all.txt || true
+          git commit $histFILE controls_local.txt -m "Updated via Actions" || true
           git commit $histFILE controls_all.txt -m "Updated via Actions" || true
       - name: Push changes
         uses: ad-m/github-push-action@master
