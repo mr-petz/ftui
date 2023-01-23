@@ -7,7 +7,6 @@
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
 * https://github.com/knowthelist/ftui
-*
 */
 
 import { FtuiElement } from '../element.component.js';
