@@ -1,7 +1,7 @@
 /*
 * Ftui3Local component for FTUI version 3
 *
-* by mr_petz & OdfFhem
+* by mr_petz & OdfFhem 
 *
 * Copyright (c) 2019-2023
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
