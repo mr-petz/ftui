@@ -1,0 +1,217 @@
+
+/*
+@import "../../themes/color-attributes.css";
+
+:host {
+  height: 100%;
+}
+*/
+
+.svg {
+  position: initial;
+  margin: 0;
+  padding: 0;
+}
+
+.outline {
+  stroke: var(--thermostat-outline-color, var(--dark-color));
+  stroke-width: var(--thermostat-arc-bg,var(--thermostat-arc-bg-size));
+}
+
+.fill {
+  stroke: var(--thermostat-fill-color, var(--color-base));
+  stroke-width: var(--thermostat-arc-fill,var(--thermostat-arc-fill-size));
+}
+
+.batt{
+  position: absolute;
+  top: var(--thermostat-battery-top, 54%);
+  left: 49%;
+  white-space: nowrap;
+  font-size: 0.7em;
+  color: var(--thermostat-battery-color, var(--text-color));
+}
+
+.batt-icon{
+  position: absolute;
+  top: var(--thermostat-battery-icon-top, 54.5%);
+  left: 32.5%;
+  white-space: nowrap;
+  transform: rotate(-90deg);
+  width: 0.7em;
+  height:0.7em;
+  color: var(--thermostat-battery-icon, var(--color-base));
+}
+
+.valve{
+  position: absolute;
+  top: var(--thermostat-valve-top, 61.5%);
+  left: 49%;
+  white-space: nowrap;
+  font-size: 0.7em;
+  color: var(--thermostat-valve-color, var(--text-color));
+}
+
+.valve-icon{
+  position: absolute;
+  top: var(--thermostat-valve-icon-top, 55%);
+  left: 40.5%;
+  white-space: nowrap;
+  width: 0.7em;
+  height:0.7em;
+  color: var(--thermostat-valve-icon, var(--color-base));
+}
+
+.humidity{
+  position: absolute;
+  top: var(--thermostat-humidity-top, 70%);
+  left: 49%;
+  white-space: nowrap;
+  font-size: 0.7em;
+  color: var(--thermostat-humidity-color, var(--text-color));
+}
+
+.humidity-icon{
+  position: absolute;
+  top: var(--thermostat-humidity-icon-top, 63.5%);
+  left: 41.5%;
+  white-space: nowrap;
+  width: 0.5em;
+  height:0.5em;
+  color: var(--thermostat-humidity-icon, var(--color-base));
+}
+
+.current-value {
+  top: 35%;
+  position: absolute;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--thermostat-value-color, var(--text-color));
+  font-size: var(--thermostat-value-size);
+  width: 100%;
+}
+
+.knob {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.knob-style {
+  position: relative;
+  margin: 5px 0;
+}
+
+.knob-style-grip {
+  position: absolute;
+  top: 67%;
+  left: 50%;
+  border-left: var(--grip-left);
+  border-right: var(--grip-right);
+  border-bottom: var(--grip);
+  margin-left: var(--grip-mleft);
+}
+
+.knob-style-min {
+  bottom: -55%;
+  left: 40%;
+}
+
+.knob-style-max {
+  top: 10%;
+  right: -50%;
+}
+
+.tick {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 5;
+  overflow: visible;
+}
+
+.tick:after {
+  content: "";
+  width: 0.08em;
+  height: var(--thermostat-tick-height,var(--thermostat-tick-height-size));
+  background: var(--thermostat-tick-color, rgba(255, 255, 255, 0.2));
+  position: absolute;
+  top: var(--thermostat-tick-radius, var(--top));
+  left: 50%;
+  margin-top: var(--margin);
+}
+
+.txt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: var(--thermostat-text-color, rgba(255, 255, 255, 0.2));
+  font-size: 0.8em;
+}
+
+.txt:after {
+  content: var(--value);
+  width: var(--size-after);
+  position: absolute;
+  padding-bottom: var(--top);
+  transform: var(--transform);
+}
+
+.temp {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: var(--thermostat-temp-color, var(--text-color));/*white;*/
+  font-size: var(--thermostat-temp-size, 0.75em);
+  font-weight: bold;
+}
+
+.temp:after {
+  content: var(--value);
+  width: var(--size-after);
+  position: absolute;
+  padding-bottom: var(--top);
+  transform: rotate(180deg);
+}
+
+.activetick:after {
+  background: var(--gradient);
+}
+
+.thick:after {
+  width: 0.2em;
+  left:-1px;
+}
+
+.thick-active:after {
+  width: 0.2em;
+  left:-1px;
+}
+
+.blink {
+  animation: blink 1.5s normal infinite ease-in-out;
+}
+
+@keyframes blink {
+  50%{
+    opacity:0.3;
+  }
+}
+@-webkit-keyframes blink {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.min {
+  stop-color: var(--color-min, var(--thermostat-min-color, rgb(0,0,255)));
+}
+.mix {
+  stop-color: var(--color-mix, var(--thermostat-mix-color, rgb(255,0,255)));
+}
+.max {
+  stop-color: var(--color-max, var(--thermostat-max-color, rgb(255,0,0)));
+}

@@ -1,0 +1,54 @@
+# action.yml
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    env:
+      histFILE: history_all.txt
+    runs-on: ubuntu-latest
+    steps:
+      # This action checks-out your repository under GITHUB_WORKSPACE
+      - name: checkout your repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: generate file controls_callview.txt
+        uses: fhem/fhem-controls-actions@main
+        with:
+          directory: www/ftui/components/callview
+          extension: .js|.css
+          filename: controls_callview.txt
+      - name: generate file controls_local.txt
+        uses: fhem/fhem-controls-actions@main
+        with:
+          directory: www/ftui/components/local
+          extension: .js|
+          filename: controls_local.txt
+      - name: generate file controls_thermostat.txt
+        uses: fhem/fhem-controls-actions@main
+        with:
+          directory: www/ftui/components/thermostat
+          extension: .js|.css
+          filename: controls_thermostat.txt
+      - name: generate final control files
+        run: |
+          cat controls_callview.txt controls_thermostat.txt controls_local.txt > controls_all.txt
+      - name: update history_all.txt
+        run: |
+          histDATE=$(date +"%Y-%m-%d, %H:%M:%S %Z (%a)")
+          histLINE="  $(git log -1 --pretty=%B)"
+          echo -e "$histDATE\n$histLINE" > temp && echo -n "" >> $histFILE && cat $histFILE >> temp && mv temp $histFILE
+      - name: Commit generated files
+        run: |
+          git config --global user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add $histFILE controls_local.txt || true
+          git add $histFILE controls_all.txt || true
+          git commit $histFILE controls_all.txt -m "Updated via Actions" || true
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
