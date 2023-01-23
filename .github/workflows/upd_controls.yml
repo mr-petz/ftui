@@ -20,12 +20,12 @@ jobs:
           directory: www/ftui/components/calview
           extension: .js|.css
           filename: controls_calview.txt
-      - name: generate file controls_local.txt
+      - name: generate file local.txt
         uses: fhem/fhem-controls-actions@main
         with:
           directory: www/ftui/components/local
           extension: .js|
-          filename: controls_local.txt
+          filename: local.txt
       - name: generate file controls_thermostat.txt
         uses: fhem/fhem-controls-actions@main
         with:
@@ -34,10 +34,10 @@ jobs:
           filename: controls_thermostat.txt
       - name: generate final control files
         run: |
-          cat controls_calview.txt controls_thermostat.txt controls_local.txt > controls_all.txt
+          cat controls_calview.txt controls_thermostat.txt local.txt > controls_all.txt
         name: generate control file local
         run: |
-          cat controls_local.txt > controls_local.txt
+          cat local.txt > controls_local.txt
       - name: update history_all.txt
         run: |
           histDATE=$(date +"%Y-%m-%d, %H:%M:%S %Z (%a)")
