@@ -5,7 +5,6 @@
 *
 * for FTUI version 3
 *
-*
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
 * https://github.com/knowthelist/ftui
