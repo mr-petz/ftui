@@ -1,3 +1,4 @@
 UPD 2021-01-28_23:29:17 927    www/ftui/components/row/row.component.js
 UPD 2021-01-28_23:29:17 2111   www/ftui/components/cell/cell.component.js
-UPD 2021-01-26_23:20:36 2195   www/ftui/components/label/label.component.js
+UPD 2021-01-01_20:20:45 880    www/ftui/components/knob/knob.component.css
+UPD 2021-02-03_01:21:41 12050  www/ftui/components/knob/knob.component.js
