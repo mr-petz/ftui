@@ -45,6 +45,7 @@ jobs:
           echo -e "$histDATE\n$histLINE" > temp && echo -n "" >> $histFILE && cat $histFILE >> temp && mv temp $histFILE
       - name: Commit generated files
         run: |
+          histLINE="  $(git log -1 --pretty=%B)"
           git config --global user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add $histFILE controls_local.txt || true
