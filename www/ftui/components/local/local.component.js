@@ -3,7 +3,6 @@
 *
 * by mr_petz & OdfFhem
 *
-*
 * Copyright (c) 2019-2023
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
