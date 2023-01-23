@@ -24,7 +24,7 @@ jobs:
         uses: fhem/fhem-controls-actions@main
         with:
           directory: www/ftui/components/local
-          extension: .js|
+          extension: .js
           filename: local.txt
       - name: generate file controls_thermostat.txt
         uses: fhem/fhem-controls-actions@main
