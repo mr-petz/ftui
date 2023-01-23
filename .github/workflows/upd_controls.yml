@@ -35,7 +35,7 @@ jobs:
       - name: generate final control files
         run: |
           cat controls_calview.txt controls_thermostat.txt controls_local.txt > controls_all.txt
-          cat controls_calview.txt > controls_calview.txt
+          cat controls_calview.txt
       - name: update history_all.txt
         run: |
           histDATE=$(date +"%Y-%m-%d, %H:%M:%S %Z (%a)")
