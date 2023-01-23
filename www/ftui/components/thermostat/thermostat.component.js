@@ -1,7 +1,7 @@
 /*
 * Ftui3 Thermostat component for FTUI version 3
 *
-* by mr_petz
+* Developed by mr_petz
 *
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
