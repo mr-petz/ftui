@@ -639,7 +639,8 @@ export class FtuiThermostat extends FtuiElement {
   }
 
   batteryValue() {
-    (this.battery.replace(/[^\d.-]/g, '')<25?this.battIcon.classList.add('blink'):this.battIcon.classList.remove('blink'));
+    const battery = this.battery.replace(/[^\d.-]/g, '');
+    (battery < 25 && battery !== '') || this.battery === 'low' ? this.battIcon.classList.add('blink') : this.battIcon.classList.remove('blink');
     this.batt.textContent = this.battery;
   }
  
