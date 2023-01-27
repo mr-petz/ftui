@@ -1,27 +1,29 @@
-Addons for FTUI 3 
-
-FTUI 3 uses [Web Components technologies](https://developer.mozilla.org/en-US/docs/Web/Web_Components) in pure ES2020 javascript.
-
-Caution! 
- * This version is not compatible with older fhem-tablet-ui versions.
- * This version is under construction.
-
-Install
--------
- * copy the folder www/ftui to your FHEM www (e.g.: /opt/fhem/www/ftui)
- ````
-wget https://github.com/mr-petz/ftui/tarball/addons -O /tmp/ftui_addons.tar
-cd /tmp && tar xvzf /tmp/ftui_addons.tar
-mv /tmp/mr-petz-ftui-*/www/ftui /opt/fhem/www
-````
+Addons for FTUI 3
+------
+additional web components for FTUI3
+https://github.com/knowthelist/ftui
 
 Update
 ------
-call 
+all 
  ````
 update all https://raw.githubusercontent.com/mr-petz/ftui/addons/controls_ftui_addons.txt
 ````
-on the FHEM command field of FHEMWEB
+
+check
+ ````
+update check https://raw.githubusercontent.com/mr-petz/ftui/addons/controls_ftui_addons.txt
+````
+
+singlefile
+ ````
+update local.componet.js https://raw.githubusercontent.com/mr-petz/ftui/addons/controls_ftui_addons.txt
+````
+
+add
+ ````
+update add https://raw.githubusercontent.com/mr-petz/ftui/addons/controls_ftui_addons.txt
+````
 
 License
 -------
