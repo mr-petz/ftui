@@ -12,7 +12,7 @@ Install
  ````
 wget https://github.com/mr-petz/ftui/tarball/addons -O /tmp/ftui_addons.tar
 cd /tmp && tar xvzf /tmp/ftui_addons.tar
-mv /tmp/mr-petz-ftui_addons-*/www/ftui /opt/fhem/www
+mv /tmp/mr-petz-ftui-*/www/ftui /opt/fhem/www
 ````
 
 Update
