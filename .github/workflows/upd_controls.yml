@@ -7,6 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env: 
+      CI_ftuiPath: www/ftui/components/
       CI_histFile: history_ftui_addons.txt
       CI_ctrlFile: controls_ftui_addons.txt
       CI_writeMode: a
@@ -25,7 +26,7 @@ jobs:
       - name: add to file ${{ env.CI_ctrlFile }}
         uses: fhem/fhem-controls-actions@main
         with:
-          directory: www/ftui/components/calview
+          directory: ${{ env.CI_ftuiPath }}calview
           extension: .js|.css
           filename: ${{ env.CI_ctrlFile }}
           writemode: ${{ env.CI_writeMode }}
@@ -33,7 +34,7 @@ jobs:
       - name: add to file ${{ env.CI_ctrlFile }}
         uses: fhem/fhem-controls-actions@main
         with:
-          directory: www/ftui/components/local
+          directory: ${{ env.CI_ftuiPath }}local
           extension: .js
           filename: ${{ env.CI_ctrlFile }}
           writemode: ${{ env.CI_writeMode }}
@@ -41,15 +42,14 @@ jobs:
       - name: add to file ${{ env.CI_ctrlFile }}
         uses: fhem/fhem-controls-actions@main
         with:
-          directory: www/ftui/components/thermostat
+          directory: ${{ env.CI_ftuiPath }}thermostat
           extension: .js|.css
           filename: ${{ env.CI_ctrlFile }}
           writemode: ${{ env.CI_writeMode }}
 
-      - name: update history_ftui_addons.txt by Actions
+      - name: update ${{ env.CI_histFile }} by Actions
         run: |
           histDATE=$(date +"%Y-%m-%d, %H:%M:%S %Z (%a)")
-          histLINE="$(git log -1 --pretty=%B)"
           if [ ${{ github.event.commits[1] }} ]; then
             echo -e "$histDATE\n ${{ github.event.head_commit.author.username }} - ${{ github.event.head_commit.message }} \n ${{ github.event.commits[1].author.username }} - ${{ github.event.commits[1].message }}" > temp && echo -n "" >> ${{ env.CI_histFile }} && cat ${{ env.CI_histFile }} >> temp && mv temp ${{ env.CI_histFile }}
           else
