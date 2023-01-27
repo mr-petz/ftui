@@ -21,7 +21,7 @@ update check https://raw.githubusercontent.com/mr-petz/ftui/addons/controls_ftui
 
  * singlefile
  ````
-update local.componet.js https://raw.githubusercontent.com/mr-petz/ftui/addons/controls_ftui_addons.txt
+update local.component.js https://raw.githubusercontent.com/mr-petz/ftui/addons/controls_ftui_addons.txt
 ````
 
  * add
