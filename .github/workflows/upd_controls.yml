@@ -69,7 +69,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add ${{ env.CI_histFile }} ${{ env.CI_ctrlFile }} || true
-          git commit -am "updated addonfiles" --author="${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>" -m "${{ github.actor }} updated ${{github.event.compare}}" || true
+          git commit -am "updated addonfiles via Actions" --author="${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>" -m "${{ github.actor }} updated ${{github.event.compare}}" || true
 
       - name: Push changes
         uses: ad-m/github-push-action@master
