@@ -11,7 +11,6 @@ jobs:
       CI_ftuiPath: www/ftui/components/
       CI_histFile: history_ftui_addons.txt
       CI_ctrlFile: controls_ftui_addons.txt
-      CI_updUses: "fhem/fhem-controls-actions@main"
       CI_writeMode: a
 
     steps:
@@ -26,7 +25,7 @@ jobs:
           > $CI_ctrlFile
 
       - name: add to file ${{ env.CI_ctrlFile }}
-        uses: ${{ env.CI_updUses }}
+        uses: fhem/fhem-controls-actions@main
         with:
           directory: ${{ env.CI_ftuiPath }}calview
           extension: .js|.css
@@ -34,7 +33,7 @@ jobs:
           writemode: ${{ env.CI_writeMode }}
 
       - name: add to file ${{ env.CI_ctrlFile }}
-        uses: ${{ env.CI_updUses }}
+        uses: fhem/fhem-controls-actions@main
         with:
           directory: ${{ env.CI_ftuiPath }}local
           extension: .js
@@ -42,7 +41,7 @@ jobs:
           writemode: ${{ env.CI_writeMode }}
 
       - name: add to file ${{ env.CI_ctrlFile }}
-        uses: ${{ env.CI_updUses }}
+        uses: fhem/fhem-controls-actions@main
         with:
           directory: ${{ env.CI_ftuiPath }}pinpad
           extension: .js|.css
@@ -50,7 +49,7 @@ jobs:
           writemode: ${{ env.CI_writeMode }}
 
       - name: add to file ${{ env.CI_ctrlFile }}
-        uses: ${{ env.CI_updUses }}
+        uses: fhem/fhem-controls-actions@main
         with:
           directory: ${{ env.CI_ftuiPath }}thermostat
           extension: .js|.css
