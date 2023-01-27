@@ -3,24 +3,28 @@ Addons for FTUI 3
 additional web components for FTUI3
 https://github.com/knowthelist/ftui
 
+Install
+------
+ * copy the folder www/ftui to your FHEM www (e.g.: /opt/fhem/www/ftui)
+
 Update
 ------
-all 
+ * all 
  ````
 update all https://raw.githubusercontent.com/mr-petz/ftui/addons/controls_ftui_addons.txt
 ````
 
-check
+ * check
  ````
 update check https://raw.githubusercontent.com/mr-petz/ftui/addons/controls_ftui_addons.txt
 ````
 
-singlefile
+ * singlefile
  ````
 update local.componet.js https://raw.githubusercontent.com/mr-petz/ftui/addons/controls_ftui_addons.txt
 ````
 
-add
+ * add
  ````
 update add https://raw.githubusercontent.com/mr-petz/ftui/addons/controls_ftui_addons.txt
 ````
