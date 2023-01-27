@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base href="../" />
+  <script src="ftui.js"></script>
+  <link href="ftui.css" rel="stylesheet">
+  <link href="themes/ftui-theme.css" rel="stylesheet">
+  <link href="favicon.ico" rel="icon" type="image/x-icon" />
+
+  <title>FTUI Thermostat Example</title>
+</head>
+
+<body>
+
+  <ftui-grid base-width="150" base-height="50" margin="15">
+
+    <ftui-grid-tile row="1" col="1" height="5" width="2" shape="round">
+      <header>Minimal Standard width unit</header>
+       <ftui-thermostat class="size-1"
+         [(value)]="dummy0"
+         [temp]="dummy1"
+         unit=" °C"
+         value="20" temp="21.5" <!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+       >
+       </ftui-thermostat>
+    </ftui-grid-tile>
+    
+    <ftui-grid-tile row="1" col="3" height="5" width="2" shape="round">
+      <header>Minimal Oldstyle width unit</header>
+       <ftui-thermostat class="size-1"
+         [(value)]="dummy"
+         [temp]="dummy0"
+         unit=" °C"
+         has-old-style
+         value="23.5" temp="18.5" <!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+       >
+       </ftui-thermostat>
+    </ftui-grid-tile>
+    
+    <ftui-grid-tile row="1" col="5" height="5" width="2" shape="round">
+      <header>Size + Zoom + TempInRGB</header>
+       <ftui-thermostat class="size-1" style="--thermostat-temp-size:10px;--thermostat-value-size:1.2em"
+         [(value)]="dummy"
+         [temp]="dummy0"
+         [battery]="dummy2 | append(' %')"
+         [valve]="dummy7"
+         [humidity]="dummy7 | append(' %')"
+         unit=" °C"
+         size="70"
+         has-zoom
+         temp-in-rgb
+         value="22" temp="20.5" battery="22 %" valve="1" humidity="75 %"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+       >
+       </ftui-thermostat>
+       <ftui-thermostat style="--thermostat-value-size:18px;" class="size-1"
+         [value]="dummy" value="20.51" 
+         no-wide-ticks
+         size="45" 
+         no-min-max 
+         is-thermometer 
+         has-arc
+         movegradient="4"
+         tofixed="2">
+       </ftui-thermostat>
+    </ftui-grid-tile>
+
+    <ftui-grid-tile row="6" col="1" height="6" width="2" shape="round">
+      <header>Standard - Batterystepping</header>
+       <ftui-thermostat class="size-1"
+         [(value)]="dummy99"
+         [temp]="dummy1"
+         [battery]="dummy2 | append(' %')"
+         unit=" °C"
+         size="100"
+         has-zoom
+         tick="40"
+         value-decimals="2"
+         step="0.05"
+         value="22" temp="20.5" battery="100 %"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+       >
+       </ftui-thermostat>
+       <center>try it</center>
+       <ftui-slider [(value)]="dummy2" step="0.5" min="0" max="100" value="20.5"></ftui-slider>
+    </ftui-grid-tile>
+    
+    <ftui-grid-tile row="6" col="3" height="6" width="2" shape="round">
+      <header>Custom - Batterystepping</header>
+       <ftui-thermostat class="size-1"
+         [(value)]="dummy"
+         [temp]="dummy1"
+         [battery]="dummy3 | append(' %')"
+         battery-icon="step('-99:battery-0, 20:battery-2, 51: battery')"
+         battery-icon-color="step('-99:red, 20:yellow, 51:green')"
+         unit=" °C"
+         has-zoom
+         size="100"
+         degrees="270"
+         value="22" temp="20.5" battery="100 %"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+       >
+       </ftui-thermostat>
+       <center>try it</center>
+       <ftui-slider [(value)]="dummy3" step="0.5" min="0" max="100" value="20.5"></ftui-slider>
+    </ftui-grid-tile>
+
+     <ftui-grid-tile row="6" col="5" height="6" width="2" shape="round">
+      <header>Ist/Soll+Battery+Valve+Humidity+step0.2</header>
+       <ftui-thermostat class="size-1" style="--thermostat-zoom-value-left:-40%;--thermostat-zoom-value-top:0%;--thermostat-zoom-value-size:2em;"
+         [(value)]="dummy8"
+         [temp]="dummy99"
+         [battery]="dummy7 | append(' %')"
+         [valve]="dummy7"
+         [humidity]="75  | append(' %')"
+         size="110"
+         degrees="270"
+         rotation="-90"
+         step="0.2"
+         tick="30"
+         min="10"
+         max="30"
+         movegradients="4"
+         fadegradient="20"
+         unit=" °C"
+         has-old-style
+         has-zoom
+         has-arc-tick
+         lowcolor="0,0,255"
+         temp-decimals="2"
+         value="17.2" temp="18.6" battery="89 %" valve="1" humidity="75 %"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+       >
+       </ftui-thermostat>
+    </ftui-grid-tile>
+    
+    <ftui-grid-tile row="12" col="1" height="6" width="2" shape="round">
+      <header>Thermometer+ValueColor</header>
+       <ftui-thermostat class="size-1 bold" style="--thermostat-value-color:var(--medium)"
+         [value]="dummy4"
+         size="100"
+         unit=" °C"
+         step="0.5"
+         min="-25"
+         max="40"
+         tick="60"
+         rotation="-120"
+         movegradient="1.6"
+         fadegradient="10"
+         is-thermometer
+         lowcolor="0,0,255"
+         mediumcolor="255,0,255"
+         highcolor="255,0,0"
+         value-decimals="2"
+         value="23.5"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+       >
+       </ftui-thermostat>
+       <center>try it</center>
+       <ftui-slider [(value)]="dummy4" step="0.01" min="-25" max="40" value="23.5"></ftui-slider>
+    </ftui-grid-tile>
+
+     <ftui-grid-tile row="12" col="3" height="6" width="2" shape="round">
+      <header>Trigger readonly</header>
+       <ftui-thermostat class="size-1" color="cold-hot"
+         [value]="dummy | map('15.0:off')"
+         (value)="dummy"
+         [temp]="dummy0"
+         [readonly]="dummy6 | map('on:true,off:false')"
+         unit=" °C"
+         has-old-style
+         value-in-rgb
+         has-zoom
+         size="100"
+         value="23.5" temp="18.5" <!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+       >
+       </ftui-thermostat>
+       <ftui-button [(value)]="dummy6" states="on,off" style="width:80px;" [color]="dummy6 | map('on:red, .*:green')" color="green">
+         <ftui-label [text]="dummy6 | map('on:Locked, .*:Unlocked')" text="Unlocked"></ftui-label>
+       </ftui-botton>
+    </ftui-grid-tile>
+ 
+     <ftui-grid-tile row="12" col="5" height="6" width="2" shape="round">
+      <header>Humidity+RGBcolor</header>
+       <ftui-thermostat class="size-2" color="ok-alert"
+         [value]="dummy5"
+         unit=" %"
+         min="30"
+         max="90"
+         degrees="220"
+         step="0.01"
+         tick="30"
+         rotation="-140"
+         size="70"
+         has-arc
+         movegradient="3"
+         is-humidity
+         no-min-max
+         value-in-rgb
+         value="66.53"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+       >
+       </ftui-thermostat>
+       <p>try it</p>
+       <ftui-slider [(value)]="dummy5" step="0.01" min="30" max="90" value="66.53"></ftui-slider>
+    </ftui-grid-tile>
+
+  </ftui-grid>
+
+</body>
+</html>

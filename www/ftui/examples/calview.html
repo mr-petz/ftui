@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base href="../" />
+  <script src="ftui.js"></script>
+  <link href="ftui.css" rel="stylesheet">
+  <link href="themes/ftui-theme.css" rel="stylesheet">
+  <link href="favicon.ico" rel="icon" type="image/x-icon" />
+
+  <title>FTUI Calview Example</title>
+</head>
+
+<body>
+
+  <ftui-grid base-width="150" base-height="50" margin="15">
+
+    <ftui-grid-tile row="1" col="1" height="5" width="4" shape="round">
+      <header>Minimal</header>
+       <ftui-calview
+         device="CalviewDevice">
+       </ftui-calview>
+    </ftui-grid-tile>
+
+    <ftui-grid-tile row="1" col="5" height="5" width="4" shape="round">
+      <header>With Header, daysleft and blinkoutside</header>
+        <ftui-calview width="99%" class="size-1"
+          device="CalviewDevice" 
+          headers="Tage,Datum,Uhrzeit,Ereignis"
+          details="daysleft,bdate,btime,summary"
+          detailwidth="10,20,15,50"
+          max="4"
+          daysleft="-3:#8b0000:black,-2:tomato:black:bold,-1:#cd5c5c:black:bold,0:red::blink:size-1 bold,2:yellow:black"
+          round 
+          blinkoutside 
+          line-break 
+          header-left>
+        </ftui-calview>
+    </ftui-grid-tile>
+    
+    <ftui-grid-tile row="6" col="1" height="5" width="4" shape="round">
+      <header>Without Header and color=sourcecolor</header>
+        <ftui-calview width="99%" class="size-1"
+          device="CalviewDevice" 
+          details="daysleft,bdate,btime,summary"
+          detailwidth="10,20,15,50"
+          max="5" 
+          sourcecolor 
+          line-left>
+        </ftui-calview>
+    </ftui-grid-tile>
+    
+    <ftui-grid-tile row="6" col="5" height="5" width="4">
+      <header>Normal + flat</header>
+        <ftui-calview width="99%" class="size-1"
+          device="CalviewDevice" 
+          headers="Tage,Datum,Uhrzeit,Ereignis"
+          details="daysleft,bdate,btime,summary"
+          detailwidth="10,20,15,50"
+          max="4" 
+          flat>
+        </ftui-calview>
+    </ftui-grid-tile>
+
+  </ftui-grid>
+</body>
+</html>
