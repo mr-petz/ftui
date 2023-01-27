@@ -1,3 +1,10 @@
+2023-01-27, 20:51:09 UTC (Fri)
+ mr-petz - Update README.md
+2023-01-27, 20:46:07 UTC (Fri)
+ mr-petz - Update README.md
+2023-01-27, 20:31:03 UTC (Fri)
+ mr-petz - updated upd file 
+ mr-petz - Merge branch 'addons' of https://github.com/mr-petz/ftui into addons
 2023-01-27, 20:27:36 UTC (Fri)
  mr-petz - Merge branch 'addons' of https://github.com/mr-petz/ftui into addons 
  mr-petz - Merge branch 'addons' of https://github.com/mr-petz/ftui into addons
