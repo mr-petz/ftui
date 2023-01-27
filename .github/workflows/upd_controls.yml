@@ -11,7 +11,7 @@ jobs:
       CI_ftuiPath: www/ftui/components/
       CI_histFile: history_ftui_addons.txt
       CI_ctrlFile: controls_ftui_addons.txt
-      CI_updUses: fhem/fhem-controls-actions@main
+      CI_updUses: "fhem/fhem-controls-actions@main"
       CI_writeMode: a
 
     steps:
