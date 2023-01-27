@@ -1,7 +1,0 @@
-ftui-content {
-  display: contents; 
-}
-
-ftui-swiper ftui-content {
-  display: flex;
-}
