@@ -1,5 +1,7 @@
 UPD 2023-01-27_20:23:19 1928 www/ftui/components/calview/calview.component.css
 UPD 2023-01-27_20:23:19 14135 www/ftui/components/calview/calview.component.js
 UPD 2023-01-27_20:23:19 1124 www/ftui/components/local/local.component.js
+UPD 2023-01-27_22:49:35 9168 www/ftui/components/pinpad/pinpad.component.css
+UPD 2023-01-27_22:49:35 7528 www/ftui/components/pinpad/pinpad.component.js
 UPD 2023-01-27_20:23:19 4012 www/ftui/components/thermostat/thermostat.component.css
 UPD 2023-01-27_20:23:19 32064 www/ftui/components/thermostat/thermostat.component.js
