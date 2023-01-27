@@ -1,0 +1,78 @@
+# upd_controls.yml for controles-file
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env: 
+      CI_histFile: history_ftui_addons.txt
+      CI_ctrlFile: controls_ftui_addons.txt
+      CI_writeMode: a
+
+    steps:
+
+      - name: checkout your repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: generate file ${{ env.CI_ctrlFile }}
+        run: |
+          > $CI_ctrlFile
+
+      - name: add to file ${{ env.CI_ctrlFile }}
+        uses: fhem/fhem-controls-actions@main
+        with:
+          directory: www/ftui/components/calview
+          extension: .js|.css
+          filename: ${{ env.CI_ctrlFile }}
+          writemode: ${{ env.CI_writeMode }}
+
+      - name: add to file ${{ env.CI_ctrlFile }}
+        uses: fhem/fhem-controls-actions@main
+        with:
+          directory: www/ftui/components/local
+          extension: .js
+          filename: ${{ env.CI_ctrlFile }}
+          writemode: ${{ env.CI_writeMode }}
+
+      - name: add to file ${{ env.CI_ctrlFile }}
+        uses: fhem/fhem-controls-actions@main
+        with:
+          directory: www/ftui/components/thermostat
+          extension: .js|.css
+          filename: ${{ env.CI_ctrlFile }}
+          writemode: ${{ env.CI_writeMode }}
+
+      - name: update history_ftui_addons.txt by Actions
+        run: |
+          histDATE=$(date +"%Y-%m-%d, %H:%M:%S %Z (%a)")
+          histLINE="$(git log -1 --pretty=%B)"
+          if [ ${{ github.event.commits[1] }} ]; then
+            echo -e "$histDATE\n ${{ github.event.head_commit.author.username }} - ${{ github.event.head_commit.message }} \n ${{ github.event.commits[1].author.username }} - ${{ github.event.commits[1].message }}" > temp && echo -n "" >> ${{ env.CI_histFile }} && cat ${{ env.CI_histFile }} >> temp && mv temp ${{ env.CI_histFile }}
+          else
+            echo -e "$histDATE\n ${{ github.event.head_commit.author.username }} - ${{ github.event.head_commit.message }}" > temp && echo -n "" >> ${{ env.CI_histFile }} && cat ${{ env.CI_histFile }} >> temp && mv temp ${{ env.CI_histFile }}
+          fi
+
+      #- name: Logging
+      #  run: |
+      #    echo "${{toJSON(github.event)}}"
+
+      - name: Commit generated files
+         #  git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+         #  git config --global user.name "${{ github.actor }}"
+         #  git config --local user.email "action@github.com"
+         #  git config --local user.name "GitHub Action"
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ${{ env.CI_histFile }} ${{ env.CI_ctrlFile }} || true
+          git commit -am "updated addonfiles" --author="${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>" -m "${{ github.actor }} updated ${{github.event.compare}}" || true
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

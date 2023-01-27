@@ -1,0 +1,136 @@
+@import "../../ftui.css";
+
+:host  {
+  width: 100%;
+  height: 100%;
+}
+
+.table {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  height: 99%;
+  padding-top: 5px;
+  border-spacing: 0px;
+  border: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: block;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scroll {
+  display: table;
+}
+
+:host([flat]) p {
+  margin-top: 0;
+  margin-bottom: var(--calview-line-margin, 0);
+}
+
+:host(:not([flat])) p {
+  margin-top: 0;
+  margin-bottom: var(--calview-line-margin, 5px);
+}
+
+tbody {
+  padding-top: 5px;
+}
+
+table tbody,
+table tr,
+table thead { 
+  display: block; 
+}
+
+tr {
+  border-radius: 4px;
+}
+
+th {
+  background-color: inherit;
+  color: currentColor;
+}
+
+td {
+  background-color: inherit;
+  color: currentColor;
+}
+
+.pos {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height:99%;
+}
+
+.size {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.left {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.center {
+  padding: 2px;
+  padding-top: 3px;
+}
+
+.right {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.no-overflow {
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space:nowrap;
+  width:100%;
+  margin-right:-1000px;
+  overflow:hidden;
+}
+
+.line-left {
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  margin-right: -1000px;
+  overflow: hidden;
+}
+
+.line-break {
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: normal;
+  width: 100%;
+  margin-right: -1000px;
+  overflow: hidden;
+}
+
+.line-justify {
+  text-align: justify;
+  text-overflow: ellipsis;
+  white-space: normal;
+  width: 100%;
+  margin-right: -1000px;
+  overflow: hidden;
+  text-align-last: justify;
+}
+
+.list-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  height:75%;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
