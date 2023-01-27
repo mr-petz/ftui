@@ -42,6 +42,14 @@ jobs:
       - name: add to file ${{ env.CI_ctrlFile }}
         uses: fhem/fhem-controls-actions@main
         with:
+          directory: ${{ env.CI_ftuiPath }}pinpad
+          extension: .js|.css
+          filename: ${{ env.CI_ctrlFile }}
+          writemode: ${{ env.CI_writeMode }}
+
+      - name: add to file ${{ env.CI_ctrlFile }}
+        uses: fhem/fhem-controls-actions@main
+        with:
           directory: ${{ env.CI_ftuiPath }}thermostat
           extension: .js|.css
           filename: ${{ env.CI_ctrlFile }}

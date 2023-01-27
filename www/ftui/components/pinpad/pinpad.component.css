@@ -1,0 +1,374 @@
+.PINform input:focus,
+.PINform select:focus,
+.PINform textarea:focus,
+.PINform button:focus {
+  outline: none;
+}
+
+:host([fully]) .overlay {
+  left: var(--pinpad-fullscreen, 0);
+}
+
+:host([overlay='']) .overlay {
+  left: var(--pinpad-overlay);
+}
+
+:host .overlay {
+  position: fixed;
+  top: 0;
+  left: 75px;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+  background-color:var(--pinpad-overlay-color, rgba(0, 0, 0, 0.5));
+  z-index: 99;
+}
+
+:host([popup]) .overlay {
+  z-index: 100;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.PINform {
+  position: fixed;
+  left: var(--pinpad-left);
+  margin: auto;
+  display: inline-block;
+  background: var(--pinpad-bgcolor, #444444);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: var(--pinpad-width);
+  height: var(--pinpad-height);
+  padding: 20px;
+  box-shadow: inset 1px 1px 2px rgba(255,255,255,0.2), 
+  inset 3px 15px 35px rgba(255,255,255,0.0),
+  inset -1px -1px 2px rgba(255,255,255,0.0), 
+  inset -3px -15px 35px rgba(255,255,255,0.2),
+  1px 5px 15px -4px rgba(0, 0, 0, 1);
+}
+
+.PINname {
+  color: var(--pinpad-txtcolor);
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 5px;
+  text-align: center;
+  overflow: hidden;
+  font-size: var(--pinpad-fsize, 1.5em);
+  font-weight: bold;
+  font-family: inerhit;
+  text-shadow: -0.5px -0.5px 0px rgba(255,255,255,0.8), 1px 1px 2px rgba(0,0,0,1);
+}
+
+.PINbox {
+  border-color: silver;
+  color: var(--pinpad-dotcolor, #7b7b7b);
+  display: inline-block;
+  width: 100%;
+  height: 20%;
+  background: var(--pinpad-bgcolor, #444444);
+  border-radius: 10px;
+  font-size: 6em;
+  text-align: center;
+  box-shadow: inset 1px 1px 2px rgba(255,255,255,0.2), 
+  inset 3px 15px 35px rgba(255,255,255,0.0),
+  inset -1px -1px 2px rgba(255,255,255,0.0), 
+  inset -3px -15px 35px rgba(255,255,255,0.2),
+  1px 5px 15px -4px rgba(0, 0, 0, 1);
+}
+
+.dots {
+  background: var(--pinpad-bgcolor, #444444);
+  border-radius: 10px;
+  transition: all 200ms linear;
+  color: red !important;
+  width: 92%;
+  height: 20%;
+  font-size: 6em;
+  text-align: center;
+}
+
+.PINpad {
+    display: grid;
+    grid-template-columns: 33.3% 33.3% 33.3%;
+    grid-template-rows: 25% 25% 25% 25%;
+    width: 100%;
+    height: 80%;
+    align-items: center;
+    justify-items: center;
+    margin: 5% 2%;
+}
+
+:host(:not([flat])) .PINbutton {
+  border-color: silver;
+  pointer-events: auto;
+  cursor: pointer;
+  text-align: center;
+  width: 72%;
+  height: 80%;
+  background: var(--pinpad-bgcolor, #444444);
+  margin: 3% 5%;
+  border-radius: 50%;
+  color: var(--pinpad-txtcolor, #9b9b9b);
+  text-shadow: -0.5px -0.5px 0px rgba(255,255,255,0.8), 1px 1px 2px rgba(0,0,0,1);
+  font-family: inerhit;
+  font-size: var(--pinpad-fsizeb);
+  box-shadow: inset 1px 1px 2px rgba(255,255,255,0.2), 
+  inset 3px 15px 35px rgba(255,255,255,0.0),
+  inset -1px -1px 2px rgba(255,255,255,0.0), 
+  inset -3px -15px 35px rgba(255,255,255,0.2),
+  1px 5px 15px -4px rgba(0, 0, 0, 1);
+  -webkit-transition: 0.1s ease-out;
+  -moz-transition:    0.1s ease-out;
+  -o-transition:      0.1s ease-out;
+  transition:         0.1s ease-out;
+}
+
+:host(:not([flat])) .PINbutton:active {
+  color: rgba(0,0,0,0.7);
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.15);
+  box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), 
+  inset 3px 15px 35px rgba(255,255,255,0.2),
+  inset -1px -1px 2px rgba(255,255,255,0.5), 
+  inset -3px -15px 35px rgba(255,255,255,0.1),
+  1px 5px 10px -4px rgba(0,0,0,1);
+}
+
+:host(:not([flat])) .enter {
+  border-color: silver;
+  pointer-events: auto;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  width: 72%;
+  height: 80%;
+  background: var(--pinpad-bgcolor, #444444);
+  margin: 3% 5%;
+  border-radius: 50%;
+  padding: 0;
+  box-sizing: border-box;
+  color: var(--pinpad-txtcolor, #9b9b9b);
+  text-shadow: -0.5px -0.5px 0px rgba(255,255,255,0.8), 1px 1px 2px rgba(0,0,0,1);
+  font-family: inherit;
+  font-weight: bold;
+  font-size: calc(100%*0.9);
+  box-shadow: #47cf73 0 0 2px 2px,
+  inset 1px 1px 2px rgba(255,255,255,0.2), 
+  inset 3px 15px 35px rgba(255,255,255,0.0),
+  inset -1px -1px 2px rgba(255,255,255,0.0), 
+  inset -3px -15px 35px rgba(255,255,255,0.2),
+  1px 5px 15px -4px rgba(0, 0, 0, 1);
+  -webkit-transition: 0.1s ease-out;
+  -moz-transition:    0.1s ease-out;
+  -o-transition:      0.1s ease-out;
+  transition:         0.1s ease-out;
+}
+
+:host(:not([flat])) .enter:active {
+  color: rgba(0,0,0,0.7);
+  background: #47cf73;
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.15);
+  box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), 
+  inset 3px 15px 35px rgba(0,0,0,0.2),
+  inset -1px -1px 2px rgba(0,0,0,0.5), 
+  inset -3px -15px 35px rgba(255,255,255,0.1),
+  1px 5px 10px -4px rgba(0,0,0,1);
+}
+
+:host(:not([flat])) .clear { 
+  pointer-events: auto;
+  cursor: pointer;
+  border-radius: 50%;
+  border-color: silver;
+  align-items: center;
+  justify-content: center;
+  width: 72%;
+  height: 80%;
+  padding: 0;
+  box-sizing: border-box;
+  background: var(--pinpad-bgcolor, #444444);
+  color: var(--pinpad-txtcolor, #9b9b9b);
+  text-shadow: -0.5px -0.5px 0px rgba(255,255,255,0.8), 1px 1px 2px rgba(0,0,0,1);
+  font-family: inerhit;
+  font-size: calc(100%*0.6);
+  box-shadow: #ff3c41 0 0 2px 2px,
+  inset 1px 1px 2px rgba(255,255,255,0.2), 
+  inset 3px 15px 35px rgba(255,255,255,0.0),
+  inset -1px -1px 2px rgba(255,255,255,0.0), 
+  inset -3px -15px 35px rgba(255,255,255,0.2),
+  1px 5px 15px -4px rgba(0, 0, 0, 1);
+  -webkit-transition: 0.1s ease-out;
+  -moz-transition:    0.1s ease-out;
+  -o-transition:      0.1s ease-out;
+  transition:         0.1s ease-out;
+}
+
+:host(:not([flat])) .clear:active {
+  color: rgba(0,0,0,0.7);
+  background: #ff3c41;
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.15);
+  box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), 
+  inset 3px 15px 35px rgba(0,0,0,0.2),
+  inset -1px -1px 2px rgba(0,0,0,0.5), 
+  inset -3px -15px 35px rgba(255,255,255,0.1),
+  1px 5px 10px -4px rgba(0,0,0,1);
+}
+
+:host([shape="round"]) .PINform {
+  border-radius: 10px;
+  background: var(--pinpad-bgcolor, #444444);
+  box-shadow: #444444 0 0 2px 2px,
+  inset 1px 1px 2px rgba(255,255,255,0.2), 
+  inset 3px 15px 35px rgba(68,68,68,1),
+  inset -1px -1px 2px rgba(255,255,255,0.5), 
+  inset -3px -15px 35px rgba(255,255,255,0.2),
+  1px 5px 10px -4px rgba(237, 237, 237, 1);
+}
+
+.flatform {
+  position: fixed;
+  left: var(--pinpad-left);
+  top: 22%;
+  margin: auto;
+  display: inline-block;
+  background: var(--pinpad-bgcolor, #444444);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: var(--pinpad-width);
+  height: var(--pinpad-height);
+  padding: 30px;
+  box-shadow: inset 1px 1px 1px 1px rgba(255,255,255,0.2);
+}
+
+.flatname {
+  color: var(--pinpad-txtcolor, #9b9b9b);
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 5px;
+  text-align: center;
+  overflow: hidden;
+  font-size: var(--pinpad-fsize, 1.5em);
+  font-weight: bold;
+  font-family: inerhit;
+}
+
+.flatbox {
+  border-color: silver;
+  display: inline-block;
+  color: var(--pinpad-dotcolor, #7b7b7b);
+  width: 100%;
+  height: 20%;
+  background: var(--pinpad-bgcolor, #444444);
+  font-size: 6em;
+  text-align: center;
+}
+
+:host([flat]) .flatbutton {
+  border-color: silver;
+  displays: inline-block;
+  pointer-events: auto;
+  cursor: pointer;
+  text-align: center;
+  width: 72%;
+  height: 80%;
+  background: var(--pinpad-bgcolor, #444444);
+  margin: 3% 5%;
+  border-radius: 50%;
+  color: var(--pinpad-txtcolor, #9b9b9b);
+  font-size: var(--pinpad-fsizeb);
+  font-family: inerhit;
+}
+
+:host([flat]) .flatbuttone {
+  border-color: silver;
+  pointer-events: auto;
+  cursor: pointer;
+  text-align: center;
+  width: 72%;
+  height: 80%;
+  background: var(--pinpad-bgcolor, #444444);
+  border-radius: 50%;
+  color: var(--pinpad-txtcolor, #9b9b9b);
+  box-shadow: #47cf73 0 0 2px 2px;
+  font-size: calc(100%*0.9);
+  font-family: inerhit;
+  font-weight: bold;
+}
+
+:host([flat]) .flatbuttone:active {
+  color: rgba(0,0,0,0.7);
+  background: #47cf73;
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.15);
+}
+
+:host([flat]) .flatbuttonc {
+  border-color: silver;
+  pointer-events: auto;
+  cursor: pointer;
+  text-align: center;
+  width: 72%;
+  height: 80%;
+  background: var(--pinpad-bgcolor, #444444);
+  border-radius: 50%;
+  color: var(--pinpad-txtcolor, #9b9b9b);
+  box-shadow: #ff3c41 0 0 2px 2px;
+  font-size: calc(100%*0.6);
+  font-family: inerhit;
+}
+
+:host([flat]) .flatbuttonc:active {
+  color: rgba(0,0,0,0.7);
+  background: #ff3c41;
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.15);
+}
+
+.flatshake {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+:host([shape="round"]) .flatform {
+  border-radius: 10px;
+  background: var(--pinpad-bgcolor, #444444);
+  box-shadow: #444444 0 0 2px 2px;
+}
+
+:host([shape="round"]) .flatbox {
+  border-radius: 10px;
+}
+
+.shake-false-pin {
+  height: 100%;
+  animation: shake .5s linear forwards;
+}
+
+@keyframes shake {
+  0%{
+  transform: translateX(0);
+  }
+  25%{
+  transform: translateX(-10px);
+  }
+  50%{
+  transform: translateX(10px);
+  }
+  75%{
+  transform: translateX(-10px);
+  }
+  100%{
+  transform: translateX(0);
+  }
+}
