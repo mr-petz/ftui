@@ -1,7 +1,7 @@
 Addons for FTUI 3
 ------
-additional web components for FTUI3
-https://github.com/knowthelist/ftui
+additional web components for [FTUI3](https://github.com/knowthelist/ftui)
+Many Thanks to @setstate!
 
 Install
 ------
