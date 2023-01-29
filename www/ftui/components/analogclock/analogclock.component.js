@@ -5,6 +5,8 @@
 *
 * ported by mr_petz
 *
+* Forumlink: https://forum.fhem.de/index.php/topic,130895.msg1250993.html#msg1250993
+*
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
 * https://github.com/knowthelist/ftui

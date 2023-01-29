@@ -3,6 +3,8 @@
 *
 * by mr_petz
 *
+* Forumlink: https://forum.fhem.de/index.php/topic,122208.msg1167752.html#msg1167752
+*
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
 * https://github.com/knowthelist/ftui

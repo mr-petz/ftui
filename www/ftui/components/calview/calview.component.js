@@ -1,9 +1,9 @@
 ﻿/*
-* CalView component
+* CalView component for FTUI version 3
 *
 * Developed and Designed by mr_petz & OdfFhem
 *
-* for FTUI version 3
+* Forumlink: https://forum.fhem.de/index.php/topic,123084.msg1176152.html#msg1176152
 *
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *

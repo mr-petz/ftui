@@ -4,6 +4,8 @@
 *
 * Developed and Designed by mr_petz
 *
+* Forumlink: https://forum.fhem.de/index.php/topic,120107.msg1145784.html#msg1145784
+*
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
 * https://github.com/knowthelist/ftui

@@ -1,7 +1,9 @@
 /*
-* Ftui3 Thermostat component for FTUI version 3
+* Thermostat component for FTUI version 3
 *
 * by mr_petz
+*
+* Forumlink: https://forum.fhem.de/index.php/topic,123084.msg1176152.html#msg1176152
 *
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
