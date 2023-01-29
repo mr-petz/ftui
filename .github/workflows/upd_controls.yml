@@ -28,7 +28,7 @@ jobs:
         uses: fhem/fhem-controls-actions@main
         with:
           directory: ${{ env.CI_ftuiPath }}analogclock
-          extension: .js|.css
+          extension: .js
           filename: ${{ env.CI_ctrlFile }}
           writemode: ${{ env.CI_writeMode }}
 
@@ -77,6 +77,14 @@ jobs:
         with:
           directory: ${{ env.CI_ftuiPath }}volume3d
           extension: .js|.css
+          filename: ${{ env.CI_ctrlFile }}
+          writemode: ${{ env.CI_writeMode }}
+      
+      - name: add to file ${{ env.CI_ctrlFile }}
+        uses: fhem/fhem-controls-actions@main
+        with:
+          directory: ${{ env.CI_ftuiPath }}weekdaytimer
+          extension: .js
           filename: ${{ env.CI_ctrlFile }}
           writemode: ${{ env.CI_writeMode }}
 
