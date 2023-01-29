@@ -1,0 +1,348 @@
+/*
+* FTUI3 photovoltaic visualization component css for FTUI version 3
+*
+* based on papas version for FTU2
+* by yersinia & mr_petz & docolli
+* version 2022-11-30
+*
+* Under MIT License (http://www.opensource.org/licenses/mit-license.php)
+*
+* https://github.com/knowthelist/ftui
+*
+* FHEM Forum: https://forum.fhem.de/index.php/topic,119440.0.html
+*
+*/
+:root {
+  --pvvis-color-red: var(--danger-color, #900);
+  --pvvis-color-green: var(--success-color, #090);
+  --pvvis-color-yellow: var(--warning-color, yellow);
+  --pvvis-color-grey: var(--text-color, grey);
+}
+
+/* basics */
+.pvvis-box {
+  width: 200px;
+}
+
+/* sun */
+.pvvis-sun-sun,
+.pvvis-sun-sun2,
+.pvvis-sun-pvsun {
+  display: none;
+}
+.pvvis-sun-sun {
+  transform: translate(152px, 0px) scale(4);
+}
+.pvvis-sun-sun2 {
+  transform: translate(155px, 5px) scale(0.175);
+}
+.pvvis-sun-pvsun > #pvvis-sun-pvsun-sun {
+  transform: translate(200px, 0px) scale(2.2);
+  fill: var(--pvvis-color-yellow, yellow);
+  opacity: inherit;
+}
+.pvvis-sun-pvsun > #pvvis-sun-pvsun-panel {
+  transform: translate(155px, 40px) scale(0.1);
+  fill: var(--pvvis-color-grey, grey) !important;
+  opacity: 0.8 !important;
+}
+
+.pvvis-sun-active {
+  fill: var(--pvvis-color-yellow, yellow);
+}
+.pvvis-sun-inactive {
+  fill: var(--pvvis-color-grey, grey);
+  opacity: 0.2;
+}
+
+/* home */
+#pvvis-home-house,
+#pvvis-home-plug,
+#pvvis-home-socket {
+  fill: var(--pvvis-color-grey, grey);
+  display: none;
+}
+#pvvis-home-house {
+  transform: translate(0px, 150px) scale(4);
+}
+#pvvis-home-plug {
+  transform: translate(0px, 150px) scale(3);
+}
+#pvvis-home-socket {
+  transform: translate(15px, 160px) scale(0.025);
+}
+.pvvis-home-text {
+  text-anchor: middle;
+  font-size: clamp(18px, 100%, 1.5rem);
+  fill: var(--pvvis-color-grey, #ccc);
+}
+
+/* grid */
+.pvvis-grid-pylon {
+  transform: translate(160px, 310px) scale(1.4);
+}
+.pvvis-grid-pylon2 {
+  transform: translate(160px, 303px) scale(0.16);
+}
+.pvvis-grid-pylon,
+.pvvis-grid-pylon2 {
+  stroke-width: 2;
+  display: none;
+}
+.pvvis-grid-cable {
+  transform: translate(150px, 300px) scale(4);
+  stroke-width: 0;
+  display: none;
+}
+.pvvis-grid-neutral {
+  fill: var(--pvvis-color-grey, grey);
+  stroke: var(--pvvis-color-grey, grey);
+}
+.pvvis-grid-feed {
+  fill: var(--pvvis-color-green, #090);
+  stroke: var(--pvvis-color-green, #090);
+}
+.pvvis-grid-consume {
+  fill: var(--pvvis-color-red, #900);
+  stroke: var(--pvvis-color-red, #900);
+}
+
+/* battery */
+#pvvis-battery {
+  opacity: 0.2;
+  transform: translate(300px, 150px) scale(0.3);
+}
+
+.pvvis-battery-neutral {
+  fill: var(--pvvis-color-grey, grey);
+  stroke: var(--pvvis-color-grey, grey);
+}
+
+.pvvis-battery-charge {
+  fill: var(--pvvis-color-green, #090);
+  stroke: var(--pvvis-color-green, #090);
+}
+
+.pvvis-battery-discharge {
+  fill: var(--pvvis-color-red, #900);
+  stroke: var(--pvvis-color-red, #900);
+}
+
+.pvvis-batline {
+  stroke-width: 12px;
+}
+
+.pvvis-batbar {
+  stroke-width: 0px;
+  opacity: 0.2;
+}
+
+#pvvis-bat-load-bar {
+  fill: var(--pvvis-color-red, #900);
+}
+#pvvis-bat-load-triangle {
+  fill: var(--pvvis-color-red, #900);
+  stroke: var(--pvvis-color-red, #900);
+}
+
+.pvvis-batcar-blink,
+.pvvis-batbar-blink {
+  -webkit-animation: pvvis-blink 2s infinite both;
+  animation: pvvis-blink 2s infinite both;
+}
+@-webkit-keyframes pvvis-blink {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes pvvis-blink {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+#bat-val-txt {
+  text-anchor: middle;
+  font-size: clamp(12px, 100%, 1rem);
+  fill: var(--pvvis-color-grey, #ccc) !important;
+}
+#pvvis-bat-remain-txt {
+  text-anchor: middle;
+  font-size: clamp(11px, 100%, 0.7rem);
+  font-weight: bold;
+  fill: var(--pvvis-color-grey, #ccc) !important;
+}
+
+/* loadflows */
+#pvvis-loadflows {
+  stroke-width: 40;
+  fill: none;
+  transform: translate(50px, 50px) scale(0.5);
+}
+#pv-home,
+#pv-grid,
+#pv-bat,
+#home-car {
+  stroke: var(--pvvis-color-yellow, yellow);
+}
+#bat-home {
+  stroke: var(--pvvis-color-green, green);
+}
+#grid-home,
+#grid-bat {
+  stroke: var(--pvvis-color-red, red);
+}
+#grid-bat {
+  display: none;
+}
+
+/* dash animation */
+.pvvis-inactive {
+  stroke-dashoffset: 20;
+  stroke-dasharray: 10;
+  opacity: 0.2;
+}
+
+.pvvis-active1 {
+  stroke-dashoffset: 20;
+  stroke-dasharray: 10;
+  animation: pvvis-dash 0.5s linear;
+  animation-iteration-count: infinite;
+  opacity: 0.8;
+}
+
+.pvvis-active2 {
+  stroke-dashoffset: 20;
+  stroke-dasharray: 10;
+  animation: pvvis-dash 1.5s linear;
+  animation-iteration-count: infinite;
+  opacity: 0.8;
+}
+
+.pvvis-active3 {
+  stroke-dashoffset: 20;
+  stroke-dasharray: 10;
+  animation: pvvis-dash 2.5s linear;
+  animation-iteration-count: infinite;
+  opacity: 0.8;
+}
+
+@keyframes pvvis-dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* texts */
+.pvvis-text {
+  fill: var(--pvvis-color-grey, #ccc);
+  font-size: clamp(16px, 100%, 1.5rem);
+  text-anchor: end;
+}
+
+#grid-bat-txt {
+  display: none;
+}
+
+.pvvis-produce-txt {
+  text-anchor: start;
+  font-size: clamp(18px, 100%, 2.5rem);
+  fill: var(--pvvis-color-grey, #ccc);
+}
+
+.pvvis-text2 {
+  text-anchor: start;
+  font-size: clamp(14px, 100%, 0.8rem);
+  fill: var(--pvvis-color-grey, grey);
+}
+
+.pvvis-txt-unit-soc,
+.pvvis-txt-unit-car, 
+.pvvis-txt-unit-value,
+.pvvis-txt-unit-power {
+  font-size: 75%;
+}
+
+/* car/wallbox */
+.pvvis-car {
+/*  transform: translate(6px, 305px) scale(0.16); */
+  transform: translate(6px, 316px) scale(0.16);
+}
+#pvvis-car-fill-top,
+#pvvis-car-fill-bottom {
+  width: 130%;
+  height: 125%;
+}
+.pvvis-car-fill-top {
+  fill: var(--pvvis-color-grey, grey);
+}
+.pvvis-car-fill-top-charge {
+  fill: var(--pvvis-color-green, #090);
+}
+.pvvis-car-fill-bottom {
+  fill: var(--pvvis-color-green, #090);
+  display: none;
+}
+.pvvis-car-fill-bottom-no-charge {
+  opacity: 0.5;
+  fill: var(--pvvis-color-yellow, yellow);
+}
+#pvvis-car-bat-val-txt {
+  text-anchor: middle;
+  font-size: clamp(12px, 100%, 1rem);
+  fill: var(--pvvis-color-grey, #ccc) !important;
+}
+
+#pvvis-car-temp-val-txt {
+  text-anchor: middle;
+  font-size: clamp(12px, 100%, 0.8rem);
+  fill: var(--pvvis-color-yellow, orange) !important;
+}
+
+/* autarky & own consumption bar & circle */
+#pvvis-autarky-flow,
+#pvvis-autarky-circle,
+#pvvis-own-cons-flow,
+#pvvis-own-cons-circle {
+  stroke: var(--pvvis-color-grey, grey);
+  fill: none;
+  display: none;
+}
+#pvvis-autarky-flow,
+#pvvis-own-cons-flow {
+  stroke-width: 10;
+  stroke-dashoffset: 5;
+  stroke-dasharray: 2;
+}
+#pvvis-autarky-flow-basis,
+#pvvis-own-cons-flow-basis,
+#pvvis-autarky-circle-basis,
+#pvvis-own-cons-circle-basis {
+  opacity: 0.2;
+}
+#pvvis-autarky-flow-current, 
+#pvvis-own-cons-flow-current,
+#pvvis-autarky-circle-current, 
+#pvvis-own-cons-circle-current {
+  stroke: var(--pvvis-color-green, green);
+}
+#pvvis-autarky-circle-current,
+#pvvis-own-cons-circle-current {
+  stroke-width: 4;
+  stroke-dasharray: 157;
+  stroke-dashoffset: 157;
+}
+#pvvis-autarky-txt,
+#pvvis-own-cons-txt,
+#pvvis-autarky-pretxt,
+#pvvis-own-cons-pretxt {
+  display: none;
+}
