@@ -1,3 +1,5 @@
+2023-02-03, 11:48:25 UTC (Fri)
+ mr-petz - added button-language de/en
 2023-02-03, 10:57:19 UTC (Fri)
  mr-petz - Update weekdaytimer.component.js
 2023-02-03, 09:47:08 UTC (Fri)
