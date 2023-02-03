@@ -596,7 +596,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
       }
     }
 
-    this.fhemInt = this.fhemInt.join(' ').split(' ').filter(leer => leer);
+    this.fhemInt = this.fhemInt.join(' ').split(' ').filter(leer => leer && leer!=='w');
 
     this.times=[];
     this.allCmds=[];
