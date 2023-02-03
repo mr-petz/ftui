@@ -779,8 +779,6 @@ export class FtuiWeekDayTimer extends FtuiElement {
             if(newWeek[i][0].includes('0') && blength === 6){
               if (!newWeek[i][0].includes('7') && !newWeek[i][0].includes('8')){
                 wdButton.style.background = 'green';
-              } else {
-                wdButton.style.border = '1px solid green';
               }
               this.wds[i][7]='0';
             }
