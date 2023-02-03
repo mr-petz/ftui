@@ -36,6 +36,8 @@ export class FtuiWeekDayTimer extends FtuiElement {
     this.buttonSave.addEventListener('click', () => this.onClick());
     this.buttonAdd.addEventListener('click', () => this.onAdd());
     this.buttonDelete.addEventListener('click', () => this.onDelete());
+    const d = new Date();
+    this.isDay = d.getDay();
   }
 
   template() {
@@ -230,7 +232,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
   onClick() {
     let setAll='';
     for (let i=0; i < this.rowLength; i++) {
-      setAll+=(this.wds[i].join('')===''?this.wds[i]=0:this.wds[i].join(''))+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
+      setAll+=(this.wds[i].join('')===''?this.wds[i]=this.isDay:this.wds[i].join(''))+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
     };
     fhemService.sendCommand('modify ' + this.device + ' ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' + setAll + ' ' + (this.data.CONDITION||this.data.COMMAND||this.COMMAND.value.length>0?this.COMMAND.value.replace(/;/g,';;'):''));
     ftuiApp.toast(this.device + ' modifyed');
@@ -262,9 +264,9 @@ export class FtuiWeekDayTimer extends FtuiElement {
   onAdd() {
     let setNew='';
     for (let i=0; i < this.rowLength; i++) {
-      setNew+=(this.wds[i].join('')===''?this.wds[i]=0:this.wds[i].join(''))+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
+      setNew+=(this.wds[i].join('')===''?this.wds[i]=this.isDay:this.wds[i].join(''))+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
     };
-    setNew+='0|00:00|'+this.cmds[0];
+    setNew+=this.isDay+'|00:00|'+this.cmds[0];
     fhemService.sendCommand('defmod ' + this.device + ' WeekdayTimer ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' + setNew + ' ' + (this.data.CONDITION||this.data.COMMAND||this.COMMAND.value.length>0?this.COMMAND.value.replace(/;/g,';;'):''));
     ftuiApp.toast('Timer added');
     fhemService.sendCommand('save config');
@@ -276,14 +278,37 @@ export class FtuiWeekDayTimer extends FtuiElement {
     for (let i=0; i < this.wdbuttons.length-3; i++) {
       this.wdbuttons[i].id==='save'?'':this.wdbuttons[i].style.background = '';
     };
-    fhemService.sendCommand('modify ' + this.device + ' ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' 0|00:00|'+this.cmds[0]);
+    fhemService.sendCommand('modify ' + this.device + ' ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' +this.isDay+'|00:00|'+this.cmds[0]);
     ftuiApp.toast('Timer deleted');
     fhemService.sendCommand('save config');
     this.onChangeReading();
   }
 
   AddNew() {
-    fhemService.sendCommand('define ' + this.device + ' WeekdayTimer ' + this.setdevice + ' 0|00:00|'+this.cmds[0]);
+    fhemService.sendCommand('define ' + this.device + ' WeekdayTimer ' + this.setdevice + ' ' +this.isDay+'|00:00|'+this.cmds[0]);
+    ftuiApp.toast('Timer wurde definiert');
+    fhemService.sendCommand('save config');
+    this.onChangeReading();
+  }
+
+  onDeleteRow(delbutton) {
+    let del='';
+    for (let i=0; i < this.rowLength; i++) {
+      if(i!==parseInt(delbutton.id)){
+        del+=(this.wds[i].join('')===''?this.wds[i]=this.isDay:this.wds[i].join(''))+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
+      }
+    };
+    if(this.rowLength===1){
+      del=this.isDay+'|00:00|'+this.cmds[0];
+    }
+    fhemService.sendCommand('modify ' + this.device + ' ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' + del + ' ' + (this.data.CONDITION||this.data.COMMAND||this.COMMAND.value.length>0?this.COMMAND.value.replace(/;/g,';;'):''));
+    ftuiApp.toast('Timer deleted');
+    fhemService.sendCommand('save config');
+    this.onChangeReading();
+  }
+
+  AddNew() {
+    fhemService.sendCommand('define ' + this.device + ' WeekdayTimer ' + this.setdevice + ' ' +this.isDay+'|00:00|'+this.cmds[0]);
     ftuiApp.toast('Timer wurde definiert');
     fhemService.sendCommand('save config');
     this.onChangeReading();
