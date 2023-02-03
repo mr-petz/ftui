@@ -307,29 +307,6 @@ export class FtuiWeekDayTimer extends FtuiElement {
     this.onChangeReading();
   }
 
-  AddNew() {
-    fhemService.sendCommand('define ' + this.device + ' WeekdayTimer ' + this.setdevice + ' ' +this.isDay+'|00:00|'+this.cmds[0]);
-    ftuiApp.toast('Timer wurde definiert');
-    fhemService.sendCommand('save config');
-    this.onChangeReading();
-  }
-
-  onDeleteRow(delbutton) {
-    let del='';
-    for (let i=0; i < this.rowLength; i++) {
-      if(i!==parseInt(delbutton.id)){
-        del+=(this.wds[i].join('')===''?this.wds[i]=0:this.wds[i].join(''))+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
-      }
-    };
-    if(this.rowLength===1){
-      del='0|00:00|'+this.cmds[0];
-    }
-    fhemService.sendCommand('modify ' + this.device + ' ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' + del + ' ' + (this.data.CONDITION||this.data.COMMAND||this.COMMAND.value.length>0?this.COMMAND.value.replace(/;/g,';;'):''));
-    ftuiApp.toast('Timer deleted');
-    fhemService.sendCommand('save config');
-    this.onChangeReading();
-  }
-
   onClickDay(wdbutton) {
     let buttonRow = this.shadowRoot.querySelectorAll('button[id="'+wdbutton.id+'"]');
     if (wdbutton.style.backgroundColor === 'green' || wdbutton.style.border === '1px solid green'){
