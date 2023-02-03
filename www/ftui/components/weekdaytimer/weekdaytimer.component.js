@@ -230,7 +230,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
   onClick() {
     let setAll='';
     for (let i=0; i < this.rowLength; i++) {
-      setAll+=this.wds[i].join('')+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '?this.perlInput[i].value:this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
+      setAll+=this.wds[i].join('')+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
     };
     fhemService.sendCommand('modify ' + this.device + ' ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' + setAll + ' ' + (this.data.CONDITION||this.data.COMMAND||this.COMMAND.value.length>0?this.COMMAND.value.replace(/;/g,';;'):''));
     ftuiApp.toast(this.device + ' modifyed');
@@ -262,7 +262,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
   onAdd() {
     let setNew='';
     for (let i=0; i < this.rowLength; i++) {
-      setNew+=this.wds[i].join('')+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '?this.perlInput[i].value:this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
+      setNew+=this.wds[i].join('')+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
     };
     setNew+='0|00:00|'+this.cmds[0];
     fhemService.sendCommand('defmod ' + this.device + ' WeekdayTimer ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' + setNew + ' ' + (this.data.CONDITION||this.data.COMMAND||this.COMMAND.value.length>0?this.COMMAND.value.replace(/;/g,';;'):''));
@@ -293,7 +293,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
     let del='';
     for (let i=0; i < this.rowLength; i++) {
       if(i!==parseInt(delbutton.id)){
-        del+=this.wds[i].join('')+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '?this.perlInput[i].value:this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
+        del+=this.wds[i].join('')+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
       }
     };
     if(this.rowLength===1){
@@ -406,28 +406,6 @@ export class FtuiWeekDayTimer extends FtuiElement {
     }
   }
 
-  onPush() {
-    let i=0;
-    this.wdbuttons = this.shadowRoot.querySelectorAll('.wdaybutton');
-    for (let i=0; i < this.wdbuttons.length; i++) {
-      this.wdbuttons[i].onclick = (i,wdbutton) => {
-        wdbutton = i.target;
-        this.onClickDay(wdbutton);
-      };
-    };
-  }
-
-  onDel() {
-    let i=0;
-    this.wdbuttons = this.shadowRoot.querySelectorAll('.del');
-    for (let i=0; i < this.wdbuttons.length; i++) {
-      this.wdbuttons[i].onclick = (i,delbutton) => {
-        delbutton = i.target;
-        this.onDeleteRow(delbutton);
-      };
-    };
-  }
-
   fhemTimeValue() {
     if (this.timeValue.length>0) {
       let i=0;
@@ -459,39 +437,24 @@ export class FtuiWeekDayTimer extends FtuiElement {
     this.Commands[cmds.id]=cmds.value;
   }
 
-  hours() {
-    let i=0;
-    this.SelectHours=0;
-    this.SelectHours = this.shadowRoot.querySelectorAll('.hour');
-    for (let i=0; i < this.SelectHours.length; i++) {
-      this.SelectHours[i].onchange = (i,hours) => {
-        hours = i.target;
-        this.clickHourValue(hours);
-      };
+  hours(h) {
+    h.onchange = (i,hours) => {
+      hours = i.target;
+      this.clickHourValue(hours);
     };
   }
 
-  mins() {
-    let i=0;
-    this.SelectMins=0;
-    this.SelectMins = this.shadowRoot.querySelectorAll('.min');
-    for (let i=0; i < this.SelectMins.length; i++) {
-      this.SelectMins[i].onchange = (i,mins) => {
-        mins = i.target;
-        this.clickMinValue(mins);
-      };
+  mins(m) {
+    m.onchange = (i,mins) => {
+      mins = i.target;
+      this.clickMinValue(mins);
     };
   }
 
-  commands() {
-    let i=0;
-    this.SelectCmds=0;
-    this.SelectCmds = this.shadowRoot.querySelectorAll('.cmd');
-    for (let i=0; i < this.SelectCmds.length; i++) {
-      this.SelectCmds[i].onchange = (i,cmds) => {
-        cmds = i.target;
-        this.clickCmdValue(cmds);
-      };
+  commands(c) {
+    c.onchange = (i,cmds) => {
+      cmds = i.target;
+      this.clickCmdValue(cmds);
     };
   }
 
@@ -682,7 +645,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
                 opt.value = weekDaysNum[i];
                 opt.innerHTML = weekDaysName[i];
                 opt.style = 'float: left; border: 1px solid transparent';
-                opt.addEventListener('mousedown', () => this.onPush());
+                opt.addEventListener('mousedown', () => this.onClickDay(opt));
           this.container.appendChild(opt);
           buttonIndex++;
         }
@@ -694,7 +657,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
               selectList1.name = 'hour'+b;
               selectList1.className = 'hour';
               selectList1.style = 'float: left';
-              selectList1.addEventListener('mousedown', () => this.hours());
+              selectList1.addEventListener('mousedown', () => this.hours(selectList1));
         this.container.appendChild(selectList1);
         const dots = document.createElement('div');
               dots.innerHTML = ':';
@@ -706,7 +669,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
               selectList2.name = 'min'+b;
               selectList2.className = 'min';
               selectList2.style = 'float: left';
-              selectList2.addEventListener('mousedown', () => this.mins());
+              selectList2.addEventListener('mousedown', () => this.mins(selectList2));
         this.container.appendChild(selectList2);
         for (i=0;i < 24;i++) {
           const opt = document.createElement('option');
@@ -734,8 +697,8 @@ export class FtuiWeekDayTimer extends FtuiElement {
             selectListCmd.name = 'cmd'+b;
             selectListCmd.className = 'cmd';
             selectListCmd.style = 'float:left';
-            this.perlCommand[b] !== ' ' ? selectListCmd.style.marginLeft = '30px' : '';
-            selectListCmd.addEventListener('mousedown', () => this.commands());
+            this.perlCommand[b] !== ' ' ? selectListCmd.style.marginLeft = '39px' : '';
+            selectListCmd.addEventListener('mousedown', () => this.commands(selectListCmd));
       this.container.appendChild(selectListCmd);
       while (i < this.cmds.length) {
         const opt = document.createElement('option');
@@ -752,7 +715,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
       del.className = 'del';
       del.innerHTML = 'del';
       del.style = 'float: left';
-      del.addEventListener('mousedown', () => this.onDel());
+      del.addEventListener('mousedown', () => this.onDeleteRow(del));
       this.container.appendChild(del);
       if(this.perlCommand[b] !== ' '){
        let br = document.createElement('br');
