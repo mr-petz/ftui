@@ -201,12 +201,14 @@ export class FtuiWeekDayTimer extends FtuiElement {
           for (let name in internals) {
             this.data[name] = internals[name];
             if (name.includes('Profil')){
-              i = parseInt(name.replace(/Profil /g,'').split(':')[0])
-              profile[name.replace(/Profil /g,'').split(':')[0]] = internals[name].split(',');
+              i = parseInt(name.replace(/Profil /g,'').split(':')[0]);
+              profile[i] = internals[name].split(',');
               if (i < 7){
                 for (let a = 0; a < profile[i].length; a++) {
                   this.profcmd[i] = internals[name].replace(/, /g,' ').split(' ');
-                  this.profcmd[i] = this.profcmd[i].filter(item => !item.split(':')[2] && item !== '');
+                  if (this.profcmd[0]) {
+                    this.profcmd[7] = this.profcmd[0].filter(item => !item.split(':')[2] && item !== '');
+                  }
                 }
               }
             i++;
