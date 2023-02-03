@@ -559,7 +559,12 @@ export class FtuiWeekDayTimer extends FtuiElement {
     const weekDaysNum = ['1','2','3','4','5','6','0','1234560','7','8'];
     let weekDaysName = this.wd.split(',');
     if (weekDaysName.length > 7 || weekDaysName.length < 7){
-      weekDaysName = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+      if (this.data.LANGUAGE==='de') {
+        weekDaysName = ['Mo','Di','Mi','Do','Fr','Sa','So'];
+      }
+      if (this.data.LANGUAGE==='en') {
+        weekDaysName = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+      }
     }
     weekDaysName.push('Week','We','!We');
     const setcmd = this.setcmd.replace(/\s+,\s+|,\s+|\s+,/g,',').trimStart().trimEnd().split(',');
