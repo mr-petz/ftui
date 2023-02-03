@@ -549,6 +549,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
     }
 
     //if first | not present
+    this.fhemInt = this.fhemInt.replace(/\|w/g,'');
     this.fhemInt = this.fhemInt.match(/([\|]+)/g).length%2===1 ? this.fhemInt.trimStart().split(' ').join('|') : this.fhemInt;
     this.fhemInt = this.fhemInt.replace(/, /g,',').split(' ').filter(leer => leer);
 
@@ -566,7 +567,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
       }
     }
 
-    this.fhemInt = this.fhemInt.join(' ').split(' ').filter(leer => leer && leer!=='w');
+    this.fhemInt = this.fhemInt.join(' ').split(' ').filter(leer => leer);
 
     this.times=[];
     this.allCmds=[];
@@ -773,8 +774,6 @@ export class FtuiWeekDayTimer extends FtuiElement {
             if(defMoSa[i][blength]===wdButton.value){
               if (!newWeek[i][0].includes('7') && !newWeek[i][0].includes('8')){
                 wdButton.style.background = 'green';
-              } else {
-                wdButton.style.border = '1px solid green';
               }
               this.wds[i][week]=wdButton.value;
             }
@@ -787,8 +786,6 @@ export class FtuiWeekDayTimer extends FtuiElement {
             if(newWeek[i][0]==='1234560' && blength < 8){
               if (!newWeek[i][0].includes('7') && !newWeek[i][0].includes('8')){
                 wdButton.style.background = 'green';
-              } else {
-                wdButton.style.border = '1px solid green';
               }
               this.wds[i][7]='0';
             }
