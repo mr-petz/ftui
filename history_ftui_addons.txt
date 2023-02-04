@@ -1,3 +1,5 @@
+2023-02-04, 12:29:28 UTC (Sat)
+ mr-petz - Update weekdaytimer.component.js
 2023-02-03, 22:08:36 UTC (Fri)
  mr-petz - fixed is defined w
 2023-02-03, 18:23:14 UTC (Fri)

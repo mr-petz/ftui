@@ -12,4 +12,4 @@ UPD 2023-01-28_16:14:03 8491 www/ftui/components/volume/volume.component.css
 UPD 2023-01-29_19:30:57 13984 www/ftui/components/volume/volume.component.js
 UPD 2023-01-28_16:14:03 37964 www/ftui/components/volume3d/volume3d.component.css
 UPD 2023-01-29_19:30:57 13532 www/ftui/components/volume3d/volume3d.component.js
-UPD 2023-02-03_23:08:19 31134 www/ftui/components/weekdaytimer/weekdaytimer.component.js
+UPD 2023-02-04_13:29:13 31226 www/ftui/components/weekdaytimer/weekdaytimer.component.js
