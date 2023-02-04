@@ -558,9 +558,9 @@ export class FtuiWeekDayTimer extends FtuiElement {
       this.fhemInt = this.data.DEF.replace(this.data.DEVICE,'').replace(this.data.LANGUAGE,'');
     }
 
-    //if single |w defined
-    for (let i=0; i < this.fhemInt.trimStart().split(' ').length; i++){
-      if (this.fhemInt.trimStart().split(' ')[i].trimEnd().split('|')[3]==='w'){
+    //if single |w defined or first define is time
+    for (let i=0; i < this.fhemInt.trimStart().split(' ').length; i++) {
+      if ((this.fhemInt.trimStart().split(' ')[i].split('|')[0].includes(':') && this.fhemInt.trimStart().split(' ')[i].trimEnd().split('|')[2]==='w') || this.fhemInt.trimStart().split(' ')[i].trimEnd().split('|')[3]==='w') {
         this.w[i] = 'w'
       }
     }
@@ -569,7 +569,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
     this.fhemInt = this.fhemInt.match(/([\|]+)/g).length%2===1? this.fhemInt.trimStart().split(' ').join('|') : this.fhemInt;
     this.fhemInt = this.fhemInt.replace(/, /g,',').split(' ').filter(leer => leer);
 
-    for (let i=0; i<this.fhemInt.length; i++){
+    for (let i=0; i<this.fhemInt.length; i++) {
       if (this.fhemInt[i].indexOf(':') === 2 || this.fhemInt[i].indexOf('{') === 0) {
         this.fhemInt[i] = '1234560|' + this.fhemInt[i];
         this.fhemInt[i] = this.fhemInt[i].replace(/\|/g,' ');
