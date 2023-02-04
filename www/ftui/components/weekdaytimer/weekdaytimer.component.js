@@ -548,9 +548,9 @@ export class FtuiWeekDayTimer extends FtuiElement {
       this.fhemInt = this.data.DEF.replace(this.data.DEVICE,'').replace(this.data.LANGUAGE,'');
     }
 
-    //if first | not present
-    this.fhemInt = this.fhemInt.replace(/\|w/g,'');
-    this.fhemInt = this.fhemInt.match(/([\|]+)/g).length%2===1 ? this.fhemInt.trimStart().split(' ').join('|') : this.fhemInt;
+    //if first | not present and if |w defined
+    this.fhemInt = Number.isInteger(this.fhemInt.match(/([\|]+)/g).length/2) ? this.fhemInt : this.fhemInt.replace(/\|w/g,'');
+    this.fhemInt = this.fhemInt.match(/([\|]+)/g).length%2===1? this.fhemInt.trimStart().split(' ').join('|') : this.fhemInt;
     this.fhemInt = this.fhemInt.replace(/, /g,',').split(' ').filter(leer => leer);
 
     for (let i=0; i<this.fhemInt.length; i++){
