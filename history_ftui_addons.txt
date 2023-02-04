@@ -1,3 +1,5 @@
+2023-02-04, 19:59:58 UTC (Sat)
+ mr-petz - added |w button
 2023-02-04, 12:29:28 UTC (Sat)
  mr-petz - Update weekdaytimer.component.js
 2023-02-03, 22:08:36 UTC (Fri)
