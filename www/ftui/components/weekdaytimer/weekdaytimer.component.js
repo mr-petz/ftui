@@ -232,7 +232,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
   onClick() {
     let setAll='';
     for (let i=0; i < this.rowLength; i++) {
-      setAll+=(this.wds[i].join('')===''?this.wds[i]=this.isDay:this.wds[i].join(''))+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
+      setAll+=(this.wds[i].join('')===''?this.wds[i]=this.isDay:this.wds[i].join(''))+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i]?this.Commands[i]+'|'+this.w[i]+' ':this.Commands[i]+' ');
     };
     fhemService.sendCommand('modify ' + this.device + ' ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' + setAll + ' ' + (this.data.CONDITION||this.data.COMMAND||this.COMMAND.value.length>0?this.COMMAND.value.replace(/;/g,';;'):''));
     ftuiApp.toast(this.device + ' modifyed');
@@ -264,7 +264,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
   onAdd() {
     let setNew='';
     for (let i=0; i < this.rowLength; i++) {
-      setNew+=(this.wds[i].join('')===''?this.wds[i]=this.isDay:this.wds[i].join(''))+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
+      setNew+=(this.wds[i].join('')===''?this.wds[i]=this.isDay:this.wds[i].join(''))+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i]?this.Commands[i]+'|'+this.w[i]+' ':this.Commands[i]+' ');
     };
     setNew+=this.isDay+'|00:00|'+this.cmds[0];
     fhemService.sendCommand('defmod ' + this.device + ' WeekdayTimer ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' + setNew + ' ' + (this.data.CONDITION||this.data.COMMAND||this.COMMAND.value.length>0?this.COMMAND.value.replace(/;/g,';;'):''));
@@ -295,7 +295,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
     let del='';
     for (let i=0; i < this.rowLength; i++) {
       if(i!==parseInt(delbutton.id)){
-        del+=(this.wds[i].join('')===''?this.wds[i]=this.isDay:this.wds[i].join(''))+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i][i]?this.Commands[i]+'|'+this.w[i][i]+' ':this.Commands[i]+' ');
+        del+=(this.wds[i].join('')===''?this.wds[i]=this.isDay:this.wds[i].join(''))+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i]?this.Commands[i]+'|'+this.w[i]+' ':this.Commands[i]+' ');
       }
     };
     if(this.rowLength===1){
@@ -405,6 +405,16 @@ export class FtuiWeekDayTimer extends FtuiElement {
       if(this.wds[buttonRow[0].id].join('')==='1234560') {
         buttonRow[7].style.background = 'green';
       }
+    }
+  }
+
+  onW(w) {
+    if (w.style.background==='green') {
+      w.style.background = '';
+      this.w[w.id] = '';
+    } else {
+      w.style.background = 'green';
+      this.w[w.id] = 'w';
     }
   }
 
@@ -548,25 +558,31 @@ export class FtuiWeekDayTimer extends FtuiElement {
       this.fhemInt = this.data.DEF.replace(this.data.DEVICE,'').replace(this.data.LANGUAGE,'');
     }
 
-    //if first | not present and if |w defined
+    //if single |w defined
+    for (let i=0; i < this.fhemInt.trimStart().split(' ').length; i++){
+      if (this.fhemInt.trimStart().split(' ')[i].trimEnd().split('|')[3]==='w'){
+        this.w[i] = 'w'
+      }
+    }
     this.fhemInt = Number.isInteger(this.fhemInt.match(/([\|]+)/g).length/2) ? this.fhemInt : this.fhemInt.replace(/\|w/g,'');
+    //if first | not present and if more then one |w defined
     this.fhemInt = this.fhemInt.match(/([\|]+)/g).length%2===1? this.fhemInt.trimStart().split(' ').join('|') : this.fhemInt;
     this.fhemInt = this.fhemInt.replace(/, /g,',').split(' ').filter(leer => leer);
 
     for (let i=0; i<this.fhemInt.length; i++){
-      this.w[i]=[];
       if (this.fhemInt[i].indexOf(':') === 2 || this.fhemInt[i].indexOf('{') === 0) {
         this.fhemInt[i] = '1234560|' + this.fhemInt[i];
         this.fhemInt[i] = this.fhemInt[i].replace(/\|/g,' ');
       } else {
         this.fhemInt[i] = this.fhemInt[i].replace(/\|/g,' ');
         if (this.fhemInt[i].match(/([\s]+)/g).length===3) {
-          this.w[i][i] = this.fhemInt[i].slice(this.fhemInt[i].length-1,this.fhemInt[i].length);
+          this.w[i] = this.fhemInt[i].slice(this.fhemInt[i].length-1,this.fhemInt[i].length);
           this.fhemInt[i] = this.fhemInt[i].slice(0,this.fhemInt[i].length-2);
         }
       }
     }
 
+    //create arrays
     this.fhemInt = this.fhemInt.join(' ').split(' ').filter(leer => leer);
 
     this.times=[];
@@ -652,6 +668,16 @@ export class FtuiWeekDayTimer extends FtuiElement {
           this.container.appendChild(opt);
           buttonIndex++;
         }
+
+    //create |w button
+    const w = document.createElement('BUTTON');
+    w.id = buttonId;
+    w.name = 'w';
+    w.className = 'wdaybutton';
+    w.innerHTML = '|w';
+    w.style = 'float: left; border: 1px solid transparent';
+    w.addEventListener('click', () => this.onW(w));
+    this.container.appendChild(w);
 
     //create Times
       if (this.times[b] !== '-' && this.perlCommand[b] === ' ') {
@@ -768,7 +794,10 @@ export class FtuiWeekDayTimer extends FtuiElement {
         newWeek[i]=newWeek[i].toString().split('').sort();
       }   
       defSo[i][so]=newDays[i].find(day => day === '0');
-        while (blength < 10) {    
+        while (blength < 10) {   
+          if (this.w[i]==='w') {
+            this.shadowRoot.querySelectorAll('button[name="w"]')[i].style.background = 'green';
+          } 
           defMoSa[i][blength]=newDays[i].find(day => day === ''+week+'');
           wdButton = this.shadowRoot.querySelector('button[name="'+buttonIds+'"]');
             if(defMoSa[i][blength]===wdButton.value){
