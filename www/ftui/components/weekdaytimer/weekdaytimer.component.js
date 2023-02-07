@@ -197,19 +197,24 @@ export class FtuiWeekDayTimer extends FtuiElement {
         const readings = response.Results[0].Readings;
         this.data = [];
         const profile = [];
-        this.profcmd = [];
+        this.profCmd = [];
+        this.profTime = [];
         this.Readings = [];
         let i;
           for (let name in internals) {
             this.data[name] = internals[name];
-            if (name.includes('Profil')){
+            if (name.includes('Profil') && !name.includes('Wochenende') && !name.includes('Werktage')){
               i = parseInt(name.replace(/Profil /g,'').split(':')[0]);
               profile[i] = internals[name].split(',');
-              if (i < 7){
-                for (let a = 0; a < profile[i].length; a++) {
-                  this.profcmd[i] = internals[name].replace(/, /g,' ').split(' ');
-                  if (this.profcmd[0]) {
-                    this.profcmd[7] = this.profcmd[0].filter(item => !item.split(':')[2] && item !== '');
+              if (i < 8){
+                for (let a = 0; a <= profile[i].length; a++) {
+                 this.profCmd[i] = internals[name].replace(/, /g,' ').split(' ').filter(item => !item.split(':')[2] && item !== '');
+                  this.profTime[i] = internals[name].replace(/, /g,' ').split(' ').filter(item => item.split(':')[2] && item !== '');
+                  if (this.profCmd[0]) {
+                   this.profCmd[7] = this.profCmd[0].filter(item => !item.split(':')[2] && item !== '');
+                  }
+                  if (this.profTime[0]) {
+                   this.profTime[7] = this.profTime[0].filter(item => item.split(':')[2] && item !== '');
                   }
                 }
               }
@@ -483,7 +488,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
   }
 
   fhemData() {
-    if (!this.data&&!this.Readings&&!this.tempcmd) return;
+    if (!this.data&&!this.Readings&&!this.profCmd&&!this.profTime) return;
 
     // switch state
     if(this.Readings.disabled){
@@ -592,6 +597,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
     this.perlCommand=[];
     this.perlInput=[];
     let weekdays_unified;
+    this.cmdsRow = [];
 
     //split Def to day,time,cmd
       for (let i=0; i<this.fhemInt.length; i++) {
@@ -631,7 +637,6 @@ export class FtuiWeekDayTimer extends FtuiElement {
            this.times.push(this.fhemInt[i]);
            this.perlCommand.push(' ');
           };
-
           //cmd´s
           this.allCmds.push(this.fhemInt[i+1]);
           }
@@ -647,7 +652,6 @@ export class FtuiWeekDayTimer extends FtuiElement {
 
     //delete all buttons,selects,dots... after read or update
     this.container.innerHTML = '';
-
     //create all new
     //create Buttons
     let buttonId=-1;
@@ -737,6 +741,8 @@ export class FtuiWeekDayTimer extends FtuiElement {
         selectListCmd.appendChild(opt);
         i++;
       }
+      
+      this.cmdsRow[b] = this.allCmds[b].split(',')[0];
 
       //create button del for row
       const del = document.createElement('BUTTON');
@@ -761,16 +767,20 @@ export class FtuiWeekDayTimer extends FtuiElement {
       } else {
         //create p
         let p = document.createElement('p');
+        p.id = 'p'+buttonId;
         this.container.appendChild(p);
       }
     }
 
     //create Buttonstate and WeekDayArray
-    let newDays=[];
-    let newWeek=[];
-    this.wds=[];
-    let defMoSa=[];
-    let defSo=[];
+    let newDays = [];
+    let newWeek = [];
+    this.wds = [];
+    let defMoSa = [];
+    let defSo = [];
+    let profCmd = [...new Array(8)].map(elem => new Array(1).fill(''));
+    let profTime = [...new Array(8)].map(elem => new Array(1).fill(''));
+    //console.log(this.profCmd,profCmd,this.profTime,profTime)
       for (let arr=0;arr < this.weekd.length;arr++) {
         newWeek[arr] = [];
         this.wds[arr] = [];
@@ -787,6 +797,9 @@ export class FtuiWeekDayTimer extends FtuiElement {
     let wdButton = 0;
     i=0;
     while (i < newDays.length) {
+      if (this.w[i]==='w') {
+       this.shadowRoot.querySelectorAll('button[name="w"]')[i].style.background = 'green';
+      }
       let blength = 0;
       let week = 1;
       const so = 7;
@@ -794,10 +807,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
         newWeek[i]=newWeek[i].toString().split('').sort();
       }   
       defSo[i][so]=newDays[i].find(day => day === '0');
-        while (blength < 10) {   
-          if (this.w[i]==='w') {
-            this.shadowRoot.querySelectorAll('button[name="w"]')[i].style.background = 'green';
-          } 
+        while (blength < 10) {    
           defMoSa[i][blength]=newDays[i].find(day => day === ''+week+'');
           wdButton = this.shadowRoot.querySelector('button[name="'+buttonIds+'"]');
             if(defMoSa[i][blength]===wdButton.value){
@@ -818,17 +828,21 @@ export class FtuiWeekDayTimer extends FtuiElement {
               }
               this.wds[i][7]='0';
             }
-            if(this.profcmd[week]){
-              if (newWeek[i][0].includes('7')){
-                for(let d=0;d<this.profcmd[week].length;d++){
-                  if(this.profcmd[week][d] === this.cmds[i]){
+            if(this.times[i] !== '-:00'){
+              if(this.profCmd[week] && this.profTime[week]) {
+                for(let c = 0; c < this.times.length; c++) {
+                  if(this.profTime[week][i] === this.times[c].concat(':', '00')) {
+                    profCmd[week][c] = this.profCmd[week][i];
+                    profTime[week][c] = this.profTime[week][i];
+                  }
+                }
+                if(newWeek[i][0].includes('7') && (profCmd[week][i] || profTime[week][i])) {
+                  if((profCmd[week][i] === this.cmdsRow[i]) && (profTime[week][i].substr(0,5) === this.times[i])){
                     wdButton.style.border = '1px solid green';
                   }
                 }
-              }
-              if (newWeek[i][0].includes('8')){
-                for(let d=0;d<this.profcmd[week].length;d++){
-                  if(this.profcmd[week][d] === this.cmds[i]){
+                if(newWeek[i][0].includes('8') && (profCmd[week][i] || profTime[week][i])) {
+                  if((profCmd[week][i] === this.cmdsRow[i]) && (profTime[week][i].substr(0,5) === this.times[i])){
                     wdButton.style.border = '1px solid green';
                   }
                 }
@@ -852,18 +866,18 @@ export class FtuiWeekDayTimer extends FtuiElement {
     //create timevalue
     i=0;
     this.timeValue=[];
-      while (i < this.times.length) {
-        if (this.times[i] === '-') {
-          this.timeValue[i]='';
-          i++;
-        } else {
-          this.timeValue[i]=this.times[i].split(':');
-          i++;
-        };
+    while (i < this.times.length) {
+      if (this.times[i] === '-') {
+        this.timeValue[i] = '';
+        i++;
+      } else {
+        this.timeValue[i] = this.times[i].split(':');
+        i++;
       };
-      if(this.timeValue.length>=this.times.length){
-        this.fhemTimeValue();
-      };
+    };
+    if(this.timeValue.length>=this.times.length){
+      this.fhemTimeValue();
+    };
 
     //create cmdvalue
     this.cmdValue=[];
