@@ -42,112 +42,105 @@ export class FtuiWeekDayTimer extends FtuiElement {
 
   template() {
     return `
-      <style>
-      :host  {
-        position: relative;
-        padding: 0 1em;
-      }
-      :host:after {
-        position: absolute;
-        right: 1em;
-        top: -0.05em;
-        content: "";
-        pointer-events: none;
-      }
-      select {
-        border: none;
-        background: transparent;
-        appearance: none;
-        font-size: 1em;
-        color: var(--text-color);
-        outline: none;
-        cursor: pointer;
-        overflow-y: scroll;
-        scrollbar-width: thin;
-        overflow-x: hidden;
-        float: left;
-        padding-left: 2px;
-      }
-      button {
-        border: none;
-        background: transparent;
-        font-size: 1em;
-        color: var(--text-color);
-        outline: none;
-        cursor: pointer;
-        margin: 0 0.15em;
-      }
-      select option {
-        color: var(--text-color);
-      }
-      select::-webkit-scrollbar {
-        width: 0.5em;
-      }
-      select::-webkit-scrollbar-thumb {
-        background-color: var(--border-color);
-      }
-      div {
-        position: relative;
-        padding-left: 2px;
-        top: -2px;
-      }
-      p {
-        padding: 5px;
-      }
-      .del {
-        background: red;
-        color: white;
-      }
-      .cmd {
-        width: 60px;
-      }
-      input[type=checkbox].toggle-switch {
-        appearance: none;
-        -moz-appearance: none;
-        -webkit-appearance: none;
-        width: 3em;
-        height: 1.5em;
-        border-radius: 3em;
-        background-color: var(--danger-color);
-        outline: 0;
-        cursor: pointer;
-        transition: background-color 0.5s ease-in-out;
-        position: relative;
-        bottom: 5px;
-        left: 4px;
-      }
-      input[type=checkbox].toggle-switch:checked {
-        background-color: var(--primary-color);
-      }
-      input[type=checkbox].toggle-switch::after {
-        content: '';
-        width: 1.5em;
-        height: 1.5em;
-        background-color: white;
-        border-radius: 3em;
-        position: absolute;
-        transform: scale(0.7);
-        left: 0;
-        transition: left 0.5s ease-in-out;
-        box-shadow: 0 0.1em rgba(0, 0, 0, 0.5);
-      }
-      input[type=checkbox].toggle-switch:checked::after {
-        left: 1.5em;
-      }
-      </style>
-      <div class="view">
-        <div class="container"></div>
-      </div>
-      <div>
-        <label style="float: right;">
-          <input type="checkbox" class="toggle-switch">
-          <span class="slider"></span>
-        </label>
-        <button id="save" style="background:green; color:white; float: right;">Senden</button>
-        <button id="add" style="background:yellow; color:red;">Add</button>
-        <button id="del" style="background:red; color:white;">DeleteAll</button>
-        <button id="state" style="background:transparent; pointer-events:none;"></button>
-      </div>
+    <style>
+    :host  {
+      position: relative;
+      padding: 0 1em;
+    }
+    .container{
+     width: max-content;
+    }
+    select {
+      border: none;
+      background: #393939;
+      appearance: none;
+      color: var(--text-color);
+      outline: none;
+      cursor: pointer;
+      overflow-y: scroll;
+      scrollbar-width: thin;
+      overflow-x: hidden;
+      float: left;
+      padding-left: 2px;
+    }
+    button {
+      border: none;
+      background: #393939;
+      font-size: 1em;
+      color: var(--text-color);
+      outline: none;
+      cursor: pointer;
+      margin: 0 0.15em;
+    }
+    select option {
+      color: var(--text-color);
+    }
+    select::-webkit-scrollbar {
+      width: 0.5em;
+    }
+    select::-webkit-scrollbar-thumb {
+      background-color: var(--border-color);
+    }
+    div {
+      position: relative;
+    }
+    p {
+      padding: 5px;
+    }
+    .del {
+      background: red;
+      color: white;
+    }
+    .cmd {
+      width: 60px;
+    }
+    input[type=checkbox].toggle-switch {
+      appearance: none;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      width: 3em;
+      height: 1.5em;
+      border-radius: 3em;
+      background-color: var(--danger-color);
+      outline: 0;
+      cursor: pointer;
+      transition: background-color 0.5s ease-in-out;
+      position: relative;
+      bottom: 5px;
+      left: 4px;
+    }
+    input[type=checkbox].toggle-switch:checked {
+      background-color: var(--primary-color);
+    }
+    input[type=checkbox].toggle-switch::after {
+      content: '';
+      width: 1.5em;
+      height: 1.5em;
+      background-color: white;
+      border-radius: 3em;
+      position: absolute;
+      transform: scale(0.7);
+      left: 0;
+      transition: left 0.5s ease-in-out;
+      box-shadow: 0 0.1em rgba(0, 0, 0, 0.5);
+    }
+    input[type=checkbox].toggle-switch:checked::after {
+      left: 1.5em;
+    }
+    </style>
+    <div class="view">
+      <div class="container"></div>
+    </div>
+    <div>
+      <label style="float: right;">
+        <input type="checkbox" class="toggle-switch">
+        <span class="slider"></span>
+      </label>
+      <button id="save" style="background:green; color:white; float: right;">Senden</button>
+      <button id="add" style="background:yellow; color:red;">Add</button>
+      <button id="del" style="background:red; color:white;">DeleteAll</button>
+      <button id="state" style="background:transparent; pointer-events:none;"></button>
+    </div>
       `;
   }
 
@@ -423,24 +416,57 @@ export class FtuiWeekDayTimer extends FtuiElement {
     }
   }
 
-  fhemTimeValue() {
-    if (this.timeValue.length>0) {
-      let i=0;
-      while (i < this.times.length) {
-        if (this.times[i] === '-') {
-          i++;
-        } else {
-          this.leftSelect = this.shadowRoot.querySelector('select[name="hour'+i+'"]');
-          this.rightSelect = this.shadowRoot.querySelector('select[name="min'+i+'"]');
-          this.leftSelect.value = this.timeValue[i][0];
-          this.rightSelect.value = this.timeValue[i][1];
-          this.leftTime[i]=this.timeValue[i][0];
-          this.rightTime[i]=this.timeValue[i][1];
-          i++;
-        }
-      };
-    };
-  }
+  onSun(s) {
+     const addSun = this.shadowRoot.querySelector('p[id="p'+s.id+'"]');
+     const hour = this.shadowRoot.querySelector('select[name="hour'+s.id+'"]');
+     const min = this.shadowRoot.querySelector('select[name="min'+s.id+'"]');
+     const dots = this.shadowRoot.querySelector('div[id="dots'+s.id+'"]');
+     if (s.style.background==='orange') {
+        hour.style.display='none';
+        min.style.display='none';
+        dots.style.display='none';
+        this.perlInput[s.id] = document.createElement('input');
+        this.perlInput[s.id].style = 'width:-moz-available;width:-webkit-fill-available;background:transparent;color:currentColor;border:1px solid #434343;'
+        this.perlInput[s.id].value = '{add perlCommand for timerrow '+ (parseInt(s.id)+1) +' eg. {sunset_abs_dat($date)} or {sunrise_abs_dat($date)} }';
+        addSun.appendChild(this.perlInput[s.id]);
+        this.perlCommand[s.id] = this.perlInput[s.id].value;
+        s.style.background='red';
+        s.innerHTML='-sun';
+     } else {
+      if (this.times[s.id]==='-') {
+        this.leftSelect[s.id].value = this.timeValue[s.id][0]!==''?this.timeValue[s.id][0]:'00';
+        this.rightSelect[s.id].value = this.timeValue[s.id][1]!==''?this.timeValue[s.id][1]:'00';
+        this.leftTime[s.id] = '00';
+        this.rightTime[s.id] = '00';
+      }
+      addSun.removeChild(this.perlInput[s.id]);
+      s.style.background='orange';
+      s.innerHTML='+sun';
+      hour.style.display='unset';
+      min.style.display='unset';
+      dots.style.display='unset';
+      this.perlCommand[s.id] = '';
+     }
+   }
+ 
+   fhemTimeValue() {
+     if (this.timeValue.length>0) {
+       let i=0;
+       while (i < this.times.length) {
+         if (this.times[i] === '-') {
+           i++;
+         } else {
+           this.leftSelect = this.shadowRoot.querySelector('select[name="hour'+i+'"]');
+           this.rightSelect = this.shadowRoot.querySelector('select[name="min'+i+'"]');
+           this.leftSelect.value = this.timeValue[i][0];
+           this.rightSelect.value = this.timeValue[i][1];
+           this.leftTime[i] = this.timeValue[i][0];
+           this.rightTime[i] = this.timeValue[i][1];
+           i++;
+         }
+       };
+     };
+   }
 
   clickHourValue(hours) {
     this.leftTime[hours.id]=hours.value;
@@ -546,7 +572,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
         weekDaysName = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
       }
     }
-    weekDaysName.push('Week','We','!We');
+    weekDaysName.push('Week','We','!We','|w');
     const setcmd = this.setcmd.replace(/\s+,\s+|,\s+|\s+,/g,',').trimStart().trimEnd().split(',');
     const command = this.data.COMMAND;
     const condition = this.data.CONDITION;
@@ -653,124 +679,145 @@ export class FtuiWeekDayTimer extends FtuiElement {
     //delete all buttons,selects,dots... after read or update
     this.container.innerHTML = '';
     //create all new
-    //create Buttons
+
     let buttonId=-1;
     let buttonIndex=0;
     this.rowLength=0;
-    for (let b=0;b <this.weekd.length;b++){
-      buttonId++;
-      this.rowLength++;
-        for (i=0;i < weekDaysName.length;i++) {
-          const opt = document.createElement('BUTTON');
-                opt.id = buttonId;
-                opt.name = buttonIndex;
-                opt.className = 'wdaybutton';
-                opt.value = weekDaysNum[i];
-                opt.innerHTML = weekDaysName[i];
-                opt.style = 'float: left; border: 1px solid transparent';
-                opt.addEventListener('mousedown', () => this.onClickDay(opt));
-          this.container.appendChild(opt);
-          buttonIndex++;
-        }
-
-    //create |w button
-    const w = document.createElement('BUTTON');
-    w.id = buttonId;
-    w.name = 'w';
-    w.className = 'wdaybutton';
-    w.innerHTML = '|w';
-    w.style = 'float: left; border: 1px solid transparent';
-    w.addEventListener('click', () => this.onW(w));
-    this.container.appendChild(w);
-
-    //create Times
-      if (this.times[b] !== '-' && this.perlCommand[b] === ' ') {
-        const selectList1 = document.createElement('select');
-              selectList1.id = b;
-              selectList1.name = 'hour'+b;
-              selectList1.className = 'hour';
-              selectList1.style = 'float: left';
-              selectList1.addEventListener('mousedown', () => this.hours(selectList1));
-        this.container.appendChild(selectList1);
-        const dots = document.createElement('div');
-              dots.innerHTML = ':';
-              dots.style = 'float: left';
-              dots.id = 'dots';
-        this.container.appendChild(dots);
-        const selectList2 = document.createElement('select');
-              selectList2.id = b;
-              selectList2.name = 'min'+b;
-              selectList2.className = 'min';
-              selectList2.style = 'float: left';
-              selectList2.addEventListener('mousedown', () => this.mins(selectList2));
-        this.container.appendChild(selectList2);
-        for (i=0;i < 24;i++) {
-          const opt = document.createElement('option');
-          const hour = String(i).padStart(2, '0');
-                opt.id = b;
-                opt.value = hour;
-                opt.innerHTML = hour;
-          selectList1.appendChild(opt);
-        }
-        for (i=0;i < 60;i++) {
-          const opt = document.createElement('option');
-          const min = String(i).padStart(2, '0');
-                opt.id = b;
-                opt.value = min;
-                opt.innerHTML = min;
-          selectList2.appendChild(opt);
-        }
-      }
-
-      //create cmds
-      this.Commands=[];
-      i = 0;
-      const selectListCmd = document.createElement('select');
+      for (let b=0 ;b < this.weekd.length; b++){
+        buttonId++;
+        this.rowLength++;
+        const div_left = document.createElement('DIV');
+          div_left.id = buttonId;
+          div_left.name = 'row';
+          div_left.className = 'row';
+          div_left.style = 'float: left; border: 1px solid transparent; display: flex;';
+        this.container.appendChild(div_left);
+  
+        //create Buttons in div_left
+          for (i=0;i < weekDaysName.length-1;i++) {
+            const opt = document.createElement('BUTTON');
+              opt.id = buttonId;
+              opt.name = buttonIndex;
+              opt.className = 'wdaybutton';
+              opt.value = weekDaysNum[i];
+              opt.innerHTML = weekDaysName[i];
+              opt.style = 'float: left; border: 1px solid transparent';
+              opt.addEventListener('mousedown', () => this.onClickDay(opt));
+            div_left.appendChild(opt);
+            buttonIndex++;
+          }
+  
+        //create |w button
+          const w = document.createElement('BUTTON');
+            w.id = buttonId;
+            w.name = 'w';
+            w.className = 'wdaybutton';
+            w.innerHTML = weekDaysName[10];
+            w.style = 'float: left; border: 1px solid transparent';
+            w.addEventListener('click', () => this.onW(w));
+          div_left.appendChild(w);
+  
+        //create button add/rm sun
+          const sunDef = document.createElement('BUTTON');
+            sunDef.id = buttonId;
+            sunDef.innerHTML = this.times[b] !== '-' && this.perlCommand[b] === ' ' ? '+sun' : '-sun';
+            sunDef.style = 'float: left; background: '+(this.times[b] !== '-' && this.perlCommand[b] === ' ' ? 'orange' : 'red')+'; color: white;border: 1px solid transparent;margin: 0 0 0 0.15em;';
+            sunDef.addEventListener('mousedown', () => this.onSun(sunDef));
+          div_left.appendChild(sunDef);
+  
+        //create items in div_right
+        const div_right = document.createElement('DIV');
+          div_right.id = buttonId;
+          div_right.name = 'row';
+          div_right.className = 'row';
+          div_right.style = 'float: right; border: 1px solid transparent;display: flex;padding: 0;margin: 0 0 0 0.1em;';
+        this.container.appendChild(div_right);
+  
+        //create Times
+          const selectList1 = document.createElement('SELECT');
+            selectList1.id = b;
+            selectList1.name = 'hour'+b;
+            selectList1.className = 'hour';
+            selectList1.style = 'padding: 0;text-align: center;width: 15%;'+(this.times[b] !== '-' && this.perlCommand[b] === ' ' ? '' : 'display:none;');
+            selectList1.addEventListener('mousedown', () => this.hours(selectList1));
+          div_right.appendChild(selectList1);
+          const dots = document.createElement('DIV');
+            dots.innerHTML = ':';
+            dots.style = 'display: flex;align-items: center;padding: 0 1px;top: -2px;'+(this.times[b] !== '-' && this.perlCommand[b] === ' ' ? '' : 'display:none;');
+            dots.id = 'dots'+b;
+            dots.name = 'dots'+b;
+          div_right.appendChild(dots);
+          const selectList2 = document.createElement('SELECT');
+            selectList2.id = b;
+            selectList2.name = 'min'+b;
+            selectList2.className = 'min';
+            selectList2.style = 'padding: 0;text-align: center;width: 15%;'+(this.times[b] !== '-' && this.perlCommand[b] === ' ' ? '' : 'display:none;');
+            selectList2.addEventListener('mousedown', () => this.mins(selectList2));
+          div_right.appendChild(selectList2);
+          for (i=0;i < 24;i++) {
+            const opt = document.createElement('OPTION');
+            const hour = String(i).padStart(2, '0');
+              opt.id = b;
+              opt.value = hour;
+              opt.innerHTML = hour;
+            selectList1.appendChild(opt);
+          }
+          for (i=0;i < 60;i++) {
+            const opt = document.createElement('OPTION');
+            const min = String(i).padStart(2, '0');
+              opt.id = b;
+              opt.value = min;
+              opt.innerHTML = min;
+            selectList2.appendChild(opt);
+          }
+  
+        //create cmds
+          this.Commands=[];
+          i = 0;
+          const selectListCmd = document.createElement('SELECT');
             selectListCmd.id = b;
             selectListCmd.name = 'cmd'+b;
             selectListCmd.className = 'cmd';
-            selectListCmd.style = 'float:left';
-            this.perlCommand[b] !== ' ' ? selectListCmd.style.marginLeft = '39px' : '';
+            selectListCmd.style = 'text-align: center;margin: 0 2% 0 0.15em;';
             selectListCmd.addEventListener('mousedown', () => this.commands(selectListCmd));
-      this.container.appendChild(selectListCmd);
-      while (i < this.cmds.length) {
-        const opt = document.createElement('option');
+          div_right.appendChild(selectListCmd);
+          while (i < this.cmds.length) {
+            const opt = document.createElement('OPTION');
               opt.id = b;
               opt.value = this.cmds[i];
               opt.innerHTML = this.cmds[i];
-        selectListCmd.appendChild(opt);
-        i++;
-      }
-      
-      this.cmdsRow[b] = this.allCmds[b].split(',')[0];
-
-      //create button del for row
-      const del = document.createElement('BUTTON');
-      del.id = buttonId;
-      del.className = 'del';
-      del.innerHTML = 'del';
-      del.style = 'float: left';
-      del.addEventListener('mousedown', () => this.onDeleteRow(del));
-      this.container.appendChild(del);
-      if(this.perlCommand[b] !== ' '){
-       let br = document.createElement('br');
-       this.container.appendChild(br);
-       this.perlInput[b] = document.createElement('input');
-       this.perlInput[b].style.width = '100%';
-       this.perlInput[b].style.background = 'transparent';
-       this.perlInput[b].style.color = 'currentColor';
-       this.perlInput[b].value = this.perlCommand[b];
-       this.container.appendChild(this.perlInput[b]);
-       const sun = document.createElement('p');
-         sun.style.padding = '0px';
-       this.container.appendChild(sun);
-      } else {
+            selectListCmd.appendChild(opt);
+            i++;
+          }
+          
+          this.cmdsRow[b] = this.allCmds[b].split(',')[0];
+  
+        //create button del for row
+          const del = document.createElement('BUTTON');
+            del.id = buttonId;
+            del.className = 'del';
+            del.innerHTML = 'del';
+            del.style = 'float: left;border: 1px solid transparent;margin: 0;';
+            del.addEventListener('mousedown', () => this.onDeleteRow(del));
+          div_right.appendChild(del);
+  
+        //create perlCommandInput or p
+        if(this.perlCommand[b] !== ' ') {
+          const sun = document.createElement('P');
+            sun.style.padding = '0px';
+            sun.id = 'p'+buttonId;
+          this.container.appendChild(sun);
+            this.perlInput[b] = document.createElement('INPUT');
+            this.perlInput[b].style = 'width:-moz-available;width:-webkit-fill-available;background:transparent;color:currentColor;border:1px solid #434343;';
+            this.perlInput[b].value = this.perlCommand[b];
+          sun.appendChild(this.perlInput[b]);
+        } else {
         //create p
-        let p = document.createElement('p');
-        p.id = 'p'+buttonId;
-        this.container.appendChild(p);
+          const p = document.createElement('P');
+            p.id = 'p'+buttonId;
+          this.container.appendChild(p);
+        }
       }
-    }
 
     //create Buttonstate and WeekDayArray
     let newDays = [];
@@ -780,7 +827,6 @@ export class FtuiWeekDayTimer extends FtuiElement {
     let defSo = [];
     let profCmd = [...new Array(8)].map(elem => new Array(1).fill(''));
     let profTime = [...new Array(8)].map(elem => new Array(1).fill(''));
-    //console.log(this.profCmd,profCmd,this.profTime,profTime)
       for (let arr=0;arr < this.weekd.length;arr++) {
         newWeek[arr] = [];
         this.wds[arr] = [];
@@ -807,7 +853,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
         newWeek[i]=newWeek[i].toString().split('').sort();
       }   
       defSo[i][so]=newDays[i].find(day => day === '0');
-        while (blength < 10) {    
+        while (blength < weekDaysName.length-1) {    
           defMoSa[i][blength]=newDays[i].find(day => day === ''+week+'');
           wdButton = this.shadowRoot.querySelector('button[name="'+buttonIds+'"]');
             if(defMoSa[i][blength]===wdButton.value){
@@ -891,16 +937,13 @@ export class FtuiWeekDayTimer extends FtuiElement {
     //};
     
     //TestInput
-     const name = document.createElement('div');
-     name.innerHTML='Code: <br>'
-     this.container.appendChild(name);
-     this.COMMAND = document.createElement('textarea');
-     this.COMMAND.style.width = '100%';
-     this.COMMAND.style.background = 'transparent';
-     this.COMMAND.style.color = 'currentColor';
-     this.COMMAND.style.resize = 'none';
-     this.COMMAND.value = this.data.COMMAND || this.data.CONDITION ? this.data.COMMAND || this.data.CONDITION : '';
-     this.container.appendChild(this.COMMAND);
+    const name = document.createElement('DIV');
+    name.innerHTML='Code: <br>'
+    this.container.appendChild(name);
+    this.COMMAND = document.createElement('TEXTAREA');
+      this.COMMAND.style = 'width:-moz-available;width:-webkit-fill-available;background:transparent;color:currentColor;border:1px solid #434343;resize:none;';
+      this.COMMAND.value = this.data.COMMAND || this.data.CONDITION ? this.data.COMMAND || this.data.CONDITION : '';
+    this.container.appendChild(this.COMMAND);
   }
 }
 
