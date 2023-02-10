@@ -1,3 +1,5 @@
+2023-02-10, 16:28:18 UTC (Fri)
+ mr-petz - added height for scrollfeature
 2023-02-08, 20:36:08 UTC (Wed)
  mr-petz - added function to set sunrise/sunset
 2023-02-07, 10:19:25 UTC (Tue)
