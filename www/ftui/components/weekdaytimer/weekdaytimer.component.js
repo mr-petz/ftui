@@ -48,7 +48,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
       padding: 0 1em;
     }
     .view {
-     height: var(--weekdaytimer-height,150px);
+     height: var(--weekdaytimer-height,155px);
     }
     .container {
       width: max-content;
@@ -136,6 +136,16 @@ export class FtuiWeekDayTimer extends FtuiElement {
     }
     input[type=checkbox].toggle-switch:checked::after {
       left: 1.5em;
+    }
+    .command {
+      width: -moz-available;
+      width: -webkit-fill-available;
+      background: transparent;
+      color: currentColor;
+      border: 1px solid #434343;
+      resize: none;
+      height: 30px;
+      margin-bottom: 5px;
     }
     </style>
     <div class="view">
@@ -953,7 +963,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
     name.innerHTML='Code: <br>'
     this.container.appendChild(name);
     this.COMMAND = document.createElement('TEXTAREA');
-      this.COMMAND.style = 'width:-moz-available;width:-webkit-fill-available;background:transparent;color:currentColor;border:1px solid #434343;resize:none;';
+      this.COMMAND.className = 'command';
       this.COMMAND.value = this.data.COMMAND || this.data.CONDITION ? this.data.COMMAND || this.data.CONDITION : '';
     this.container.appendChild(this.COMMAND);
   }
