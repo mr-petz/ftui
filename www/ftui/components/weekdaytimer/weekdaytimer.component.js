@@ -47,8 +47,20 @@ export class FtuiWeekDayTimer extends FtuiElement {
       position: relative;
       padding: 0 1em;
     }
-    .container{
-     width: max-content;
+    .view {
+     height: var(--weekdaytimer-height,150px);
+    }
+    .container {
+      width: max-content;
+      height: 100%;
+      border: none;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    ::-webkit-scrollbar {
+      display: none;
     }
     select {
       border: none;
@@ -81,11 +93,9 @@ export class FtuiWeekDayTimer extends FtuiElement {
     select::-webkit-scrollbar-thumb {
       background-color: var(--border-color);
     }
-    div {
-      position: relative;
-    }
     p {
-      padding: 5px;
+      padding-bottom: 5px;
+      margin: 0;
     }
     .del {
       background: red;
@@ -151,6 +161,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
       setdevice: 'device',
       wd: 'Mo,Di,Mi,Do,Fr,Sa,So',
       debounce: 200,
+      height: '150px',
     };
   }
 
@@ -162,8 +173,10 @@ export class FtuiWeekDayTimer extends FtuiElement {
     if (this.color) {
       //this.wdButton.style.color = this.color;
     }
-    this.style.width = this.width;
-    this.style.height = this.height;
+    //this.style.width = this.width;
+    if (this.height) {
+      this.view.style = '--weekdaytimer-height:'+this.height.replace(/%|px/g,'').concat('px');
+    }
   }
 
   onAttributeChanged(name) {
@@ -426,7 +439,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
         min.style.display='none';
         dots.style.display='none';
         this.perlInput[s.id] = document.createElement('input');
-        this.perlInput[s.id].style = 'width:-moz-available;width:-webkit-fill-available;background:transparent;color:currentColor;border:1px solid #434343;'
+        this.perlInput[s.id].style = 'width:-moz-available;width:-webkit-fill-available;background:transparent;color:currentColor;border:1px solid #434343;margin-top: 1px;'
         this.perlInput[s.id].value = '{add perlCommand for timerrow '+ (parseInt(s.id)+1) +' eg. {sunset_abs_dat($date)} or {sunrise_abs_dat($date)} }';
         addSun.appendChild(this.perlInput[s.id]);
         this.perlCommand[s.id] = this.perlInput[s.id].value;
@@ -804,11 +817,10 @@ export class FtuiWeekDayTimer extends FtuiElement {
         //create perlCommandInput or p
         if(this.perlCommand[b] !== ' ') {
           const sun = document.createElement('P');
-            sun.style.padding = '0px';
             sun.id = 'p'+buttonId;
           this.container.appendChild(sun);
             this.perlInput[b] = document.createElement('INPUT');
-            this.perlInput[b].style = 'width:-moz-available;width:-webkit-fill-available;background:transparent;color:currentColor;border:1px solid #434343;';
+            this.perlInput[b].style = 'width:-moz-available;width:-webkit-fill-available;background:transparent;color:currentColor;border:1px solid #434343;margin-top: 1px;';
             this.perlInput[b].value = this.perlCommand[b];
           sun.appendChild(this.perlInput[b]);
         } else {
