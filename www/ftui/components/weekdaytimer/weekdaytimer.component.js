@@ -467,7 +467,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
       s.innerHTML='+sun';
       hour.style.display='unset';
       min.style.display='unset';
-      dots.style.display='unset';
+      dots.style.display='flex';
       this.perlCommand[s.id] = '';
      }
    }
@@ -747,13 +747,13 @@ export class FtuiWeekDayTimer extends FtuiElement {
             sunDef.style = 'float: left; background: '+(this.times[b] !== '-' && this.perlCommand[b] === ' ' ? 'orange' : 'red')+'; color: white;border: 1px solid transparent;margin: 0 0 0 0.15em;';
             sunDef.addEventListener('mousedown', () => this.onSun(sunDef));
           div_left.appendChild(sunDef);
-  
+
         //create items in div_right
         const div_right = document.createElement('DIV');
           div_right.id = buttonId;
           div_right.name = 'row';
           div_right.className = 'row';
-          div_right.style = 'float: right; border: 1px solid transparent;display: flex;padding: 0;margin: 0 0 0 0.1em;';
+          div_right.style = 'float: right; border: 1px solid transparent; display: flex; margin: 0px 0px 0px 1px;';
         this.container.appendChild(div_right);
   
         //create Times
@@ -761,12 +761,12 @@ export class FtuiWeekDayTimer extends FtuiElement {
             selectList1.id = b;
             selectList1.name = 'hour'+b;
             selectList1.className = 'hour';
-            selectList1.style = 'padding: 0;text-align: center;width: 15%;'+(this.times[b] !== '-' && this.perlCommand[b] === ' ' ? '' : 'display:none;');
+            selectList1.style = 'padding: 0px 0.15em 0px 0.15em; text-align: center;'+(this.times[b] !== '-' && this.perlCommand[b] === ' ' ? '' : 'display:none;');
             selectList1.addEventListener('mousedown', () => this.hours(selectList1));
           div_right.appendChild(selectList1);
           const dots = document.createElement('DIV');
             dots.innerHTML = ':';
-            dots.style = 'display: flex;align-items: center;padding: 0 1px;top: -2px;'+(this.times[b] !== '-' && this.perlCommand[b] === ' ' ? '' : 'display:none;');
+            dots.style = 'position: relative; display: flex;align-items: center;padding: 0px 0.15em 0px 0.15em;top: -2px;'+(this.times[b] !== '-' && this.perlCommand[b] === ' ' ? '' : 'display:none;');
             dots.id = 'dots'+b;
             dots.name = 'dots'+b;
           div_right.appendChild(dots);
@@ -774,7 +774,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
             selectList2.id = b;
             selectList2.name = 'min'+b;
             selectList2.className = 'min';
-            selectList2.style = 'padding: 0;text-align: center;width: 15%;'+(this.times[b] !== '-' && this.perlCommand[b] === ' ' ? '' : 'display:none;');
+            selectList2.style = 'padding: 0px 0.15em 0px 0.15em; text-align: center;'+(this.times[b] !== '-' && this.perlCommand[b] === ' ' ? '' : 'display:none;');
             selectList2.addEventListener('mousedown', () => this.mins(selectList2));
           div_right.appendChild(selectList2);
           for (i=0;i < 24;i++) {
@@ -801,7 +801,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
             selectListCmd.id = b;
             selectListCmd.name = 'cmd'+b;
             selectListCmd.className = 'cmd';
-            selectListCmd.style = 'text-align: center;margin: 0 2% 0 0.15em;';
+            selectListCmd.style = 'text-align: center; margin: 0px 0.15em 0px 0.15em;';
             selectListCmd.addEventListener('mousedown', () => this.commands(selectListCmd));
           div_right.appendChild(selectListCmd);
           while (i < this.cmds.length) {
