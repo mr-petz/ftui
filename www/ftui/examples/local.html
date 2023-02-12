@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <base href="../" />
   <script src="ftui.js"></script>
@@ -10,28 +9,74 @@
 
   <title>FTUI Local Example</title>
 </head>
+  <body>
+    <ftui-grid base-width="150" base-height="50" margin="15">
 
-<body>
+      <!-- some examples for (totally) free definable local readings ... access via local:<key> -->
 
-  <ftui-grid base-width="150" base-height="50" margin="15">
+      <!--
+       --- #1 ... "key"   determines the name  of the local reading
+       ---        "value" determines the value of the local reading
+       ---    ... binding to local or FHEM reading possible
+       -->
+      <ftui-local key="local" value="local"></ftui-local> <!-- access via local:local -->
+      <ftui-local key="aLocalKey" value="aValue"></ftui-local> <!-- access via local:aLocalKey -->
+      <ftui-local key="anotherLocalKey" [value]="FHEMorLOCALreading"></ftui-local> <!-- access via local:anotherLocalKey -->
 
-    <ftui-grid-tile row="1" col="1" height="5" width="4">
-        <header>Local</header>
-            <ftui-local value="thermo:22.5, icon:tablet, version:v"></ftui-local>
+      <!--
+       --- #2 ... "values" contains a comma separated list of <key>:<value> pairs for local readings
+              ... binding to local or FHEM reading possible
+       -->
+      <ftui-local values="thermo1:11.5, thermo2:22.5, thermo3:33.5"></ftui-local> <!-- access via local:thermo1, local:thermo2 or local:thermo3 -->
+      <!-- ftuitest:localValues could be a FHEM reading with a value like: thermo1:44,thermo2:66,thermo3:88 -->
+      <ftui-local [values]="ftuitest:localValues"></ftui-local>
 
-            <ftui-button [value]="local:thermo" (value)="add(0.5) | setreading local:thermo" states="$value" debounce="400" fill="">
-            <ftui-icon size="-2" name="plus"></ftui-icon>
-            </ftui-button>
-            <ftui-label [text]="local:thermo"></ftui-label>
-            <ftui-button [value]="local:thermo" (value)="add(-0.5) | setreading local:thermo" states="$value" debounce="400" fill="">
-            <ftui-icon size="-2" name="minus"></ftui-icon>
-            </ftui-button>
+      <!-- Usage -->
 
-            <ftui-icon size="-2" [name]="local:icon"></ftui-icon>
+      <ftui-grid-tile row="1" col="1" height="3" width="2">
+        <header>local:thermoX</header>
 
-            <ftui-label [text]="local:version | ()=>'FTUI3 '+ftuiApp.version"></ftui-label>
-    </ftui-grid-tile>
+        <ftui-button [value]="local:thermo2" (value)="add(0.5) | setreading local:thermo2" states="$value" debounce="400" fill="">
+        <ftui-icon size="-2" name="plus"></ftui-icon>
+        </ftui-button>
+        <ftui-row>
+          <ftui-label [text]="local:thermo1"></ftui-label>
+          <ftui-label [text]="local:thermo2"></ftui-label>
+          <ftui-label [text]="local:thermo3"></ftui-label>
+        </ftui-row>
+        <ftui-button [value]="local:thermo2" (value)="add(-0.5) | setreading local:thermo2" states="$value" debounce="400" fill="">
+        <ftui-icon size="-2" name="minus"></ftui-icon>
+        </ftui-button>
+      </ftui-grid-tile>
 
-  </ftui-grid>
-</body>
+      <ftui-grid-tile row="4" col="1" height="2" width="2" shape="round">
+        <header>local:icon</header>
+
+        <!-- extend the URL to something like: local.html?icon=phone -->
+        <ftui-local key="icon" [value]="local:aLocalKey | ()=>(new URLSearchParams(window.location.search)).get('icon') | t=>(t)?t:'desktop'"></ftui-local>
+        <ftui-icon size="2" [name]="local:icon"></ftui-icon>
+      </ftui-grid-tile>
+
+      <ftui-grid-tile row="6" col="1" height="2" width="2">
+        <header>local:version</header>
+
+        <ftui-local key="version" value="v"></ftui-local>
+        <ftui-label [text]="local:version | t=>'FTUI3 '+t+ftuiApp.version"></ftui-label>
+      </ftui-grid-tile>
+
+      <ftui-grid-tile row="8" col="1" height="2" width="2" shape="round">
+        <header>local:now</header>
+
+        <ftui-local key="now" value="01.01.2023"></ftui-local>
+        <ftui-label [text]="local:now"></ftui-label>
+
+        <ftui-local key="nowText1" [value]="local:now | toDate() | ago() | timeFormat('vor %DD Tagen','ms','upper')"></ftui-local>
+        <ftui-label [text]="local:nowText1"></ftui-label>
+
+        <ftui-local key="nowText2" [value]="local:nowText1 | replace(/vor (\d*) Tagen/,'$1') "></ftui-local>
+        <ftui-label [text]="local:nowText2"></ftui-label>
+      </ftui-grid-tile>
+
+    </ftui-grid>
+  </body>
 </html>

@@ -6,7 +6,6 @@
 * Copyright (c) 2019-2023
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
-*
 * https://github.com/knowthelist/ftui
 */
 
@@ -21,7 +20,9 @@ export class FtuiLocal extends FtuiElement {
 
   static get properties() {
     return {
+      key: '',
       value: '',
+      values: '',
     };
   }
 
@@ -31,18 +32,26 @@ export class FtuiLocal extends FtuiElement {
 
   onAttributeChanged(name) {
     switch (name) {
+      case 'key':
       case 'value':
+        this.localValueChanged();
+        break;
+      case 'values':
         this.localValuesChanged();
         break;
     }
   }
 
+  localValueChanged() {
+    if ((this.key) && (this.value)) {
+      ftuiApp.fhemService.updateReadingItem('local-'+this.key, { value: this.value, });
+    };
+  }
+
   localValuesChanged() {
-    if (this.value) {
-      Object.entries(parseHocon(this.value, true)).forEach(([key,value]) => {
-        ftuiApp.fhemService.updateReadingItem('local-'+key, { 
-          value: value, 
-        });
+    if (this.values) {
+      Object.entries(parseHocon(this.values, true)).forEach(([key,value]) => {
+        ftuiApp.fhemService.updateReadingItem('local-'+key, { value: value, });
       });
     };
   }
