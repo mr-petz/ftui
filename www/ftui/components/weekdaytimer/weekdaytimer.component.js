@@ -23,6 +23,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
     this.buttonAdd = this.shadowRoot.querySelector('button[id="add"]');
     this.buttonDelete = this.shadowRoot.querySelector('button[id="del"]');
     this.state = this.shadowRoot.querySelector('button[id="state"]');
+    this.codeArea = this.shadowRoot.querySelector('.command');
     this.wds=[];
     this.rowLength=0;
     this.leftTime=[];
@@ -151,6 +152,8 @@ export class FtuiWeekDayTimer extends FtuiElement {
     <div class="view">
       <div class="container"></div>
     </div>
+    <div>Code:</div>
+    <textarea class="command"></textarea>
     <div>
       <label style="float: right;">
         <input type="checkbox" class="toggle-switch">
@@ -261,7 +264,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
     for (let i=0; i < this.rowLength; i++) {
       setAll+=(this.wds[i].join('')===''?this.wds[i]=this.isDay:this.wds[i].join(''))+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i]?this.Commands[i]+'|'+this.w[i]+' ':this.Commands[i]+' ');
     };
-    fhemService.sendCommand('modify ' + this.device + ' ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' + setAll + ' ' + (this.data.CONDITION||this.data.COMMAND||this.COMMAND.value.length>0?this.COMMAND.value.replace(/;/g,';;'):''));
+    fhemService.sendCommand('modify ' + this.device + ' ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' + setAll + ' ' + (this.data.CONDITION||this.data.COMMAND||this.codeArea.value.length>0?this.codeArea.value.replace(/;/g,';;'):''));
     ftuiApp.toast(this.device + ' modifyed');
     fhemService.sendCommand('save config');
     this.onChangeReading();
@@ -294,7 +297,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
       setNew+=(this.wds[i].join('')===''?this.wds[i]=this.isDay:this.wds[i].join(''))+'|'+(this.perlCommand[i]&&this.perlCommand[i]!==' '&&this.perlInput[i].value!==''?this.perlInput[i].value.replace(/\s+/g,''):this.leftTime[i]+':'+this.rightTime[i])+'|'+(this.w[i]?this.Commands[i]+'|'+this.w[i]+' ':this.Commands[i]+' ');
     };
     setNew+=this.isDay+'|00:00|'+this.cmds[0];
-    fhemService.sendCommand('defmod ' + this.device + ' WeekdayTimer ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' + setNew + ' ' + (this.data.CONDITION||this.data.COMMAND||this.COMMAND.value.length>0?this.COMMAND.value.replace(/;/g,';;'):''));
+    fhemService.sendCommand('defmod ' + this.device + ' WeekdayTimer ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' + setNew + ' ' + (this.data.CONDITION||this.data.COMMAND||this.codeArea.value.length>0?this.codeArea.value.replace(/;/g,';;'):''));
     ftuiApp.toast('Timer added');
     fhemService.sendCommand('save config');
     this.onChangeReading();
@@ -328,7 +331,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
     if(this.rowLength===1){
       del=this.isDay+'|00:00|'+this.cmds[0];
     }
-    fhemService.sendCommand('modify ' + this.device + ' ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' + del + ' ' + (this.data.CONDITION||this.data.COMMAND||this.COMMAND.value.length>0?this.COMMAND.value.replace(/;/g,';;'):''));
+    fhemService.sendCommand('modify ' + this.device + ' ' + this.fhemSetDevice + ' ' + this.data.LANGUAGE + ' ' + del + ' ' + (this.data.CONDITION||this.data.COMMAND||this.codeArea.value.length>0?this.codeArea.value.replace(/;/g,';;'):''));
     ftuiApp.toast('Timer deleted');
     fhemService.sendCommand('save config');
     this.onChangeReading();
@@ -771,7 +774,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
             }
             if (this.profTime[8]) {
               for(let z=0;z<this.profCmd[8].length;z++){
-              this.cmds[b]===this.profCmd[8][z]?this.times[b]=this.profTime[8][z].slice(0,5):''
+                this.cmds[b]===this.profCmd[8][z]?this.times[b]=this.profTime[8][z].slice(0,5):''
               }
             }
           }
@@ -1002,14 +1005,8 @@ export class FtuiWeekDayTimer extends FtuiElement {
     this.selectCmdValue();
     //};
     
-    //TestInput
-    const name = document.createElement('DIV');
-    name.innerHTML='Code: <br>'
-    this.container.appendChild(name);
-    this.COMMAND = document.createElement('TEXTAREA');
-      this.COMMAND.className = 'command';
-      this.COMMAND.value = this.data.COMMAND || this.data.CONDITION ? this.data.COMMAND || this.data.CONDITION : '';
-    this.container.appendChild(this.COMMAND);
+    //TestInputCode
+    this.codeArea.value=this.data.COMMAND || this.data.CONDITION ? this.data.COMMAND || this.data.CONDITION : '';
   }
 }
 
