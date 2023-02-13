@@ -45,7 +45,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
     <style>
     :host  {
       position: relative;
-      padding: 0 1em;
+      padding: 1em 1em 0 1em;
     }
     .view {
      height: var(--weekdaytimer-height,155px);
