@@ -1,3 +1,5 @@
+2023-02-13, 11:46:01 UTC (Mon)
+ mr-petz - added show time if sun*_abs() defined
 2023-02-13, 10:26:22 UTC (Mon)
  mr-petz - some changes
 2023-02-12, 21:44:49 UTC (Sun)
