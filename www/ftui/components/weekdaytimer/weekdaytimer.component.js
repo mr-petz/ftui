@@ -49,7 +49,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
       padding: 1em 1em 0 1em;
     }
     .view {
-     height: var(--weekdaytimer-height,155px);
+     height: var(--weekdaytimer-height,95px);
     }
     .container {
       width: max-content;
@@ -174,7 +174,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
       setdevice: 'device',
       wd: 'Mo,Di,Mi,Do,Fr,Sa,So',
       debounce: 200,
-      height: '150px',
+      height: '95px',
     };
   }
 
@@ -560,6 +560,8 @@ export class FtuiWeekDayTimer extends FtuiElement {
           this.buttonSave.style.background = 'green';
           this.buttonAdd.style.background = 'yellow';
           this.buttonDelete.style.background = 'red';
+          this.codeArea.removeAttribute('readonly');
+          this.codeArea.style.background = 'transparent';
           // currValue
           this.state.innerHTML='aktueller Wert: '+this.Readings.currValue.Value;
         } else {
@@ -572,6 +574,8 @@ export class FtuiWeekDayTimer extends FtuiElement {
           this.buttonAdd.style.background = 'rgba(255,255,255,0.5)';
           this.buttonDelete.style.pointerEvents = 'none';
           this.buttonDelete.style.background = 'rgba(255,255,255,0.5)';
+          this.codeArea.setAttribute('readonly',null);
+          this.codeArea.style.background = 'rgba(255,255,255,0.5)';
           // currValue
           this.state.innerHTML='';
         }
@@ -587,6 +591,8 @@ export class FtuiWeekDayTimer extends FtuiElement {
       this.buttonAdd.style.background = 'rgba(255,255,255,0.5)';
       this.buttonDelete.style.pointerEvents = 'none';
       this.buttonDelete.style.background = 'rgba(255,255,255,0.5)';
+      this.codeArea.setAttribute('readonly',null);
+      this.codeArea.style.background = 'rgba(255,255,255,0.5)';
       // currValue
       this.state.innerHTML='';
     }
