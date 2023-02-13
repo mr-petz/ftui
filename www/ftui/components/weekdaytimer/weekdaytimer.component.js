@@ -763,16 +763,28 @@ export class FtuiWeekDayTimer extends FtuiElement {
         this.container.appendChild(div_right);
   
         //create Times
+          if (this.perlCommand[b].includes('_abs(')) {
+            if (this.profTime[9]) {
+              for(let z=0;z<this.profCmd[9].length;z++){
+                this.cmds[b]===this.profCmd[9][z]?this.times[b]=this.profTime[9][z].slice(0,5):''
+              }
+            }
+            if (this.profTime[8]) {
+              for(let z=0;z<this.profCmd[8].length;z++){
+              this.cmds[b]===this.profCmd[8][z]?this.times[b]=this.profTime[8][z].slice(0,5):''
+              }
+            }
+          }
           const selectList1 = document.createElement('SELECT');
             selectList1.id = b;
             selectList1.name = 'hour'+b;
             selectList1.className = 'hour';
-            selectList1.style = 'padding: 0px 0.15em 0px 0.15em; text-align: center;'+(this.times[b] !== '-' && this.perlCommand[b] === ' ' ? '' : 'display:none;');
+            selectList1.style = 'padding: 0px 0.15em 0px 0.15em; text-align: center;'+(this.times[b] !== '-' ? this.perlCommand[b].includes('_abs(') ? 'pointer-events: none;' : '' : 'display:none;');
             selectList1.addEventListener('mousedown', () => this.hours(selectList1));
           div_right.appendChild(selectList1);
           const dots = document.createElement('DIV');
             dots.innerHTML = ':';
-            dots.style = 'position: relative; display: flex;align-items: center;padding: 0px 0.15em 0px 0.15em;top: -2px;'+(this.times[b] !== '-' && this.perlCommand[b] === ' ' ? '' : 'display:none;');
+            dots.style = 'position: relative; display: flex;align-items: center;padding: 0px 0.15em 0px 0.15em;top: -2px;'+(this.times[b] !== '-' ? '' : 'display:none;');
             dots.id = 'dots'+b;
             dots.name = 'dots'+b;
           div_right.appendChild(dots);
@@ -780,7 +792,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
             selectList2.id = b;
             selectList2.name = 'min'+b;
             selectList2.className = 'min';
-            selectList2.style = 'padding: 0px 0.15em 0px 0.15em; text-align: center;'+(this.times[b] !== '-' && this.perlCommand[b] === ' ' ? '' : 'display:none;');
+            selectList2.style = 'padding: 0px 0.15em 0px 0.15em; text-align: center;'+(this.times[b] !== '-' ? this.perlCommand[b].includes('_abs(') ? 'pointer-events: none;' : '' : 'display:none;');
             selectList2.addEventListener('mousedown', () => this.mins(selectList2));
           div_right.appendChild(selectList2);
           for (i=0;i < 24;i++) {
