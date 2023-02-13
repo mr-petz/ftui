@@ -49,7 +49,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
       padding: 1em 1em 0 1em;
     }
     .view {
-     height: var(--weekdaytimer-height,95px);
+     height: var(--weekdaytimer-height,105px);
     }
     .container {
       width: max-content;
@@ -174,7 +174,7 @@ export class FtuiWeekDayTimer extends FtuiElement {
       setdevice: 'device',
       wd: 'Mo,Di,Mi,Do,Fr,Sa,So',
       debounce: 200,
-      height: '95px',
+      height: '105px',
     };
   }
 
