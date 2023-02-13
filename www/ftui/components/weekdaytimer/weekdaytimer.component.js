@@ -775,12 +775,12 @@ export class FtuiWeekDayTimer extends FtuiElement {
           if (this.perlCommand[b].includes('_abs(')) {
             if (this.profTime[9]) {
               for(let z=0;z<this.profCmd[9].length;z++){
-                this.cmds[b]===this.profCmd[9][z]?this.times[b]=this.profTime[9][z].slice(0,5):''
+                this.allCmds[b].split(',')[0]===this.profCmd[9][z]?this.times[b]=this.profTime[9][z].slice(0,5):'';
               }
             }
             if (this.profTime[8]) {
               for(let z=0;z<this.profCmd[8].length;z++){
-                this.cmds[b]===this.profCmd[8][z]?this.times[b]=this.profTime[8][z].slice(0,5):''
+                this.allCmds[b].split(',')[0]===this.profCmd[8][z]?this.times[b]=this.profTime[8][z].slice(0,5):'';
               }
             }
           }
