@@ -634,12 +634,16 @@ export class FtuiWeekDayTimer extends FtuiElement {
       }
     }
     this.fhemInt = Number.isInteger(this.fhemInt.match(/([\|]+)/g).length/2) ? this.fhemInt : this.fhemInt.replace(/\|w/g,'');
+
     //if first | not present and if more then one |w defined
-    this.fhemInt = this.fhemInt.match(/([\|]+)/g).length%2===1? this.fhemInt.trimStart().split(' ').join('|') : this.fhemInt;
+    //this.fhemInt = this.fhemInt.match(/([\|]+)/g).length%2===1? this.fhemInt.trimStart().trimEnd().split(' ').join('|') : this.fhemInt;
     this.fhemInt = this.fhemInt.replace(/, /g,',').split(' ').filter(leer => leer);
 
     for (let i=0; i<this.fhemInt.length; i++) {
-      if (this.fhemInt[i].indexOf(':') === 2 || this.fhemInt[i].indexOf('{') === 0) {
+      if (this.fhemInt[i].indexOf('|') === -1 ) {
+        this.fhemInt[i+1] = this.fhemInt[i].trim()+'|'+this.fhemInt[i+1];
+        this.fhemInt[i] = '';
+      } else if (this.fhemInt[i].indexOf(':') === 2 || this.fhemInt[i].indexOf('{') === 0) {
         this.fhemInt[i] = '1234560|' + this.fhemInt[i];
         this.fhemInt[i] = this.fhemInt[i].replace(/\|/g,' ');
       } else {
