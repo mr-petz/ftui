@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       CI_ftuiPath: www/ftui/components/
+      CI_examplesPath: www/ftui/examples
       CI_histFile: history_ftui_addons.txt
       CI_ctrlFile: controls_ftui_addons.txt
       CI_writeMode: a
@@ -93,6 +94,14 @@ jobs:
         with:
           directory: ${{ env.CI_ftuiPath }}weekdaytimer
           extension: .js
+          filename: ${{ env.CI_ctrlFile }}
+          writemode: ${{ env.CI_writeMode }}
+      
+      - name: add to file ${{ env.CI_ctrlFile }}
+        uses: fhem/fhem-controls-actions@main
+        with:
+          directory: ${{ env.CI_examplesPath }}
+          extension: .html
           filename: ${{ env.CI_ctrlFile }}
           writemode: ${{ env.CI_writeMode }}
 
