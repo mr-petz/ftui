@@ -381,7 +381,7 @@ export class FtuiThermostat extends FtuiElement {
             tickActive[0].classList.remove('thick','activetick','thick-active','blink');
             tickActive[i].classList.remove('thick','activetick','thick-active','blink');
           } else {
-            tickActive[i].style.setProperty('--thermostat-tick-color', 'var(--medium)');
+            //tickActive[i].style.setProperty('--thermostat-tick-color', 'var(--medium)');
             tickActive[i].classList.remove('activetick','thick-active');
           }
           if (i===Math.round(actValue)) {
