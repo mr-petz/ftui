@@ -130,6 +130,7 @@ export class FtuiThermostat extends FtuiElement {
       unit: '',
       movegradient: 6,
       fadegradient: 0,
+      atempPositionTop: 0,
       noWideTicks: false,
       isThermometer: false,
       isHumidity: false,
@@ -141,6 +142,7 @@ export class FtuiThermostat extends FtuiElement {
       tempInRgb: false,
       hasArc: false,
       hasArcTick: false,
+      atempIsHorizontal: false,
       color: '',
       lowcolor:'68,119,255',
       mediumcolor:'255,0,255',
@@ -274,10 +276,11 @@ export class FtuiThermostat extends FtuiElement {
       tick.style.setProperty('transform', "rotate(" + deg + "deg)");
       scale.style.setProperty('transform', "rotate(" + deg + "deg)");
       temp.style.setProperty('transform', "rotate(" + deg + "deg)");
+      temp.style.setProperty('--temp-deg', (this.atempIsHorizontal?(180-deg):0) + 'deg');
       tick.style.setProperty('--top', (this.size * 0.62) + "px");
-      temp.style.setProperty('--top', (this.size*0.82) + "px");
+      temp.style.setProperty('--top', (this.atempPositionTop?this.atempPositionTop:this.size*(this.atempIsHorizontal?0.86:0.81)) + "px");
       scale.style.setProperty('--top', (this.size*0.8) + "px");
-      temp.style.setProperty('--size-after', `0.9em`);
+      temp.style.setProperty('--size-after', `-0.9em`);
       scale.style.setProperty('--size-after', `0.5em`);
       tick.style.setProperty('--thermostat-tick-height-size', getStylePropertyValue('font-size',this.knobs));
       tick.style.setProperty('font-size', this.size*0.012 + "rem");
@@ -587,7 +590,7 @@ export class FtuiThermostat extends FtuiElement {
         txt.style.setProperty('--top', (this.size*0.92) + "px");
       });
     }
-    temp[1].style.setProperty('--top', (this.size*0.93) + "px");
+    temp[1].style.setProperty('--top', (this.size*(this.atempIsHorizontal?1:0.95)) + "px");
   }
   
   zoomOut() {
@@ -613,7 +616,7 @@ export class FtuiThermostat extends FtuiElement {
        txt.style.setProperty('--top', (this.size*0.8) + "px");
       });
     }
-    temp[1].style.setProperty('--top', (this.size*0.82) + "px");
+    temp[1].style.setProperty('--top', (this.atempPositionTop?this.atempPositionTop:this.size*(this.atempIsHorizontal?0.86:0.81)) + "px");
     this.valueView();
   }
 
@@ -628,8 +631,9 @@ export class FtuiThermostat extends FtuiElement {
       temp.classList.add('temp');
       temp.id = 'temp';
       temp.style.setProperty('transform', "rotate(" + deg + "deg)");
-      temp.style.setProperty('--top', (this.size*0.82) + "px");
-      temp.style.setProperty('--size-after', `0.9em`);
+      temp.style.setProperty('--temp-deg', (this.atempIsHorizontal?(180-deg):0) + 'deg');
+      temp.style.setProperty('--top', (this.atempPositionTop?this.atempPositionTop:this.size*(this.atempIsHorizontal?0.86:0.81)) + "px");
+      temp.style.setProperty('--size-after', `-0.9em`);
         if (i===Math.round(atemp)) {
           const textContent=this.tempValue.toFixed(this.tempDecimals);
           temp.style.setProperty('--value', '"'+textContent+'"');

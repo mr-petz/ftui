@@ -96,7 +96,7 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  z-index: 10;
+  z-index: 3;
   cursor: pointer;
 }
 
@@ -129,7 +129,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  z-index: 5;
+  z-index: 2;
   overflow: visible;
 }
 
@@ -167,14 +167,13 @@
   color: var(--thermostat-temp-color, var(--text-color));/*white;*/
   font-size: var(--thermostat-temp-size, 0.75em);
   font-weight: bold;
+  z-index: 1;
 }
 
 .temp:after {
   content: var(--value);
-  width: var(--size-after);
   position: absolute;
-  padding-bottom: var(--top);
-  transform: rotate(180deg);
+  transform: translate(var(--size-after),var(--top)) rotate(180deg) rotate(var(--temp-deg));
 }
 
 .activetick:after {
