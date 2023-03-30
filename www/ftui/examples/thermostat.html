@@ -18,7 +18,8 @@
     <ftui-grid-tile row="1" col="1" height="5" width="2" shape="round">
       <header>Minimal Standard width unit</header>
        <ftui-thermostat class="size-1"
-         [(value)]="dummy0"
+         [value]="dummy0 | map('15.0:aus')"
+         (value)="dummy0"
          [temp]="dummy1"
          unit=" °C"
          value="20" temp="21.5" <!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
@@ -33,6 +34,7 @@
          [temp]="dummy0"
          unit=" °C"
          has-old-style
+         atemp-is-horizontal
          value="23.5" temp="18.5" <!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
        >
        </ftui-thermostat>
@@ -45,11 +47,12 @@
          [temp]="dummy0"
          [battery]="dummy2 | append(' %')"
          [valve]="dummy7"
-         [humidity]="dummy7 | append(' %')"
+         [humidity]="dummy7  | append(' %')"
          unit=" °C"
          size="70"
          has-zoom
          temp-in-rgb
+         atemp-position-top="30"
          value="22" temp="20.5" battery="22 %" valve="1" humidity="75 %"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
        >
        </ftui-thermostat>
@@ -70,7 +73,7 @@
        <ftui-thermostat class="size-1"
          [(value)]="dummy99"
          [temp]="dummy1"
-         [battery]="dummy2 | append(' %')"
+         [battery]="dummy2  | append(' %')"
          unit=" °C"
          size="100"
          has-zoom
@@ -89,7 +92,7 @@
        <ftui-thermostat class="size-1"
          [(value)]="dummy"
          [temp]="dummy1"
-         [battery]="dummy3 | append(' %')"
+         [battery]="dummy3  | append(' %')"
          battery-icon="step('-99:battery-0, 20:battery-2, 51: battery')"
          battery-icon-color="step('-99:red, 20:yellow, 51:green')"
          unit=" °C"
@@ -110,8 +113,8 @@
          [temp]="dummy99"
          [battery]="dummy7 | append(' %')"
          [valve]="dummy7"
-         [humidity]="75  | append(' %')"
-         size="110"
+         [humidity]="75 | append(' %')"
+         size="100"
          degrees="270"
          rotation="-90"
          step="0.2"
@@ -149,7 +152,7 @@
          mediumcolor="255,0,255"
          highcolor="255,0,0"
          value-decimals="2"
-         value="23.5"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
+         value="23.5123"<!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
        >
        </ftui-thermostat>
        <center>try it</center>
@@ -159,20 +162,23 @@
      <ftui-grid-tile row="12" col="3" height="6" width="2" shape="round">
       <header>Trigger readonly</header>
        <ftui-thermostat class="size-1" color="cold-hot"
-         [value]="dummy | map('15.0:off')"
+         [value]="dummy | map('15.0:aus')"
          (value)="dummy"
          [temp]="dummy0"
+         readonly="true"
          [readonly]="dummy6 | map('on:true,off:false')"
          unit=" °C"
          has-old-style
          value-in-rgb
          has-zoom
+         atemp-is-horizontal
+         atemp-position-top="45"
          size="100"
          value="23.5" temp="18.5" <!-- !Diese Zeile ist nur für die Demo und muss wieder entfernt werden! -->
        >
        </ftui-thermostat>
-       <ftui-button [(value)]="dummy6" states="on,off" style="width:80px;" [color]="dummy6 | map('on:red, .*:green')" color="green">
-         <ftui-label [text]="dummy6 | map('on:Locked, .*:Unlocked')" text="Unlocked"></ftui-label>
+       <ftui-button value="on" [(value)]="dummy6" states="on,off" style="width:80px;" color="red" [color]="dummy6 | map('on:red, .*:green')" color="green">
+         <ftui-label text="Locked" [text]="dummy6 | map('on:Locked, .*:Unlocked')" text="Unlocked"></ftui-label>
        </ftui-botton>
     </ftui-grid-tile>
  
