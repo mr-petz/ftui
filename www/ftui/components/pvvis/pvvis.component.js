@@ -3,7 +3,7 @@
 *
 * based on papas version for FTUI2
 * by yersinia & mr_petz & Shadow3561 & docolli
-* version 2022-11-30
+* version 2023-07-04
 *
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
@@ -380,7 +380,7 @@ export class FtuiPvvis extends FtuiElement {
     if ((this.doNotShowZero) && (houseConsume.toFixed() == 0)) {
       this.shadowRoot.getElementById("home-consume-txt").innerHTML = '';
     } else {
-      this.shadowRoot.getElementById("home-consume-txt").innerHTML = houseConsume.toFixed();
+      this.shadowRoot.getElementById("home-consume-txt").innerHTML = houseConsume; //.toFixed();
       if (this.unitValue) { this.shadowRoot.getElementById("home-consume-txt").innerHTML += '<tspan class="pvvis-txt-unit-value">' + this.unitValue + '</tspan>'; }
     }
   }
@@ -499,7 +499,7 @@ export class FtuiPvvis extends FtuiElement {
     if ((this.doNotShowZero) && (Math.round(src) == 0)) {
       this.shadowRoot.getElementById(obj + "-txt").innerHTML = '';
     } else {
-      this.shadowRoot.getElementById(obj + "-txt").innerHTML = src.toFixed();
+      this.shadowRoot.getElementById(obj + "-txt").innerHTML = src; //.toFixed();
       if (this.unitValue) { this.shadowRoot.getElementById(obj + "-txt").innerHTML += '<tspan class="pvvis-txt-unit-value">' + this.unitValue + '</tspan>'; }
     }
   }
