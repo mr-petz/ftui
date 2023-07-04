@@ -330,7 +330,8 @@ export class FtuiPvvis extends FtuiElement {
       { pct: 50, color: { r: 0x99, g: 0x99, b: 0 } },
       { pct: 100, color: { r: 0x00, g: 0x99, b: 0 } }
     ];
-    for (var i = 1; i < percentColors.length - 1; i++) { if (value < percentColors[i].pct) { break; } }
+    let i = 1;
+    for (i; i < percentColors.length - 1; i++) { if (value < percentColors[i].pct) { break; } }
     const lower = percentColors[i - 1];
     const upper = percentColors[i];
     const range = upper.pct - lower.pct;
@@ -393,7 +394,7 @@ export class FtuiPvvis extends FtuiElement {
   }
 
   calcSunOpacity() {
-    const sunOpacity = 0.2 + (0.8 * (Math.abs(this.produce) / this.pvmax));
+    let sunOpacity = 0.2 + (0.8 * (Math.abs(this.produce) / this.pvmax));
     this.sun.style.opacity = sunOpacity.toFixed(3);
     this.sun.classList.remove("pvvis-sun-inactive", "pvvis-sun-active");
     if (Math.abs(this.produce) > 0) {
@@ -407,7 +408,7 @@ export class FtuiPvvis extends FtuiElement {
   }
 
   colorGrid() {
-    const consumption = this.receive + this.gridCharge - this.feed;
+    let consumption = this.receive + this.gridCharge - this.feed;
     this.grid.classList.remove("pvvis-grid-feed", "pvvis-grid-consume", "pvvis-grid-neutral");
     if (consumption > this.flowThreshold) { this.grid.classList.add("pvvis-grid-consume"); }
     else if (consumption < -this.flowThreshold) { this.grid.classList.add("pvvis-grid-feed"); }
@@ -446,9 +447,9 @@ export class FtuiPvvis extends FtuiElement {
   }
 
   colorBat() {
-    const chargeval = this.charge + this.gridCharge - this.discharge;
+    let chargeval = this.charge + this.gridCharge - this.discharge;
     let batRemaining;
-    const socdiv = (this.calcBatRemainSocNotPercent ? this.batmax : 100);
+    let socdiv = (this.calcBatRemainSocNotPercent ? this.batmax : 100);
     this.battery.classList.remove("pvvis-battery-charge", "pvvis-battery-discharge", "pvvis-battery-neutral");
     if (chargeval < 0) {
       // discharge
@@ -476,8 +477,8 @@ export class FtuiPvvis extends FtuiElement {
     //loadbar battery
     const loadbarUpperLimit = 36; //px for y when 100% charged
     const loadbarLowerLimit = 272; //px for y when 0% charged
-    const loadbarPosArea = loadbarLowerLimit - loadbarUpperLimit;
-    const loadbarPosY = (((socdiv - this.soc) * loadbarPosArea) / socdiv) + loadbarUpperLimit;
+    let loadbarPosArea = loadbarLowerLimit - loadbarUpperLimit;
+    let loadbarPosY = (((socdiv - this.soc) * loadbarPosArea) / socdiv) + loadbarUpperLimit;
     this.shadowRoot.getElementById("pvvis-bat-load-bar").setAttribute("y", "" + loadbarPosY.toFixed() + "");
     this.shadowRoot.getElementById("pvvis-bat-load-triangle").setAttribute("transform", "translate(0, " + (loadbarPosY - loadbarUpperLimit + 5).toFixed() + ")"); //5 =half height of bar (10)
   }
