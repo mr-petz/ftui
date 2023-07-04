@@ -3,7 +3,7 @@
 *
 * based on papas version for FTU2
 * by yersinia & mr_petz & docolli
-* version 2022-11-30
+* version 2023-07-04
 *
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
@@ -313,7 +313,7 @@
 #pvvis-own-cons-flow,
 #pvvis-own-cons-circle {
   stroke: var(--pvvis-color-grey, grey);
-  fill: none;
+  fill: transparent; /* none; */
   display: none;
 }
 #pvvis-autarky-flow,
