@@ -1,3 +1,8 @@
+2023-07-17, 14:53:11 UTC (Mon)
+ y3rs1n14 - Create example page pvvis.html 
+ mr-petz - Merge pull request #4 from y3rs1n14/addons
+
+Create example page pvvis.html
 2023-07-04, 10:42:59 UTC (Tue)
  y3rs1n14 - skip toFixed()
 
