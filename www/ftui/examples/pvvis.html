@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!--
+    /* FHEM tablet ui - FTUI */
+    /**
+    * UI builder framework for FHEM
+    *
+    * Version: 3.0.0
+    *
+    * Copyright (c) 2015-2020 Mario Stephan <mstephan@shared-files.de>
+    * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
+    * https://github.com/knowthelist/ftui
+    */
+    -->
+  <script src="ftui.js"></script>
+
+  <link href="ftui.css" rel="stylesheet" />
+  <link href="themes/ftui-theme.css" rel="stylesheet" />
+  <link href="favicon.ico" rel="icon" type="image/x-icon" />
+
+  <!-- avoid 300ms delay on click-->
+  <meta name="viewport" content="width=device-width">
+
+  <!-- when serving the page with other web servers, e.g. lighttpd -->
+  <!-- <meta name="fhemweb_url" content="http://fhem.local:8083/fhem/"> -->
+
+  <!-- verbose level 0-4 -->
+  <meta name="debug" content="2">
+
+  <title>FTUI pvvis Demo</title>
+</head>
+
+<body>
+
+  <ftui-grid base-width="78" base-height="70" margin="5">
+
+    <ftui-grid-tile row="1" col="1" height="9" width="1">
+      <ftui-column>
+        <ftui-tab view="pvvis1" direction="vertical" active>
+          <ftui-icon name="lightbulb"></ftui-icon>
+	  <ftui-label>Bsp 1</ftui-label>
+        </ftui-tab>
+        <ftui-tab view="pvvis2" direction="vertical">
+          <ftui-icon name="lightbulb"></ftui-icon>
+	  <ftui-label>Bsp 2</ftui-label>
+        </ftui-tab>
+        <ftui-tab view="pvvis3" direction="vertical">
+          <ftui-icon name="info"></ftui-icon>
+	  <ftui-label>Doku</ftui-label>
+        </ftui-tab>
+      </ftui-column>
+    </ftui-grid-tile>
+
+    <ftui-tab-view id="pvvis1">
+      <ftui-grid-tile row="1" col="2" height="9" width="8">
+	<header>pvvis animated with kW values</header>
+	<ftui-pvvis
+	  au-oc-type="circle"
+	  autarky="38.1"
+	  own-consumption="100"
+          charge-discharge="3.2"
+          batmax="8"
+          soc="2.4"
+          produce="6.7"
+          wb-feed="1.2"
+          pvmax="14.5"
+          feed-receive="-1"
+          sun-icon="sun"
+          grid-icon="pylon2"
+          unit-soc="kWh"
+          unit-value="kW"
+          no-wb-in-home
+	  width="500px"
+	  class="size-7"
+	  car-soc="45"
+	  unit-car-soc="%"
+	  car-temp="34"
+	  pv-forecast="15.6"
+	  pv-prod-tdy="8.2"
+	  unit-sum="kWh"
+	  home-consume-tdy="1.35"
+	  grid-consume-tdy="123.45"
+	  grid-feed-tdy="45.98"
+	  flow-threshold="0.5"
+	  calc-bat-remain-time
+	  calc-bat-remain-soc-not-percent
+	  batstep="0.4,1.2,2.8,5,7.2">
+       </ftui-pvvis>
+      </ftui-grid-tile>
+    </ftui-tab-view>
+
+    <ftui-tab-view id="pvvis2">
+      <ftui-grid-tile row="1" col="2" height="3" width="3">
+	<header>pvsun, pylon2, plug, no-wb</header>
+        <ftui-pvvis
+                charge="0"
+                discharge="0"
+                feed="1400"
+                produce="3820"
+                unit-value="W"
+                pvmax="4000"
+                receive="0"
+                soc="54"
+                sun-icon="pvsun"
+                grid-icon="pylon2"
+                home-icon="plug"
+                has-no-wallbox>
+        </ftui-pvvis>
+      </ftui-grid-tile>
+      <ftui-grid-tile row="1" col="5" height="3" width="3">
+        <header>sun2, no-bat-gradient</header>
+        <ftui-pvvis
+                charge="1200"
+                discharge="50"
+                feed=""
+                produce="2200"
+                pvmax="4000"
+                receive="800"
+		sun-icon="sun2"
+		no-bat-gradient
+                soc="15">
+        </ftui-pvvis>
+      </ftui-grid-tile>
+      <ftui-grid-tile row="1" col="8" height="3" width="3">
+        <header>pylon, socket, no-zero</header>
+        <ftui-pvvis
+                charge="900"
+                discharge="0"
+                feed="1200"
+                produce="3900"
+                pvmax="4000"
+                receive="0"
+		wb-feed="800"
+		do-not-show-zero
+		grid-icon="pylon"
+		home-icon="socket"
+                soc="82">
+        </ftui-pvvis>
+      </ftui-grid-tile>
+      <ftui-grid-tile row="4" col="2" height="3" width="3">
+        <header>sun2, pylon2</header>
+        <ftui-pvvis
+                charge="0"
+                discharge="1200"
+                feed="0"
+                produce="0"
+                pvmax="4000"
+                receive="800"
+		grid-icon="pylon2"
+                sun-icon="sun2"
+                soc="72">
+        </ftui-pvvis>
+      </ftui-grid-tile>
+      <ftui-grid-tile row="4" col="5" height="3" width="3">
+        <header>has-no-battery</header>
+        <ftui-pvvis
+		has-no-battery
+                feed="1200"
+                produce="2200"
+                pvmax="4000"
+                receive="800">
+        </ftui-pvvis>
+      </ftui-grid-tile>
+      <ftui-grid-tile row="4" col="8" height="3" width="3">
+        <header>pylon, batstep different</header>
+        <ftui-pvvis
+                charge="0"
+                discharge="0"
+                feed="1200"
+                produce="3900"
+                pvmax="4000"
+                receive="0"
+		grid-icon="pylon"
+		batstep="24,24,51,75,95"
+                soc="24">
+        </ftui-pvvis>
+      </ftui-grid-tile>
+      <ftui-grid-tile row="7" col="2" height="3" width="3">
+        <header>no-wb, no-bat, no-zero</header>
+        <ftui-pvvis
+		feed-receive="-614"
+                produce="3820"
+                pvmax="5280"
+                grid-icon="pylon"
+		do-not-show-zero
+		has-no-wallbox
+		has-no-battery>
+        </ftui-pvvis>
+      </ftui-grid-tile>
+      <ftui-grid-tile row="7" col="5" height="3" width="3">
+        <header>discharge bat</header>
+        <ftui-pvvis
+                feed-receive="-614"
+		charge-discharge="-200"
+		unit-soc="%"
+		unit-value="W"
+		soc="52"
+                produce="-1500"
+                pvmax="5280"
+		do-not-show-zero
+                grid-icon="pylon">
+        </ftui-pvvis>
+      </ftui-grid-tile>
+      <ftui-grid-tile row="7" col="8" height="3" width="3">
+        <header>sun, pylon2, no-wb-in-home</header>
+	<ftui-pvvis
+          charge-discharge="276"
+	  battmax="2500"
+          soc="50"
+          produce="726"
+	  wb-feed="4897"
+          pvmax="12580"
+          feed-receive="-4922"
+	  sun-icon="sun"
+	  grid-icon="pylon2"
+	  unit-soc="%"
+	  unit-value="W"
+	  no-bat-gradient
+	  no-wb-in-home>
+       </ftui-pvvis>
+      </ftui-grid-tile>
+    </ftui-tab-view>
+
+    <ftui-tab-view id="pvvis3">
+      <ftui-grid-tile row="1" col="2" height="1" width="8">
+        <header>alle parameter & weitere Doku im FHEM Forum Thread</header>
+	<a href="https://forum.fhem.de/index.php?topic=119440.msg1260914#msg1260914" rel="noopener noreferrer" target="_blank">FHEM Forum: Darstellung Sonnenbatterie (post #289)</a>
+      </ftui-grid-tile>
+    </ftui-tab-view>
+
+  </ftui-grid>
+</body>
+</html>
