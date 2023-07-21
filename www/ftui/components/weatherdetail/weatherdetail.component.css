@@ -1,0 +1,66 @@
+.tabDays {
+  background-color: deepSkyBlue;
+}
+
+.tempMin {
+  font-size: 24px;
+  color: deepSkyBlue;
+}
+
+.tempMax {
+  font-size: 24px;
+  color: orange;
+}
+
+.date {
+  font-size: 24px;
+  color: white;
+}
+
+.weekday {
+  font-size: 15px;
+  margin-top: -6px;
+  color: darkgray;
+}
+
+.amount {
+  font-size: 21px;
+  font-weight:normal;
+}
+
+.unit {
+  font-size: 11px;
+}
+
+.tabUnit {
+  font-size: 16px;
+}
+
+.tabActive {
+  pointer-events: none;
+  border: thin solid white;
+  border-bottom: none;
+  border-radius: 15px 15px 0 0;
+  margin-left: -1px;
+}
+
+.tabInactive {
+  pointer-events: none;
+  border-radius: 15px 15px 0 0;
+  border-bottom: thin solid white;
+  background-color: #424949;
+}
+
+.pic {
+  margin-top: 4px;
+  height: 18px;
+  filter: brightness(0) saturate(100%) invert(59%) sepia(0%) saturate(7495%) hue-rotate(38deg) brightness(87%) contrast(81%);
+}
+
+table {
+  table-layout: fixed;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+}
