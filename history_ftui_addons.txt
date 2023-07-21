@@ -1,3 +1,15 @@
+2023-07-17, 14:53:11 UTC (Mon)
+ y3rs1n14 - Create example page pvvis.html 
+ mr-petz - Merge pull request #4 from y3rs1n14/addons
+
+Create example page pvvis.html
+2023-07-04, 10:42:59 UTC (Tue)
+ y3rs1n14 - skip toFixed()
+
+don't limit house consumption and displayed flow values to whole numbers; adjust njumbers through pipes like fixed(n) if required 
+ y3rs1n14 - change au/oc fill to transparent
+
+change au/oc fill to transparent
 2023-03-30, 18:52:50 UTC (Thu)
  mr-petz - added attribute for current temperatur
 
