@@ -1,39 +1,15 @@
-.tabDays {
-  background-color: deepSkyBlue;
+/* created by Jones
+   https://forum.fhem.de/index.php?topic=134253.0
+*/
+.header {
 }
 
-.tempMin {
-  font-size: 24px;
-  color: deepSkyBlue;
+.fontBig {
+  font-size: 22px; 
 }
 
-.tempMax {
-  font-size: 24px;
-  color: orange;
-}
-
-.date {
-  font-size: 24px;
-  color: white;
-}
-
-.weekday {
-  font-size: 15px;
-  margin-top: -6px;
-  color: darkgray;
-}
-
-.amount {
-  font-size: 21px;
-  font-weight:normal;
-}
-
-.unit {
-  font-size: 11px;
-}
-
-.tabUnit {
-  font-size: 16px;
+.fontMedium {
+  font-size: 18px; 
 }
 
 .tabActive {
@@ -48,13 +24,42 @@
   pointer-events: none;
   border-radius: 15px 15px 0 0;
   border-bottom: thin solid white;
-  background-color: #424949;
+  opacity: 0.55;
+}
+
+.date {
+  font-size: 95%;
+  color: white;
+}
+
+.weekday {
+  font-size: 70%;
+  margin-top: -6px;
+  color: darkgray;
+}
+
+.tempMin {
+  font-size: 90%;
+  color: deepSkyBlue;
+}
+
+.tempMax {
+  font-size: 90%;
+  color: orange;
+}
+
+.amount {
+  font-size: 21px;
+  font-weight:normal;
+}
+
+.unit {
+  font-size: 11px;
 }
 
 .pic {
   margin-top: 4px;
   height: 18px;
-  filter: brightness(0) saturate(100%) invert(59%) sepia(0%) saturate(7495%) hue-rotate(38deg) brightness(87%) contrast(81%);
 }
 
 table {
