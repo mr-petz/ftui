@@ -2,6 +2,7 @@
 * Weatherdetail component for FTUI version 3
 *
 * (c) 2023 by jones
+* https://forum.fhem.de/index.php?topic=134253.0
 *
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
@@ -18,39 +19,24 @@ export class FtuiWeatherdetail extends FtuiElement {
   constructor(properties) {
     super(Object.assign(FtuiWeatherdetail.properties, properties));
     this.fhemIconPath = '../images/default/weather/'; // icon path of kleinklima gfx
-    this.fhemPicsPath = '../images/fhemSVG/';         // icon path of row label gfx
-    this.selDay = 0; // 0...4 0:today, 1:tomorrow, ...
-    this.elemList  = this.shadowRoot.querySelector('.weather-detail');
-    this.dayTab = Array(this.sumDays)
-    this.dayTab[0] = this.shadowRoot.getElementById('weatherTab0');
-    this.dayTab[1] = this.shadowRoot.getElementById('weatherTab1');
-    this.dayTab[2] = this.shadowRoot.getElementById('weatherTab2');
-    this.dayTab[3] = this.shadowRoot.getElementById('weatherTab3');
-    this.dayTab[0].addEventListener("click", event => this.onButtonClick(event, 0));
-    this.dayTab[1].addEventListener("click", event => this.onButtonClick(event, 1));
-    this.dayTab[2].addEventListener("click", event => this.onButtonClick(event, 2));
-    this.dayTab[3].addEventListener("click", event => this.onButtonClick(event, 3));
-    // ---------------------------------------------------------------------------------------
-    // Array for day overview
-    // ---------------------------------------------------------------------------------------
-    this.sumDays= 4; // Sum of days that are shown in this component
-    this.arrDayTab = { date :0, icon:1, minTemp:2, maxTemp:3 };
-    this.lenDayTab = Object.keys(this.arrDayTab).length;
-    this.arrDaySummary = new Array(this.sumDays);
-    for (let day = 0; day < this.sumDays; ++day)
-      this.arrDaySummary[day] = new Array(this.lenDayTab);
-    // ---------------------------------------------------------------------------------------
-    // Array for day detailed
-    // ---------------------------------------------------------------------------------------
-    this.sumDayCols = 8; // Reading columns per Day (24h / 3h gap)
-    this.arrReadRow = { chOfRain :0, cloud:1, rain:2, temp:3, wind:4, weather:5 };
-    this.lenReadRow= Object.keys(this.arrReadRow).length;
-    this.arrDayDetailed = new Array(this.lenReadRow);
-    for (let row = 0; row < this.lenReadRow; ++row)
+    this.ftuiIconPath = './icons/';
+  //this.fhemPicsPath = '../images/fhemSVG/';         // icon path of row label gfx
+    this.actDay = 0; // wich day-tab is selected (0:today, 1:tomorrow, ...)
+    this.maxDay = 8;
+    this.lastUpdate = 0;
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////////////
+  // Reading of the fhem device has changed
+  //////////////////////////////////////////////////////////////////////////////////////////////
+  onChangeReading(read) {
+    if (!read) return;
+    let time = new Date().getTime();
+    if (time - this.lastUpdate > 4000) // MANY onChangeReading() events in first 4s after creating!?
     {
-      this.arrDayDetailed[row] = new Array(this.lenReadRow);
-      for (let col = 0; col < this.sumDayCols; ++col)
-        this.arrDayDetailed[row][col] = new Array(this.sumDayCols);
+      //alert("onChangeReading()")
+      this.lastUpdate = time;
+      this.fetchData();
     }
   }
 
@@ -61,24 +47,24 @@ export class FtuiWeatherdetail extends FtuiElement {
     return `
       <style> @import "components/weatherdetail/weatherdetail.component.css";</style>
       <ftui-column>
-        <table><tr>
-          <td id="weatherTab0"></td>
-          <td id="weatherTab1"></td>
-          <td id="weatherTab2"></td>
-          <td id="weatherTab3"></td>
-        </tr><tr></tr></table>
-        <ftui-row class="weather-detail">please wait...</ftui-row>
+        <table><tr id="dayTabs"></tr></table>
+        <ftui-row id="dayTable">please wait...</ftui-row>
       </ftui-column>
       `;
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////
-  // All the properties this component can have.
-  // (e.g. <ftui-weatherdetail device="Proplanta" color="pinkPony" ></ftui-weatherdetail>)
-  //////////////////////////////////////////////////////////////////////////////////////////////
+  // All the properties this component can have. They are used as default properties
+    //////////////////////////////////////////////////////////////////////////////////////////////
   static get properties() {
     return {
-    device: '',
+    device: 'proplanta',
+    forecast: '4',
+    bgcolor: 'dark',
+    txtlight: 'white',
+    txtdark: 'Gray',
+    bordercolor: 'white',
+    iconfilter: 'brightness(0) saturate(100%) invert(59%) sepia(0%) saturate(7495%) hue-rotate(38deg) brightness(87%) contrast(81%);',
     };
   }
 
@@ -92,25 +78,23 @@ export class FtuiWeatherdetail extends FtuiElement {
   //////////////////////////////////////////////////////////////////////////////////////////////
   // Component has connected to fhem.
   //////////////////////////////////////////////////////////////////////////////////////////////
-  onConnected() {}
+  onConnected() {
+    // alert("onConnected()") // fires 2 times on reload
+  }
 
   //////////////////////////////////////////////////////////////////////////////////////////////
-  // Device has changed in the attributes, subscribe reading events for this device
+  // Triggers on every attribute defined in <ftui-weatherdetail> html element
   //////////////////////////////////////////////////////////////////////////////////////////////
   onAttributeChanged(name) {
     switch (name) {
       case 'device':
-       fhemService.getReadingEvents(this.device).subscribe(read => this.onChangeReading(read));
+        fhemService.getReadingEvents(this.device).subscribe(read => this.onChangeReading(read));
+      break;
+      case 'forecast':
+        if (this.forecast < 1 || this.forecast > this.maxDay)
+          this.forecast = 4; // default: 4 days of weather forecast
       break;
     }
-  }
-
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  // Reading of the fhem device has changed
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  onChangeReading(read) {
-    if (!read) return;
-    this.fetchData();
   }
  
   //////////////////////////////////////////////////////////////////////////////////////////////
@@ -118,7 +102,7 @@ export class FtuiWeatherdetail extends FtuiElement {
   //////////////////////////////////////////////////////////////////////////////////////////////
   onButtonClick(event, wDay)
   {
-    this.selDay = wDay;
+    this.actDay = wDay;
     this.fetchData();   
   }
 
@@ -135,7 +119,7 @@ export class FtuiWeatherdetail extends FtuiElement {
     'chance_of_rain.png',       // t6
     'showers.png',              // t7
     'chance_of_storm.png',      // t8
-    'chance_of_snow.png',       // t9
+	  'chance_of_snow.png',       // t9
     'rainsnow.png',             // t10
     'snow.png',                 // t11
     'haze.png',                 // t12
@@ -154,74 +138,13 @@ export class FtuiWeatherdetail extends FtuiElement {
     'snow.png',                 // n11
     'haze_night.png',           // n12
     'haze_night.png',           // n13
-    'rain.png']                 // n14
+	  'rain.png']                 // n14
 
     let filename = iconFilename.substring(iconFilename.lastIndexOf("/")+1, iconFilename.length-4); // w/o path and extension
     let iconNr = filename.substring(1)-1;
     if (iconNr > 14)
 	    return "na.png"
-    return filename[0]=="t"?weatherIcon[iconNr]:weatherIcon[iconNr+14];
-  }
- 
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  // Add tabs with a daily summary
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  addDayTabs() {
-    for (let day = 0; day < this.sumDays; day++)
-    {
-      let date = dateFormat(dateFromString(this.arrDaySummary[day][0]), "ee");
-      let content = '<ftui-column class='+(day==this.selDay?"tabActive":"tabInactive")+'>';
-      content+= '<ftui-label class="date">'+this.arrDaySummary[day][0]+'</ftui-label>';
-      content+= '<ftui-label class="weekday">'+(!day?"Heute":date)+'</ftui-label>';
-      content+= '<img width="100%" src='+ this.fhemIconPath + this.getWeatherIcon(this.arrDaySummary[day][1])+'>';
-      content+= '<ftui-label class="tempMin tabUnit"><ftui-label size="5" text="'+this.arrDaySummary[day][2]+'"></ftui-label>°C&nbsp;';
-      content+= '<ftui-label class="tempMax tabUnit"><ftui-label size="5" text="'+this.arrDaySummary[day][3]+'"></ftui-label>°C</ftui-label></ftui-label>';
-      content+= '</ftui-column>';
-      this.dayTab[day].innerHTML = content;
-    }
-  }
- 
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  // Fill an array with the fhem readings
-  // name:    fhem-reading
-  // posHour: pos of the hour-text ("00"-"21") in the name-string (e.g. pos 8 in fc0_rain00)
-  // day:     show detailed weather data for this day
-  // value:   value of the fhem reading
-  // type:    typeNr of the reading
-  // isIcon:  is a fcX_weather reading, skip non filename data
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  fillArray(name, posHour, day, value, type, isIcon) {
-    let hour = (name.substring(posHour))?Number(name.substring(posHour, posHour+2))/3:"NaN";
-    if (isNaN(hour)) // skip readings without hour data
-      return;
-    if (!isIcon)
-      return this.arrDayDetailed[day][type][hour] = value; // all but icon data
-    if (name.includes("Icon")) // only the Icon part is needed, text part is skipped
-      this.arrDayDetailed[day][type][hour] = this.fhemIconPath + this.getWeatherIcon(value);
-  }
-
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  // Add a row to the html table
-  // icon:   icon-filename of the first column
-  // type:   typeNr of the reading
-  // unit:   unit of the reading (mm, %, etc)
-  // isIcon: is data an icon-filename
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  addTableRow(icon, type, unit, isIcon) {
-    let content = '<tr><td style="width: 2%;"><img class="pic" src="'+this.fhemPicsPath + icon +'.svg"></td>';
-    if (type === null) { // headline
-      for (let row = 0; row < 24; row+=3)
-        content+= '<td><ftui-label text-align="right" class="unit"><ftui-label class="amount" text="'+ String("0" + row).slice(-2) +'"></ftui-label>Uhr</ftui-label></td>';
-      return content + '</tr>';
-    }
-    if (isIcon) { // kleinklima weather icons
-      for (let row = 0; row< 8; row++)
-        content+= '<td><img height="50px" src='+ this.arrDayDetailed[this.selDay][type][row] +'></td>';
-      return content + '</tr>';
-    }
-    for (let row = 0; row< 8; row++)
-      content+= '<td><ftui-label class="unit"><ftui-label class="amount" text="'+ this.arrDayDetailed[this.selDay][type][row] +'"></ftui-label>'+unit+'</ftui-label></td>';
-    return content + '</tr>';
+    return filename[0]=="t"?this.fhemIconPath + weatherIcon[iconNr]:this.fhemIconPath + weatherIcon[iconNr+14];
   }
  
   //////////////////////////////////////////////////////////////////////////////////////////////
@@ -239,59 +162,67 @@ export class FtuiWeatherdetail extends FtuiElement {
       ////////////////////////////////////////////////////////////////////////////////////////
       if (response.Results[0])
       {
-        var day=0;
         const readings = response.Results[0].Readings;
-        let showDay = "fc"+(this.selDay & 3); // only allow 0..3
-        for (let name in readings) {
-          // We only need a 4 day forecast, skip all other days
-          if (name.startsWith("fc4"))
-            break;
-          if (name.startsWith("fc"))
-          {
-            day = Number(name[2])
-            const strStartPos = 4; // skip "fcX_"
-            // table of day tabs
-            if (name.startsWith("date", strStartPos))
-              this.arrDaySummary[day][0] = readings[name].Value;
-            if (name.startsWith("weatherDayIcon", strStartPos))
-              this.arrDaySummary[day][1] = readings[name].Value;
-            if (name.startsWith("tempMin", strStartPos))
-              this.arrDaySummary[day][2] = readings[name].Value;
-            if (name.startsWith("tempMax", strStartPos))
-              this.arrDaySummary[day][3] = readings[name].Value;
-            // table of all details
-            if (name.startsWith("chOfRain", strStartPos))
-              this.fillArray(name, 12, day, readings[name].Value, this.arrReadRow.chOfRain, false);
-            else if (name.startsWith("cloud", strStartPos))
-              this.fillArray(name,  9, day, readings[name].Value, this.arrReadRow.cloud, false);
-            else if (name.startsWith("rain", strStartPos))
-              this.fillArray(name,  8, day, readings[name].Value, this.arrReadRow.rain, false);
-            else if (name.startsWith("temp", strStartPos))
-              this.fillArray(name,  8, day, readings[name].Value, this.arrReadRow.temp, false);
-            else if (name.startsWith("wind", strStartPos))
-              this.fillArray(name,  8, day, readings[name].Value, this.arrReadRow.wind, false);
-            else if (name.startsWith("weather", strStartPos))
-              this.fillArray(name, 11, day, readings[name].Value, this.arrReadRow.weather, true);
-          }
+        // -----------------------------------------------------------------------------------
+        // Days overview (upper half of this html-object [displayed as tabs])
+        // ----------------------------------------------------------------------------------- 
+        this.elemDayTab = this.shadowRoot.getElementById('dayTabs');
+        this.elemDayTab.textContent = ''; // delete all children
+        for (let day = 0; day < this.forecast; day++) {
+          let strDay = "fc"+day+"_";
+          let elem = this.elemDayTab.insertCell(-1);
+          (this.forecast < 6)?elem.classList.add("fontBig"):elem.classList.add("fontMedium");
+          let date = readings[strDay+"date"].Value;
+          let wDay = dateFormat(dateFromString(date), "ee");
+          let content = '<td>'
+          content+= '<ftui-column style="border-color: '+this.bordercolor+'; background-color: '+this.bgcolor+';" class='+(day==this.actDay?"tabActive":"tabInactive")+'>';
+          content+= '<ftui-label style="color: '+this.txtlight+';" class="date">'+ date +'</ftui-label>';
+          content+= '<ftui-label style="color: '+this.txtdark+';" class="weekday">'+(!day?"Heute":wDay)+'</ftui-label>';
+          content+= '<img width="100%" src='+ this.getWeatherIcon(readings[strDay+"weatherDayIcon"].Value)+'>';
+          content+= '<ftui-label class="tempMin tabUnit"><ftui-label class="'+(this.forecast < 6?"fontBig":"fontMedium")+'" text="'+readings[strDay+"tempMin"].Value+'"></ftui-label>°C&nbsp;';
+          content+= '<ftui-label class="tempMax tabUnit"><ftui-label class="'+(this.forecast < 6?"fontBig":"fontMedium")+'" text="'+readings[strDay+"tempMax"].Value+'"></ftui-label>°C</ftui-label></ftui-label>';
+          elem.innerHTML = content + '</ftui-column></td>';
+          elem.addEventListener("click", event => this.onButtonClick(event, day));
+        }
+        // when forecast is < 4: create dummy tabs (else tabs would be extremely huge)
+        for (let day = this.forecast; day < 4; day++) {
+          let elem = this.elemDayTab.insertCell(-1);
+        }
+        // -----------------------------------------------------------------------------------
+        // Day detailed (lower half of this html-object [displayed as table])
+        // -----------------------------------------------------------------------------------
+        //const iconNames = ["fa_time", "fa_cloud", "fa_uniF2C8", "fa_umbrella", "humidity", "fa_flag" ]; // fhem folder
+        const iconNames = ["clock-o", "cloud11", "thermometer-1", "umbrella", "rainy1",  "flag" ]; // ftui folder
+        this.elemDayAll = this.shadowRoot.getElementById('dayTable');
+        this.elemDayAll.textContent = ''; // delete all children
+        let content = '<table style="pointer-events: none; background-color: '+this.bgcolor+';">';
+        let strDay = "fc"+this.actDay+"_";
+        const sumRows = iconNames.length;
+        const row = new Array(sumRows);
+        for (let y = 0; y < sumRows; y++) {
+          row[y] = '<tr style="color: '+this.txtlight+';"><td style="width: 2%;"><img style="filter: '+this.iconfilter+'" class="pic" src="'+this.ftuiIconPath + iconNames[y] +'.svg"></td>';
+        }
+        for (let hour = 0; hour < 8; hour++) {
+          let strHour = String("0" + hour*3).slice(-2);
+          row[0]+= '<td><ftui-label text-align="right" class="unit">'
+          row[0]+= '<ftui-label class="amount" text="'+ strHour +'"></ftui-label>Uhr</ftui-label></td>';         
+          row[1]+= '<td><img height="50px" src='+ this.getWeatherIcon(readings[strDay+"weather"+strHour+"Icon"].Value) +'></td>';
+          row[2]+= '<td><ftui-label text-align="right" class="unit">'
+          row[2]+= '<ftui-label class="amount" text="'+readings[strDay+"temp"+strHour].Value +'"></ftui-label>°C</ftui-label></td>';         
+          row[3]+= '<td><ftui-label text-align="right" class="unit">'
+          row[3]+= '<ftui-label class="amount" text="'+readings[strDay+"chOfRain"+strHour].Value +'"></ftui-label>%</ftui-label></td>';         
+          row[4]+= '<td><ftui-label text-align="right" class="unit">'
+          row[4]+= '<ftui-label class="amount" text="'+readings[strDay+"rain"+strHour].Value +'"></ftui-label>%</ftui-label></td>';         
+          row[5]+= '<td><ftui-label text-align="right" class="unit">'
+          row[5]+= '<ftui-label class="amount" text="'+readings[strDay+"wind"+strHour].Value +'"></ftui-label>km/h</ftui-label></td>';         
+        }
+        for (let y = 0; y < sumRows; y++) {
+          content+= row[y] + '</tr>';
+        }
+        this.elemDayAll.innerHTML = content + '</table>';
       }
-      this.elemList.textContent = '';
-      const elemItem = document.createElement('div');
-      this.addDayTabs();
-      let content = '';
-      content+= '<table style="pointer-events: none;">';
-      content+= this.addTableRow("fa_time",     null,                      "", false); // headline
-      content+= this.addTableRow("fa_cloud",    this.arrReadRow.weather,   "", true);  // weather icon names
-    //content+= this.addTableRow("fa_cloud",    this.arrReadRow.cloud,    "%", false); // sky covering
-      content+= this.addTableRow("fa_uniF2C8",  this.arrReadRow.temp,    "°C", false); // temperature
-      content+= this.addTableRow("fa_umbrella", this.arrReadRow.chOfRain, "%", false); // chance of rain
-      content+= this.addTableRow("humidity",    this.arrReadRow.rain,    "mm", false); // abmount of rain
-      content+= this.addTableRow("fa_flag",     this.arrReadRow.wind,  "km/h", false); // abmount of rain
-      elemItem.innerHTML = content + '</table>';
-      this.elemList.appendChild(elemItem);
-      }}).catch(error => {
-        this.elemList.innerHTML='<div style="text-align:center;">'+error+' '+error.stack+'</div>';
-    });
+    })
   }
-}     
+}
 
 window.customElements.define('ftui-weatherdetail', FtuiWeatherdetail);
