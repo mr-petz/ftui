@@ -1,7 +1,21 @@
-/* created by Jones
-   https://forum.fhem.de/index.php?topic=134253.0
+/*
+* Weatherdetail component css for FTUI version 3
+* Shows a weather forcast for 1-7 days with detailed info of the selected day.
+*
+* (c) 2023 by jones
+*
+* Under MIT License (http://www.opensource.org/licenses/mit-license.php)
+*
+* https://github.com/knowthelist/ftui
 */
-.header {
+
+:host {
+  --icondark:    setByJS;
+  --iconlight:   setByJS;
+  --bgactive:    setByJS;
+  --bginactive:  setByJS;
+  --bordercolor: setByJS;
+  --txtlight:    setByJS;
 }
 
 .fontBig {
@@ -18,24 +32,28 @@
   border-bottom: none;
   border-radius: 15px 15px 0 0;
   margin-left: -1px;
+  border-color: var(--bordercolor);
+  background-color: var(--bgactive);
 }
 
 .tabInactive {
   pointer-events: none;
-  border-radius: 15px 15px 0 0;
   border-bottom: thin solid white;
+  border-radius: 15px 15px 0 0;
   opacity: 0.55;
+  border-color: var(--bordercolor);
+  background-color: var(--bginactive);
 }
 
 .date {
   font-size: 95%;
-  color: white;
+  color: var(--txtlight);
 }
 
 .weekday {
   font-size: 70%;
   margin-top: -6px;
-  color: darkgray;
+  color: var(--bordercolor);
 }
 
 .tempMin {
@@ -50,10 +68,11 @@
 
 .amount {
   font-size: 21px;
-  font-weight:normal;
+  font-weight: normal;
 }
 
 .unit {
+  text-align: right;
   font-size: 11px;
 }
 
@@ -62,10 +81,46 @@
   height: 18px;
 }
 
-table {
+table, tr, td {
+  color: var(--txtlight);
+  background-color: var(--bgactive);
+/*  border: 1px solid white; */ /* Testing only */
   table-layout: fixed;
   padding: 0;
   margin: 0;
   text-align: center;
   width: 100%;
+}
+
+svg {
+  position: absolute;
+  display: block;
+}
+
+.svg1 {
+  stroke: var(--icondark);
+  stroke-width: 2;
+  fill: transparent;
+}
+
+.svg2 {
+  stroke: var(--iconlight);
+  stroke-width: 1;
+  fill: transparent;
+}
+
+.svg3 {
+  stroke: var(--icondark);
+  stroke-width: 0.5;
+  fill: var(--iconlight);
+}
+
+.svg4 {
+  fill: var(--iconlight);
+}
+
+.svg5 {
+  stroke: var(--icondark);
+  stroke-width: 1.4;
+  fill: transparent;
 }
