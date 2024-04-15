@@ -1,3 +1,9 @@
+2023-08-08, 06:27:15 UTC (Tue)
+ mr-petz - added weatherdetail 
+ mr-petz - Merge branch 'addons' of https://github.com/mr-petz/ftui into addons
+2023-08-08, 06:26:20 UTC (Tue)
+ y3rs1n14 - Create weatherdetail.component.js 
+ y3rs1n14 - Create weatherdetail.component.css
 2023-07-17, 14:53:11 UTC (Mon)
  y3rs1n14 - Create example page pvvis.html 
  mr-petz - Merge pull request #4 from y3rs1n14/addons
