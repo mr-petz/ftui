@@ -1,3 +1,10 @@
+2024-04-15, 11:12:50 UTC (Mon)
+ y3rs1n14 - Add ; in pvvis.component.js
+
+missing ; at end-of-line added 
+ y3rs1n14 - Merge pull request #1 from mr-petz/addons
+
+Addons
 2023-08-08, 06:27:15 UTC (Tue)
  mr-petz - added weatherdetail 
  mr-petz - Merge branch 'addons' of https://github.com/mr-petz/ftui into addons
