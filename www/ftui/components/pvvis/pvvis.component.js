@@ -3,7 +3,7 @@
 *
 * based on papas version for FTUI2
 * by yersinia & mr_petz & Shadow3561 & docolli
-* version 2023-07-04
+* version 2024-04-15
 *
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
@@ -249,7 +249,7 @@ export class FtuiPvvis extends FtuiElement {
         this.calcHouseConsume();
         break;
       case 'feed':
-        this.flowValue(value, "pv-grid")
+        this.flowValue(value, "pv-grid");
         this.calcProduce();
         this.colorGrid();
         break;
