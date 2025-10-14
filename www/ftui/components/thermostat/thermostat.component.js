@@ -61,7 +61,7 @@ export class FtuiThermostat extends FtuiElement {
   template() {
     return `
         <style>
-         @import "themes/color-attributes.css";
+         @import "styles/colors.css";
          @import "components/thermostat/thermostat.component.css";
          ${this.startAngle = Math.round((360-this.degrees+this.rotation) / 2)}
          ${this.endAngle = Math.round(this.startAngle+this.degrees)}
