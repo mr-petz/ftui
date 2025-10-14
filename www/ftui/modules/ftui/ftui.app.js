@@ -44,9 +44,12 @@ class FtuiApp {
     this.config.refreshDelay = this.getMetaString('refresh_restart_delay', 3);
     // self path
     const fhemUrl = this.getMetaString('fhemweb_url');
-    this.config.fhemDir = fhemUrl || window.location.origin + '/fhem/';
-    if (fhemUrl && new RegExp('^((?!http://|https://).)*$').test(fhemUrl)) {
-      this.config.fhemDir = window.location.origin + '/' + fhemUrl + '/';
+    if (fhemUrl) {
+      this.config.fhemDir = new RegExp('^((?!http://|https://).)*$').test(fhemUrl) 
+      ? window.location.origin + '/' + fhemUrl + '/' 
+      : fhemUrl;
+    } else {
+      this.config.fhemDir = window.location.origin + '/' + location.pathname.split('/')[1] + '/';
     }
     this.config.fhemDir = this.config.fhemDir.replace('///', '//');
     ftui.log(1, 'FHEM dir: ' + this.config.fhemDir);
@@ -115,6 +118,16 @@ class FtuiApp {
     const componentTypes = [];
     const undefinedComponents = ftui.selectElements(':not(:defined)', area);
 
+    if (undefinedComponents === null) {
+      // nothing found, return self resolving Promise array
+      return [new Promise((resolve) => {
+        const id = setTimeout(() => {
+          clearTimeout(id);
+          resolve('nothing found')
+        }, 10)
+      })];
+    }
+
     // Fetch all the children of <ftui-*> that are not defined yet.
     undefinedComponents.forEach(elem => {
       if (elem.localName.startsWith('ftui-') && !componentTypes.includes(elem.localName)) {
@@ -150,7 +163,13 @@ class FtuiApp {
     // init ftui binding of 3rd party components
     const selectors = ['[ftui-binding]'];
     const bindElements = ftui.selectElements(selectors.join(', '), area);
+
+    if (bindElements === null) {
+      return;
+    }
+
     bindElements.forEach((element) => {
+      element.isActiveChange = {};
       element.binding = new FtuiBinding(element);
       element.binding.isThirdPartyElement = true;
     });
@@ -218,8 +237,8 @@ class FtuiApp {
 
   setTheme(isDark) {
     const now = ftui.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss');
-    fhemService.updateReadingItem('local-dark', {
-      id: 'local-dark',
+    fhemService.updateReadingItem('ftui-isDark', {
+      id: 'ftui-isDark',
       invalid: false,
       value: isDark,
       time: now,

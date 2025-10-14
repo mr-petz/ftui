@@ -1,7 +1,7 @@
 :host([is-vertical]) .progress {
   display: flex;
   flex-direction: column-reverse;
-  margin: 0 0.5em 0 0.5em;
+  margin: 0 var(--meter-margin, 0.5em) 0 var(--meter-margin, 0.5em);
 }
 
 :host([is-vertical]) .container {
@@ -36,20 +36,17 @@
   border-radius: var(--meter-border-radius, 1em);
   -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
   box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
-  margin: 0.5em 0 0.5em 0;
+  margin: var(--meter-margin, 0.5em) 0 var(--meter-margin, 0.5em) 0;
 }
 
 .progress-bar {
   height: 100%;
   border-radius: var(--meter-border-radius, 1em);
-  -webkit-transition: 0.4s linear;
-  transition: 0.4s linear;
-  -webkit-transition-property: width, height, background-color;
-  transition-property: width, height, background-color;
   -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
   -webkit-mask:linear-gradient(#fff 0 0);
   mask:linear-gradient(#fff 0 0);
+  margin-top: 0.5px;
 }
 
 .progress-bar::before {

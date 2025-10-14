@@ -8,7 +8,7 @@
 */
 
 
-import * as ftuiHelper from '../modules/ftui/ftui.helper.js';
+import { isNumeric, toKebabCase, log } from '../modules/ftui/ftui.helper.js';
 
 const uids = {};
 
@@ -32,6 +32,7 @@ export class FtuiElement extends HTMLElement {
       this.createShadowRoot(this.template());
     }
 
+    this.isActiveChange = {};
     if (window.ftuiApp) {
       ftuiApp.attachBinding(this);
     }
@@ -49,8 +50,8 @@ export class FtuiElement extends HTMLElement {
       hidden: false,
       disabled: false,
       readonly: false,
-      margin: '0',
-      padding: '0',
+      margin: '',
+      padding: '',
     };
   }
 
@@ -59,41 +60,49 @@ export class FtuiElement extends HTMLElement {
   }
 
   static convertToAttributes(properties) {
-    return Object.keys(properties).map(property => ftuiHelper.toKebabCase(property));
+    return Object.keys(properties).map(property => toKebabCase(property));
   }
 
   connectedCallback() {
+    this.updateProperties();
     if (typeof this.onConnected === 'function') {
       // call the hook function of the instance
       this.onConnected();
     }
   }
 
+  /**
+   * Called when an observed attribute has changed.
+   * @param {String} name The attribute's name.
+   * @param {*} oldValue The old value of the attribute.
+   * @param {*} newValue The new value of the attribute.
+   */
   attributeChangedCallback(name, oldValue, newValue) {
-    ftuiHelper.log(3, `${this.id} -  attributeChangedCallback name=${name}, oldValue=${oldValue}, newValue=${newValue}`)
+    log(3, `${this.id} -  attributeChangedCallback name=${name}, oldValue=${oldValue}, newValue=${newValue}`)
     if (typeof this.onAttributeChanged === 'function') {
       // call the hook function of the instance
       this.onAttributeChanged(name, newValue, oldValue);
     }
+    const hasValue = newValue !== null && newValue !== false;
     switch (name) {
       case 'hidden':
-        this.style.display = newValue !== null ? 'none' : '';
+        this.style.display = hasValue ? 'none' : '';
         break;
       case 'disabled':
-        this.style.filter = newValue !== null ? 'sepia(1) saturate(0) blur(1px)' : '';
-        this.style.pointerEvents = newValue !== null ? 'none' : '';
+        this.style.filter = hasValue ? 'sepia(1) saturate(0) blur(1px)' : '';
+        this.style.pointerEvents = hasValue ? 'none' : '';
         break;
       case 'readonly':
-        this.style.pointerEvents = newValue !== null ? 'none' : '';
+        this.style.pointerEvents = hasValue ? 'none' : '';
         break;
       case 'margin': {
         if (this.tagName !== 'FTUI-GRID') {
-          this.style.margin = ftuiHelper.isNumeric(newValue) ? newValue + 'em' : newValue;
+          this.style.margin = isNumeric(newValue) ? newValue + 'em' : newValue;
         }
         break;
       }
       case 'padding': {
-        this.style.padding = ftuiHelper.isNumeric(newValue) ? newValue + 'em' : newValue;
+        this.style.padding = isNumeric(newValue) ? newValue + 'em' : newValue;
         break;
       }
     }
@@ -109,7 +118,7 @@ export class FtuiElement extends HTMLElement {
   submitChange(property, value) {
     this.isActiveChange[property] = true;
     this[property] = value;
-    this.emitChangeEvent(property, value );
+    this.emitChangeEvent(property, value);
   }
 
   emitChangeEvent(attribute, value) {
@@ -123,7 +132,7 @@ export class FtuiElement extends HTMLElement {
 
   initProperties(properties) {
     Object.entries(properties).forEach(([name, defaultValue]) => {
-      const attr = ftuiHelper.toKebabCase(name);
+      const attr = toKebabCase(name);
       if (typeof properties[name] === 'boolean') {
         this.defineBooleanProperty(name, attr);
         this.initBooleanAttribute(attr, defaultValue);
@@ -177,5 +186,22 @@ export class FtuiElement extends HTMLElement {
       get() { return this.getAttribute(attr); },
       set(value) { this.setAttribute(attr, value); },
     });
+  }
+
+  /**
+   * Updates all properties by calling attributeChangedCallback for each property,
+   * if the attribute has the default value.
+   *
+   * This function is called when the component is connected.
+   *
+   * @private
+   */
+  updateProperties() {
+    Object.entries(this.properties).forEach(([name, defaultValue]) => {
+      const attr = toKebabCase(name);
+      if (this.getAttribute(attr) === defaultValue) {
+        this.attributeChangedCallback(attr, null, defaultValue);
+      }
+    })
   }
 }

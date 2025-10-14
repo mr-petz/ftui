@@ -1,21 +1,17 @@
-import { fhemService } from '../../modules/ftui/fhem.service.js';
-
 export function getPart(value, part) {
   if (this.isDefined(part)) {
     if (this.isNumeric(part)) {
-      const tokens = (this.isDefined(value)) ? value.toString().split(' ') : '';
-      return (tokens.length >= part && part > 0) ? tokens[part - 1] : value;
+      const tokens = (this.isDefined(value)) ? value.toString().split(' ') : [];
+      if (tokens.length >= part && part > 0) {
+        return tokens[part - 1];
+      }
     } else {
-      let ret = '';
       if (this.isDefined(value)) {
         const matches = value.match(new RegExp('^' + part + '$'));
         if (matches) {
-          for (let i = 1, len = matches.length; i < len; i++) {
-            ret += matches[i];
-          }
+          return matches.slice(1).join('');
         }
       }
-      return ret;
     }
   }
   return value;
@@ -48,21 +44,17 @@ export function getMatchingValue(map, searchKey) {
 
 export function getMatchingKey(map, searchKey) {
   if (this.isDefined(map)) {
-    const filteredKeys =
-      this.getMatchingKeys(map, searchKey)
-        .sort((a, b) => {
-          if (a === '.*') return -1;
-          else if (b === '.*') return 1;
-          else if (isNaN(a) && isNaN(b)) return a < b ? -1 : a == b ? 0 : 1;
-          else if (isNaN(a)) return 1;
-          else if (isNaN(b)) return -1;
-          else return a - b;
-        });
-    // take last item of matching keys
-    return filteredKeys.slice(-1)[0];
-  } else {
-    return null;
+    const filteredKeys = this.getMatchingKeys(map, searchKey).sort((a, b) => {
+      if (a === '.*') return -1;
+      else if (b === '.*') return 1;
+      else if (isNaN(a) || isNaN(b)) return isNaN(a) ? 1 : -1;
+      else return a - b;
+    });
+
+    return filteredKeys[filteredKeys.length - 1];
   }
+
+  return null;
 }
 
 export function getMatchingKeys(map, searchKey) {
@@ -116,7 +108,12 @@ export function appendStyleLink(file) {
 }
 
 export function selectElements(selector, context = document) {
-  return context.querySelectorAll(selector);
+  if (isHTMLElement(context)) {
+    return context.querySelectorAll(selector);
+  } else {
+    return null;
+  }
+  
 }
 
 export function selectAll(selector) {
@@ -131,6 +128,10 @@ export function getAllTagMatches(regEx) {
   return Array.prototype.slice.call(document.querySelectorAll('*')).filter((el) => {
     return el.tagName.match(regEx);
   });
+}
+
+export function isHTMLElement(obj) {
+  return obj && (obj.nodeType === 1 || obj.nodeType === 9);
 }
 
 export function createElement(type, classes) {
@@ -205,6 +206,13 @@ export function toKebabCase(string) {
     .toLowerCase();
 }
 
+
+/**
+ * Capitalize the first letter of a string
+ *
+ * @param {string} s - String to capitalize
+ * @returns {string} Capitalized string
+ */
 export function capitalize(s) {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -213,14 +221,29 @@ export function capitalize(s) {
 // date functions
 
 export function dateFromString(str) {
-  const m = str.match(/(\d+)-(\d+)-(\d+)[_\s](\d+):(\d+):(\d+).*/);
-  const m2 = str.match(/^(\d+)$/);
-  const m3 = str.match(/(\d\d).(\d\d).(\d\d\d\d)/);
+  const regex1 = /(\d+)-(\d+)-(\d+)[_\s](\d+):(\d+):(\d+).*/;
+  const regex2 = /^(\d+)$/;
+  const regex3 = /(\d\d).(\d\d).(\d\d\d\d)/;
+  const regex4 = /(\d\d\d\d)-(\d\d)-(\d\d)/;
   const offset = new Date().getTimezoneOffset();
 
-  return (m) ? new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6])
-    : (m2) ? new Date(70, 0, 1, 0, 0, m2[1], 0)
-      : (m3) ? new Date(+m3[3], +m3[2] - 1, +m3[1], 0, -offset, 0, 0) : new Date();
+  let date = new Date();
+
+  if (regex1.test(str)) {
+    const [, year, month, day, hours, minutes, seconds] = regex1.exec(str);
+    date = new Date(+year, +month - 1, +day, +hours, +minutes, +seconds);
+  } else if (regex2.test(str)) {
+    const [, milliseconds] = regex2.exec(str);
+    date = new Date(70, 0, 1, 0, 0, milliseconds, 0);
+  } else if (regex3.test(str)) {
+    const [, day, month, year] = regex3.exec(str);
+    date = new Date(+year, +month - 1, +day, 0, -offset, 0, 0);
+  } else if (regex4.test(str)) {
+    const [, year, month, day] = regex4.exec(str);
+    date = new Date(+year, +month - 1, +day, 0, -offset, 0, 0);
+  }
+
+  return date;
 }
 
 export function dateFormat(date, format) {
@@ -233,7 +256,7 @@ export function dateFormat(date, format) {
   const months_de = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
   const months = ['January', 'February', 'March;', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const YYYY = date.getFullYear().toString();
-  const YY = date.getFullYear().toString().substring(-2);
+  const YY = date.getFullYear().toString().substring(2, 4);
   const month = date.getMonth();
   const MM = (month + 1).toString(); // getMonth() is zero-based
   const MMMM = (lang === 'de') ? months_de[month] : months[month];
@@ -356,6 +379,7 @@ export function durationHumanized(ms) {
   const userLang = navigator.language || navigator.userLanguage;
   const lang = window.ftuiApp ? ftuiApp.config.lang : isDefined(userLang) ? userLang.split('-')[0] : 'de';
   const plural = (lang === 'de') ? 'n' : 's';
+  const pluralDay = (lang === 'de') ? 'e' : 's';
   const seconds = ~~(x);
   if (seconds < 60) {
     return seconds + ' ' + (lang === 'de' ? 'Sekunde' : 'second') + (seconds > 1 ? plural : '');
@@ -372,7 +396,7 @@ export function durationHumanized(ms) {
   }
   x /= 24;
   const days = ~~(x);
-  return days + ' ' + (lang === 'de' ? 'Tag' : 'day') + (days > 1 ? plural : '');
+  return days + ' ' + (lang === 'de' ? 'Tag' : 'day') + (days > 1 ? pluralDay : '');
 }
 
 // Math functions
@@ -386,6 +410,16 @@ export function round(number, precision) {
     return +(numArray[0] + 'e' + (numArray[1] ? (+numArray[1] + precision) : precision));
   };
   return shift(Math.round(shift(number, precision, false)), precision, true);
+}
+
+export function formatMoney(amount) {
+  if (amount > 99.99) {
+    return Math.round(amount);
+  } else if (amount > 9.99) {
+    return amount.toFixed(1);
+  } else {
+    return amount.toFixed(2);
+  }
 }
 
 export function scale(value, minIn, maxIn, minOut, maxOut) {
@@ -435,11 +469,6 @@ export function getStylePropertyValue(property, element = document.body) {
   return getComputedStyle(element).getPropertyValue(property).trim();
 }
 
-export async function sendCommand(command) {
-  const result = await fhemService.sendCommand(command);
-  return await result.text();
-}
-
 export function timeoutPromise(promises, ms = 5000) {
 
   // Create a promise that rejects in <ms> milliseconds
@@ -456,6 +485,24 @@ export function timeoutPromise(promises, ms = 5000) {
     timeout,
   ])
 }
+
+export function supportsPassive() {
+  let supportsPassive = false;
+  const opts = {
+    get passive() {
+      supportsPassive = true;
+    }
+  };
+
+  try {
+    window.addEventListener("testPassive", null, opts);
+    window.removeEventListener("testPassive", null, opts);
+  } catch (e) {}
+
+  return supportsPassive;
+}
+
+// Classes
 
 export class Stack {
   constructor() {

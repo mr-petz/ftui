@@ -22,11 +22,11 @@ export class FtuiButtonNice extends FtuiElement {
 
   template() {
     return `
-      <style> @import "themes/color-attributes.css"; </style>
+      <style> @import "styles/colors.css"; </style>
       <ftui-button shape="circle" color="medium" 
-          [value]="${this.get}" 
-          (value)="${this.set || this.get}" 
-          [color]="${this.get} | map('${this.on || 'on'}:primary, ${this.off || 'off'}:medium')"
+          [value]="${this.get || this.reading}" 
+          (value)="${this.set || this.get || this.reading}" 
+          [color]="${this.get || this.reading} | map('${this.on || 'on'}:primary, ${this.off || 'off'}:medium')"
           states="${this.states || 'on,off'}">
         <ftui-icon name="${this.icon}" color="grid"></ftui-icon>
       </ftui-button>
@@ -38,6 +38,7 @@ export class FtuiButtonNice extends FtuiElement {
       icon: 'lightbulb',
       get: '',
       set: '',
+      reading: '',
     };
   }
 }

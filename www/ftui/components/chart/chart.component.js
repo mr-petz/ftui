@@ -11,7 +11,7 @@ import { FtuiElement } from '../element.component.js';
 import { FtuiChartData } from './chart-data.component.js';
 import { fhemService } from '../../modules/ftui/fhem.service.js';
 import { Chart } from '../../modules/chart.js/chart.min.js';
-import { dateFormat, getStylePropertyValue } from '../../modules/ftui/ftui.helper.js';
+import { dateFormat, getStylePropertyValue, isVisible } from '../../modules/ftui/ftui.helper.js';
 import '../../modules/chart.js/chartjs-adapter-date-fns.bundle.min.js';
 
 const HOUR = 3600 * 1000;
@@ -51,6 +51,7 @@ export class FtuiChart extends FtuiElement {
                 if (resLabel && values && values.length) {
                   resLabel = resLabel.replace(/\$min/g, Math.min(...values));
                   resLabel = resLabel.replace(/\$max/g, Math.max(...values));
+                  resLabel = resLabel.replace(/\$sum/g, values.reduce((a, b) => a + b));
                   resLabel = resLabel.replace(/\$avg/g, values.reduce((a, b) => a + b) / values.length);
                   resLabel = resLabel.replace(/\$last/g, values[values.length - 1]);
                 }
@@ -75,6 +76,7 @@ export class FtuiChart extends FtuiElement {
           x: {
             display: !this.noscale && !this.noX,
             type: 'time',
+            stacked: this.stackedX,
             time: {
               parser: 'yyyy-MM-dd_HH:mm:ss',
               displayFormats: { millisecond: 'HH:mm:ss.SSS', second: 'HH:mm:ss', minute: 'HH:mm', hour: 'HH:mm', day: 'd. MMM', month: 'MMMM' },
@@ -143,7 +145,7 @@ export class FtuiChart extends FtuiElement {
     this.dataElements.forEach((dataElement, index) => {
       dataElement.index = index;
       this.configuration.data.datasets[index] = {};
-      dataElement.addEventListener('ftuiDataChanged', (data) => this.onDataChanged(data))
+      dataElement.addEventListener('ftuiDataChanged', data => this.onDataChanged(data))
     });
 
     if (this.controlsElement) {
@@ -158,7 +160,7 @@ export class FtuiChart extends FtuiElement {
 
     document.addEventListener('ftuiVisibilityChanged', () => this.refresh());
 
-    fhemService.getReadingEvents('local-dark').subscribe(() => this.onStyleChanged());
+    fhemService.getReadingEvents('ftui-isDark').subscribe(() => this.onStyleChanged());
   }
 
   connectedCallback() {
@@ -200,6 +202,7 @@ export class FtuiChart extends FtuiElement {
       noX: false,
       yUnit: '',
       y1Unit: '',
+      stackedX: false,
       stackedY: false,
       stackedY1: false,
     };
@@ -319,17 +322,19 @@ export class FtuiChart extends FtuiElement {
   }
 
   refresh() {
-    this.updateControls();
+    if (isVisible(this)) {
+      this.updateControls();
 
-    this.dataElements.forEach(dataElement => {
-      if (typeof dataElement.fetch === 'function') {
-        dataElement.startDate = this.startDate;
-        dataElement.endDate = this.endDate;
-        dataElement.prefetch = (!dataElement.prefetch) ? this.prefetch : dataElement.prefetch;
-        dataElement.extend = (!dataElement.extend) ? this.extend : dataElement.extend;
-        dataElement.fetch();
-      }
-    });
+      this.dataElements.forEach(dataElement => {
+        if (typeof dataElement.fetch === 'function') {
+          dataElement.startDate = this.startDate;
+          dataElement.endDate = this.endDate;
+          dataElement.prefetch = (!dataElement.prefetch) ? this.prefetch : dataElement.prefetch;
+          dataElement.extend = (!dataElement.extend) ? this.extend : dataElement.extend;
+          dataElement.fetch();
+        }
+      });
+    }
   }
 
   updateControls() {
@@ -360,7 +365,8 @@ export class FtuiChart extends FtuiElement {
     dataElement.endDate = this.endDate;
 
     this.updateControls();
-    this.chart.update();
+    // run chart update async
+    Promise.resolve().then(this.chart.update());
     // disable animation after first update
     this.configuration.options.animation.duration = 0;
   }

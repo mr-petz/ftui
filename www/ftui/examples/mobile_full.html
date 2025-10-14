@@ -9,7 +9,7 @@
     *
     * Version: 3.0.0
     *
-    * Copyright (c) 2020-2022 Mario Stephan <mstephan@shared-files.de>
+    * Copyright (c) 2020-2024 Mario Stephan <mstephan@shared-files.de>
     * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
     * https://github.com/knowthelist/ftui
     */
@@ -19,14 +19,12 @@
   <link href="ftui.css" rel="stylesheet">
   <link href="themes/mobile-dark-theme.css" rel="stylesheet">
   <link href="themes/mobile-theme.css" rel="stylesheet"
-        ftui-binding [disabled]="local:dark | toBool()">
+        ftui-binding [disabled]="ftui:isDark | toBool()">
   <link href="favicon.ico" rel="icon" type="image/x-icon" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <meta name="fhemweb_url" content="http://fhem:8083/fhem/">
 
   <title>FTUI Mobile Example</title>
 </head>
@@ -35,7 +33,13 @@
   <ftui-view-stage>
     <ftui-view id="viewMain">
 
-      <ftui-view-toolbar>My Home</ftui-view-toolbar>
+      <ftui-view-toolbar>My Home
+        <ftui-row slot="end" width="6em">
+          <ftui-label [text]="ftui:lastEvent:time | toDate() | format('hh:mm:ss')" size="90%" color="primary">
+          </ftui-label>
+          <ftui-icon name="refresh" color="primary" size="-1" @click="forceRefresh()"></ftui-icon>
+        </ftui-row>
+      </ftui-view-toolbar>
 
       <ftui-view-section>
         <ftui-label slot="header">Status</ftui-label>
@@ -65,7 +69,12 @@
           <ftui-icon name="classic-window" color="blue" slot="start" invert></ftui-icon>
           Windows
           <ftui-label slot="end" color="medium" placeholder [text]="AlleFenster"></ftui-label>
+        </ftui-view-item>
 
+        <ftui-view-item target="viewGarage">
+          <ftui-icon name="garage-variant" color="blue" slot="start" invert></ftui-icon>
+          Garage
+          <ftui-label slot="end" color="medium" placeholder [text]="Garage:status"></ftui-label>
         </ftui-view-item>
 
         <ftui-view-item target="view-4">
@@ -81,7 +90,13 @@
                       placeholder></ftui-label>
         </ftui-view-item>
 
-        <ftui-label slot="footer">This footer explains the meaning of the section to the user</ftui-label>
+        <ftui-view-item target="viewVacuum">
+          <ftui-icon name="mixcloud" color="yellow" slot="start" invert></ftui-icon>
+          Vacuum
+          <ftui-label [text]="RoboRock" slot="end" color="medium" placeholder></ftui-label>
+        </ftui-view-item>
+
+        <ftui-label slot="footer" wrap>This footer explains the meaning of the section to the user</ftui-label>
 
       </ftui-view-section>
 
@@ -106,13 +121,17 @@
         <ftui-view-item target="viewSolar">
           <ftui-icon name="sun" color="yellow" slot="start" invert></ftui-icon>
           Solar
-          <ftui-label slot="end" color="medium" placeholder [text]="PVConverter:Pac1" Unit="W"></ftui-label>
+          <ftui-label slot="end" color="medium" placeholder [text]="Zendure_Hub2000:properties_solarInputPower" Unit="W"></ftui-label>
+          <ftui-label slot="end" color="medium" placeholder [text]="StromRechnerSolarIn:Zendure_Hub2000_SolarEnergy_EnergyDay | fix(1)" unit="kWh"></ftui-label>
+          <ftui-label slot="end" color="medium" placeholder [text]="Zendure_Hub2000:properties_electricLevel" unit="%"></ftui-label>
+          
         </ftui-view-item>
 
         <ftui-view-item target="viewPower">
           <ftui-icon name="bolt" color="yellow" slot="start" invert></ftui-icon>
           Consumption
-          <ftui-label slot="end" color="medium" placeholder [text]="Stromzaehler:W" Unit="W"></ftui-label>
+          <ftui-label slot="end" color="medium" placeholder [text]="SmartMeter:GS303_Power_cur" unit="W&nbsp;/"></ftui-label>
+          <ftui-label slot="end" color="medium" placeholder [text]="LeistungGesamt"></ftui-label>
         </ftui-view-item>
 
       </ftui-view-section>
@@ -123,7 +142,7 @@
         <ftui-view-item target="viewOutdoorTemp">
           <ftui-icon name="thermometer-2" color="yellow" slot="start" invert></ftui-icon>
           Temperature
-          <ftui-label [text]="AussenTemp:temperature| fix(1)" Unit="°C" slot="end" color="medium" placeholder>
+          <ftui-label [text]="AussenTemp:temperature| fix(1)" unit="°C" slot="end" color="medium" placeholder>
           </ftui-label>
         </ftui-view-item>
 
@@ -188,6 +207,10 @@
       <ftui-content file="examples/contents/mobile-view-sonos.html" name="Bad" lazy></ftui-content>
     </ftui-view>
 
+    <ftui-view id="viewVacuum">
+      <ftui-content file="examples/contents/mobile-view-vacuum.html" lazy></ftui-content>
+    </ftui-view>
+
     <!-- TV -->
     <ftui-view id="viewTV">
       <ftui-view-toolbar>
@@ -207,7 +230,7 @@
             </ftui-button>
             <ftui-button (value)="SatReceiver" states="channelUp" color="current" fill="none"
                          margin="-1em">
-              <ftui-icon name="angle-up" class="size-2"></ftui-icon>
+              <ftui-icon name="angle-up" size="2"></ftui-icon>
             </ftui-button>
           </ftui-row>
         </ftui-view-item>
@@ -277,13 +300,13 @@
           <ftui-row slot="end" align-items="stretch">
 
             <ftui-label [(text)]="Leinwand | map('on:down,off:up')" color="medium"></ftui-label>
-            <ftui-button (value)="Leinwand" states="on" color="current" fill="none">
-              <ftui-icon name="angle-down" class="size-2"></ftui-icon>
+            <ftui-button (value)="Leinwand:pct" states="75" color="current" fill="none">
+              <ftui-icon name="angle-down" size="2"></ftui-icon>
 
             </ftui-button>
             <ftui-button (value)="Leinwand" states="off" color="current" fill="none"
                          margin="-1em">
-              <ftui-icon name="angle-up" class="size-2"></ftui-icon>
+              <ftui-icon name="angle-up" size="2"></ftui-icon>
 
             </ftui-button>
           </ftui-row>
@@ -378,7 +401,7 @@
           <ftui-switch [(value)]="EsstischLampe" slot="end"></ftui-switch>
         </ftui-view-item>
         <ftui-view-item>Decke
-          <ftui-switch [(value)]="WohnzimmerDeckenLicht" slot="end"></ftui-switch>
+          <ftui-switch [(value)]="WohnenDeckenLicht" slot="end"></ftui-switch>
         </ftui-view-item>
         <ftui-view-item>Spüle oben
           <ftui-nav-link target="viewKitchenColor">
@@ -395,6 +418,9 @@
         <ftui-view-item>Schrank
           <ftui-switch [(value)]="SchrankLicht_Sw" slot="end"></ftui-switch>
         </ftui-view-item>
+        <ftui-view-item>Weihnachtsbaum
+          <ftui-switch [(value)]="Weihnachtsbaum_Sw" slot="end"></ftui-switch>
+        </ftui-view-item>
         <ftui-view-item>Stehlampe
           <ftui-switch [value]="Stehlampe | map('on|dim.*: on, off|0: off')"
                        (value)="Stehlampe" slot="end"></ftui-switch>
@@ -402,11 +428,11 @@
         <ftui-view-item>Hue
           <ftui-nav-link target="viewHueColor">
             <ftui-icon name="circle" size="0"
-                       [rgb]="HUEDevice6:rgb">
+                       [rgb]="HUEDevice20:rgb">
             </ftui-icon>
           </ftui-nav-link>
-          <ftui-switch [value]="HUEDevice6 | map('on|dim.*: on, off|0: off')"
-                       (value)="HUEDevice6" slot="end"></ftui-switch>
+          <ftui-switch [value]="HUEDevice20 | map('on|dim.*: on, off|0: off')"
+                       (value)="HUEDevice20" slot="end"></ftui-switch>
         </ftui-view-item>
 
       </ftui-view-section>
@@ -448,12 +474,22 @@
 
     <!-- Shutter -->
     <ftui-view id="viewShutter">
-      <ftui-content file="examples/contents/mobile-shutter.html"></ftui-content>
+      <ftui-content file="examples/contents/mobile-shutter.html" lazy></ftui-content>
+    </ftui-view>
+
+    <!-- Garage View -->
+    <ftui-view id="viewGarage">
+      <ftui-content file="examples/contents/mobile-garage.html" lazy></ftui-content>
     </ftui-view>
 
     <!-- Solar -->
     <ftui-view id="viewSolar">
-      <ftui-content file="examples/contents/mobile-solar.html"></ftui-content>
+      <ftui-content file="examples/contents/mobile-solar.html" lazy></ftui-content>
+    </ftui-view>
+
+    <!-- Power -->
+    <ftui-view id="viewPower">
+      <ftui-content file="examples/contents/mobile-power.html" lazy></ftui-content>
     </ftui-view>
 
     <!-- Windows -->
@@ -466,20 +502,23 @@
       <ftui-content file="examples/contents/mobile-temp.html"></ftui-content>
     </ftui-view>
 
+    <!-- Rain / Water -->
+    <ftui-view id="viewOutdoorRain">
+      <ftui-content file="examples/contents/mobile-water.html" lazy></ftui-content>
+    </ftui-view>
+
     <!-- KITCHEN COLOR -->
     <ftui-view id="viewKitchenColor">
       <ftui-content file="examples/contents/mobile-color.html"
                     get="KNX_KuechenSchrankLicht:wert-get" set="KNX_KuechenSchrankLicht"
                     wget="KNX_KuechenSchrankLicht:wwert-get" wset="KNX_KuechenSchrankLicht:wwert"
-                    kget="KNX_KuechenSchrankLicht:wtemp-get" kset="KNX_KuechenSchrankLicht:wtemp"
-                    ></ftui-content>
+                    kget="KNX_KuechenSchrankLicht:wtemp-get" kset="KNX_KuechenSchrankLicht:wtemp"></ftui-content>
     </ftui-view>
 
     <!-- HUE COLOR -->
     <ftui-view id="viewHueColor">
       <ftui-content file="examples/contents/mobile-color.html"
-                    get="HUEDevice6:rgb" set="HUEDevice6:rgb"
-                    ></ftui-content>
+                    get="HUEDevice20:rgb" set="HUEDevice20:rgb"></ftui-content>
     </ftui-view>
 
     <!-- OUTDOORS TEMPERATURES -->
@@ -490,14 +529,14 @@
       </ftui-view-toolbar>
 
       <ftui-view-sheet shape="round">
-        <ftui-weather [condition]="AgroWeather:fc0_weatherDay" class="size-6" right="1em" top="1em"></ftui-weather>
-        <ftui-cell align-items="left">
+        <ftui-weather [condition]="WeatherLocal:fc0_weatherDay" size="6" right="1rem" top="25%"></ftui-weather>
+        <ftui-cell align-items="left" gap="0.5">
           <ftui-label color="medium" size="1">Temperature</ftui-label>
-          <ftui-label [text]="AgroWeather:temperature| fix(1)" unit="°C" size="8"></ftui-label>
+          <ftui-label [text]="WeatherLocal:temperature| fix(1)" unit="°" size="8" thin></ftui-label>
         </ftui-cell>
-        <ftui-cell align-items="left">
-          <ftui-label color="medium" size="1">Rain</ftui-label>
-          <ftui-label [text]="AgroWeather:fc0_rain" size="2" unit="mm" bold></ftui-label>
+        <ftui-cell align-items="left"  margin="1em 0 0" gap="0.5">
+          <ftui-label color="medium" >Rain</ftui-label>
+          <ftui-label [text]="WeatherLocal:fc0_rain" size="3" unit="mm" thin></ftui-label>
         </ftui-cell>
 
       </ftui-view-sheet>
@@ -518,6 +557,7 @@
   </ftui-view-stage>
 
   <script>
+
     // refresh all ago-label each minute
     setInterval(() => {
       document.querySelectorAll('ftui-label[ago-refresh]').forEach(elem => {
@@ -525,5 +565,5 @@
       });
     }, 60000);
   </script>
-
+</body>
 </html>

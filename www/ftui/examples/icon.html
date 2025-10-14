@@ -9,7 +9,7 @@
     *
     * Version: 3.0.0
     *
-    * Copyright (c) 2015-2019 Mario Stephan <mstephan@shared-files.de>
+    * Copyright (c) 2015-2024 Mario Stephan <mstephan@shared-files.de>
     * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
     * https://github.com/knowthelist/ftui
     */
@@ -21,7 +21,16 @@
   <link href="favicon.ico" rel="icon" type="image/x-icon" />
 
   <meta name='viewport' content='width=device-width'>
-
+  <style>
+    /* OR */
+    [data-val1="on"],[data-val2="on"] {
+      color: var(--success-color);
+    }
+    /* AND */
+    [data-val3="on"][data-val4="on"] {
+      color: var(--success-color);
+    }
+  </style>
   <!-- when serving the page with other web servers, e.g. lighttpd -->
   <!--     <meta name="fhemweb_url" content="http://fhem.local:8083/fhem/"> -->
   <title>FTUI Example Icon</title>
@@ -31,7 +40,7 @@
 
   <ftui-grid base-width="70" base-height="70">
     <ftui-grid-tile row="1" col="1" height="3" width="3">
-      <header>TEST IT</header>
+      <ftui-grid-header>TEST IT</ftui-grid-header>
       <ftui-column>
 
         <ftui-button [(value)]="dummy1">on,off</ftui-button>
@@ -41,11 +50,11 @@
       </ftui-column>
     </ftui-grid-tile>
     <ftui-grid-tile row="4" col="1" height="4" width="3">
-      <header>SINGLE</header>
+      <ftui-grid-header>SINGLE</ftui-grid-header>
 
       <ftui-column>
         <!-- binding short-->
-        <ftui-icon [name]="dummy1 | map('on:lightbulb-on, off:lightbulb')" [rgb]="HUEDevice6:rgb">
+        <ftui-icon [name]="dummy1 | map('on:lightbulb-on, off:lightbulb')" [rgb]="HUEDevice20:rgb">
         </ftui-icon>
 
         <ftui-label [text]="dummy1"></ftui-label>
@@ -54,7 +63,7 @@
     </ftui-grid-tile>
 
     <ftui-grid-tile row="1" col="4" height="3" width="3">
-      <header>MULTIPLE</header>
+      <ftui-grid-header>MULTIPLE</ftui-grid-header>
 
       <ftui-label [text]="dummy1"></ftui-label>
       <!-- binding short-->
@@ -73,7 +82,7 @@
     </ftui-grid-tile>
 
     <ftui-grid-tile row="1" col="7" height="2" width="3">
-      <header>SIZE</header>
+      <ftui-grid-header>SIZE</ftui-grid-header>
 
       <ftui-column class="size-3">
         <ftui-icon name="battery-0" color="light"
@@ -87,7 +96,7 @@
     </ftui-grid-tile>
 
     <ftui-grid-tile row="3" col="10" height="4" width="3">
-      <header>WINDOW</header>
+      <ftui-grid-header>WINDOW</ftui-grid-header>
 
       <ftui-row>
         <ftui-column>
@@ -112,13 +121,13 @@
     </ftui-grid-tile>
 
     <ftui-grid-tile row="3" col="7" height="4" width="3">
-      <header>OA ICONS</header>
+      <ftui-grid-header>OA ICONS</ftui-grid-header>
       <ftui-icon class="size-5" path="../images/openautomation" name="audio_audio" color="green"></ftui-icon>
       <ftui-icon class="size-5" path="../images/openautomation" name="it_wifi" color="red"></ftui-icon>
     </ftui-grid-tile>
 
     <ftui-grid-tile row="7" col="7" height="2" width="3">
-      <header>HIDDEN INVALID</header>
+      <ftui-grid-header>HIDDEN INVALID</ftui-grid-header>
 
       <ftui-label [text]="dummyXY:state:invalid"></ftui-label>
 
@@ -128,7 +137,7 @@
 
 
     <ftui-grid-tile row="7" col="10" height="2" width="3">
-      <header>$VALUE</header>
+      <ftui-grid-header>$VALUE</ftui-grid-header>
 
       <ftui-label [text]="dummy2"></ftui-label>
       <ftui-label [text]="dummy2 | map('`0|1|2|3`: battery-$value, `.*`: battery')"></ftui-label>
@@ -137,7 +146,7 @@
 
 
     <ftui-grid-tile row="1" col="10" height="2" width="4">
-      <header>COLOR</header>
+      <ftui-grid-header>COLOR</ftui-grid-header>
       <ftui-row>
         <ftui-icon name="trash" color="brown" class="spin"></ftui-icon>
         <ftui-icon name="trash" color="yellow" class="hop"></ftui-icon>
@@ -148,25 +157,25 @@
     </ftui-grid-tile>
 
     <ftui-grid-tile row="4" col="4" height="4" width="3">
-      <header>TABLE</header>
+      <ftui-grid-header>TABLE</ftui-grid-header>
       <ftui-column>
         <ftui-row>
-          <ftui-icon name="smile-o" color="green" margin="1" size="3"></ftui-icon>
-          <ftui-label> name="smile-o" size="3"</ftui-label>
+          <ftui-icon name="smile-o" color="green" size="5"></ftui-icon>
+          <ftui-label size="80%" width="90" wrap> name="smile-o" size="5"</ftui-label>
         </ftui-row>
         <ftui-row>
-          <ftui-icon name="meh-o" color="yellow" margin="1" size="-3"></ftui-icon>
-          <ftui-label width="5rem"> name="meh-o" size="-3"</ftui-label>
+          <ftui-icon name="meh-o" color="yellow" size="2"></ftui-icon>
+          <ftui-label size="80%" width="90" wrap> name="meh-o" size="2"</ftui-label>
         </ftui-row>
         <ftui-row>
-          <ftui-icon name="frown-o" color="red" margin="1" size="-3"></ftui-icon>
-          <ftui-label width="5rem"> name="frown-o" size="-3"</ftui-label>
+          <ftui-icon name="frown-o" color="red" size="1"></ftui-icon>
+          <ftui-label size="80%" width="90" wrap> name="frown-o" size="1"</ftui-label>
         </ftui-row>
       </ftui-column>
     </ftui-grid-tile>
 
     <ftui-grid-tile row="8" col="1" height="4" width="3">
-      <header>fhemSVG</header>
+      <ftui-grid-header>fhemSVG</ftui-grid-header>
       <ftui-row>
         <ftui-column>
           <ftui-icon class="size-3" path="../images/fhemSVG" name="hue_filled_bloom" color="green"></ftui-icon>
@@ -180,11 +189,40 @@
     </ftui-grid-tile>
 
     <ftui-grid-tile row="8" col="4" height="2" width="2">
-      <header>ROTATE</header>
-      <ftui-icon [rotate]="AgroWeather:windDir | add(135)" name="location-arrow"
-        [color]="AgroWeather:wind | step('0:white,30:gray,50:danger')">
+      <ftui-grid-header>ROTATE</ftui-grid-header>
+      <ftui-icon [rotate]="WeatherLocal:windDir | add(135)" name="location-arrow"
+        [color]="WeatherLocal:wind | step('0:white,30:gray,50:danger')">
       </ftui-icon>
-      <ftui-label [text]="AgroWeather:wind" unit="km/h"></ftui-label>
+      <ftui-label [text]="WeatherLocal:wind" unit="km/h"></ftui-label>
+    </ftui-grid-tile>
+
+    <ftui-grid-tile row="7" col="13" height="4" width="2">
+      <ftui-grid-header>attribute-binding Logic-OR</ftui-grid-header>
+      <!-- color change via Style rule-->
+      <ftui-icon name="file"
+        [attr.data-val1]="local:val1"
+        [attr.data-val2]="local:val2">
+      </ftui-icon>
+      <ftui-switch [(value)]="local:val1"></ftui-switch>
+      <ftui-switch [(value)]="local:val2"></ftui-switch>
+    </ftui-grid-tile>
+
+    <ftui-grid-tile row="7" col="15" height="4" width="2">
+      <ftui-grid-header>attribute-binding Logic-AND</ftui-grid-header>
+      <!-- color change via Style rule-->
+      <ftui-icon name="file"
+        [attr.data-val3]="local:val3"
+        [attr.data-val4]="local:val4">
+      </ftui-icon>
+      <ftui-switch [(value)]="local:val3"></ftui-switch>
+      <ftui-switch [(value)]="local:val4"></ftui-switch>
+    </ftui-grid-tile>
+
+    <ftui-grid-tile row="10" col="6" height="2" width="4">
+      <ftui-grid-header>FontAwesome</ftui-grid-header>
+      <ftui-label><a href="https://fontawesome.com/download" target="_blank">https://fontawesome.com/download</a></ftui-label>
+      <ftui-icon size="3" path="./icons/fa-svg/solid" name="utensils">
+      </ftui-icon>
     </ftui-grid-tile>
 
   </ftui-grid>

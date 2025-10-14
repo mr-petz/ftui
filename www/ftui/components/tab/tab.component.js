@@ -11,7 +11,7 @@ import { FtuiButton } from '../button/button.component.js';
 import { selectAll, selectOne, triggerEvent } from '../../modules/ftui/ftui.helper.js';
 /* eslint-disable no-unused-vars */
 import { FtuiTabView } from './tab-view.component.js';
-import { FtuiTabTitle} from './tab-title.component.js';
+import { FtuiTabTitle } from './tab-title.component.js';
 
 
 class FtuiTab extends FtuiButton {
@@ -19,6 +19,27 @@ class FtuiTab extends FtuiButton {
   constructor(properties) {
 
     super(Object.assign(FtuiTab.properties, properties));
+
+
+    // react on URL parameter(s)
+    this.initialView = (new URLSearchParams(window.location.search)).get('initialView');
+    this.homeView = (new URLSearchParams(window.location.search)).get('homeView');
+
+    selectAll(`ftui-tab[group="${this.group}"]`).forEach(elem => {
+      if (this.initialView) {
+        if (elem.view === this.initialView) {
+          elem.setAttribute('active', 'active');
+        }
+        else {
+          elem.removeAttribute('active');
+        }
+      }
+      if (this.homeView) {
+        if (elem.view === this.homeView) { elem.setAttribute('home', 'home') } else {
+          elem.removeAttribute('home');
+        }
+      }
+    });
 
     window.customElements.whenDefined('ftui-tab-view').then(() => {
       if (this.hasAttribute('active')) {
@@ -49,6 +70,7 @@ class FtuiTab extends FtuiButton {
   }
 
   onClickEvent() {
+    this.isLocked = true;
     // hide all views and show selected view
     selectAll(`ftui-tab-view[group="${this.group}"]`).forEach(elem => {
       if (elem.id !== this.view) {
@@ -77,12 +99,14 @@ class FtuiTab extends FtuiButton {
 
     // emit event
     triggerEvent('ftuiVisibilityChanged');
+    this.isLocked = false;
   }
 
   onAttributeChanged(name, newValue, oldValue) {
     switch (name) {
       case 'value':
-        if (newValue === 'on' && oldValue !== 'on') {
+        if (newValue === 'on' && oldValue !== 'on'
+        &&  !this.isLocked ) {
           this.onClickEvent();
         }
         break;
@@ -94,7 +118,7 @@ class FtuiTab extends FtuiButton {
     if (!homeElem) {
       homeElem = selectOne(`ftui-tab[group="${this.group}"]:first-of-type`);
     }
-    if (homeElem) {
+    if ((homeElem) && (homeElem.id !== this.id)) {
       homeElem.onClickEvent();
     }
   }

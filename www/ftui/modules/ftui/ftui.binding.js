@@ -12,6 +12,8 @@ const format = value => input => ftuiHelper.dateFormat(input, value);
 const humanized = () => input => ftuiHelper.durationHumanized(input);
 const round = value => input => ftuiHelper.round(input, value);
 const fix = value => input => Number(input).toFixed(value);
+const roundMoney = () => input => ftuiHelper.formatMoney(Number(input));
+const slice = (start, end)  => input => String(input).slice(start, end);
 const encode = () => input => encodeURI(input);
 const add = value => input => Number(input) + value;
 const multiply = value => input => Number(input) * value;
@@ -25,19 +27,25 @@ const ago = () => input => ftuiHelper.dateAgo(input);
 const till = () => input => ftuiHelper.dateTill(input);
 const timeFormat = (format, inputMode = 'ms', formatMode = 'lower') => input => ftuiHelper.timeFormat(input, format, inputMode, formatMode);
 const minusBlue = (value = 0) => input => Number(input) < value ? 'blue' : null;
-const contains = value => input => String(input).indexOf(value) < 0 ? true : false;
+const contains = value => input => String(input).indexOf(value) > -1 ? true : false;
+const not = () => input => input === true ? false : true;;
 const is = value => input => String(input) === value ? true : false;
 const isNot = value => input => String(input) !== value ? true : false;
 const pad = (cnt, char) => input => String(input).padStart(cnt, char);
 const append = value => input => String(input) + value;
 const prepend = value => input => value + String(input);
-const sendCommand = value => input => ftuiHelper.sendCommand(value);
-const getHTML = value => input => ftuiHelper.sendCommand('get ' + value + ' html');
-
+const sendCommand = value => () => send(value);
+const getHTML = value => () => send('get ' + value + ' html');
+const capitalize = () => input => ftuiHelper.capitalize(input);
 
 const pipe = (f1, ...fns) => (...args) => {
   return fns.reduce((res, fn) => fn(res), f1.apply(null, args));
 };
+
+async function send(command) {
+  const result = await fhemService.sendCommand(command);
+  return await result.text();
+}
 
 export class FtuiBinding {
 
@@ -50,7 +58,6 @@ export class FtuiBinding {
     }
 
     this.element = element;
-    this.element.isActiveChange = {};
     this.isThirdPartyElement = false;
     this.config = {
       input: { readings: {} },
@@ -107,14 +114,19 @@ export class FtuiBinding {
             }
             if (String(this.element[attribute]) !== String(filteredValue)) {
               ftuiHelper.log(1, `${this.element.id}  -  onReadingEvent: set this.${attribute}=${filteredValue}`);
-              // change element's property
-              if (this.isThirdPartyElement) {
+              if (this.isThirdPartyElement || attribute.startsWith('attr.')) {
+                if (attribute.startsWith('attr.')) {
+                  attribute = attribute.split('.')[1];
+                }
+                attribute = ftuiHelper.toKebabCase(attribute);
+                // change element's attribute "attribute binding"
                 if (typeof filteredValue === 'boolean' && filteredValue === false) {
                   this.element.removeAttribute(attribute);
                 } else {
-                  this.element.setAttribute(ftuiHelper.toKebabCase(attribute), filteredValue);
+                  this.element.setAttribute(attribute, filteredValue);
                 }
               } else {
+                // change element's property "property binding"
                 this.element[attribute] = filteredValue;
               }
             }
@@ -141,7 +153,6 @@ export class FtuiBinding {
 
       // update storage
       const now = ftuiHelper.dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss');
-
       this.updateReadingItem(parameterId, {
         id: parameterId,
         invalid: false,
@@ -286,7 +297,7 @@ export class FtuiBinding {
     const attrTextItems = attrText.split('|');
     const lastItem = attrTextItems.pop().trim();
     const [, cmd = 'set', device, reading = 'STATE', value = '$value'] =
-      /^(?:(set|setreading|attr)\s)?((?:[^-:\s])*)(?:[-:\s]((?:(?!\$value)[^\s])*))?(?:\s(.*)?)?$/
+      /^(?:(set|setreading|attr|trigger)\s)?((?:[^-:\s])*)(?:[-:\s]((?:(?!\$value)[^\s])*))?(?:\s(.*)?)?$/
         .exec(lastItem);
 
     return {
@@ -301,11 +312,7 @@ export class FtuiBinding {
     if (filterSet !== '') {
       try {
         const pipeNotInQuotes = /\|(?=([^']*'[^']*')*[^']*$)/g;
-        filterSet = filterSet
-          .replace(pipeNotInQuotes, ',')
-          .replace(/`/g, '"')
-          .replace(/´/g, '"')
-          .replace(/\n/g, '');
+        filterSet = filterSet.replace(pipeNotInQuotes, ',').replace(/`|´/g, '"').replace(/\n/g, '');
         const fn = eval('pipe(' + filterSet + ')');
         return fn(text);
       } catch (e) {
@@ -320,6 +327,7 @@ export class FtuiBinding {
 
   evalInContext(command = '', $event) {
     command = command.replace('sendFhem', 'this.binding.sendFhem');
+    command = command.replace('forceRefresh', 'this.binding.forceRefresh');
     eval(command);
   }
 
@@ -345,5 +353,9 @@ export class FtuiBinding {
 
   sendFhem(command) {
     fhemService.updateFhem(command);
+  }
+
+  forceRefresh() {
+    fhemService.forceRefresh();
   }
 }

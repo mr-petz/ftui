@@ -94,8 +94,13 @@
   --color-base: currentColor;
 }
 
+[color="unreachable"] {
+  --color-base: #00000080;
+  --color-contrast: var(--light-contrast-color);
+}
+
 [color="grid"] {
-  --color-base: var(--grid-background-color);
+  --color-base: var(--grid-tile-background-color);
   --color-contrast: var(--dark-contrast-color);
 }
 
@@ -107,6 +112,16 @@
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   background-color: rgba(255, 255, 255, 0.2);
+}
+
+[color="cold"] {
+  --color-base: var(--cold-color);
+  --color-contrast: var(--success-contrast-color);
+}
+
+[color="hot"] {
+  --color-base: var(--hot-color);
+  --color-contrast: var(--danger-contrast-color);
 }
 
 /* gradient colors */

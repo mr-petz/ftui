@@ -9,7 +9,7 @@
     *
     * Version: 3.0.0
     *
-    * Copyright (c) 2020 Mario Stephan <mstephan@shared-files.de>
+    * Copyright (c) 2020-2024 Mario Stephan <mstephan@shared-files.de>
     * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
     * https://github.com/knowthelist/ftui
     */
@@ -35,7 +35,7 @@
   <ftui-grid base-width="150" base-height="120">
 
     <ftui-grid-tile row="1" col="1" height="2" width="3">
-      <header>Floor</header>
+      <ftui-grid-header>Floor</ftui-grid-header>
 
       <ftui-chart y-label="Open" type="bubble"
                   y-min="1" y-max="4" unit="24h">
@@ -52,6 +52,20 @@
                          offset="1"
                          ></ftui-chart-data>
         <ftui-chart-controls units="day, 24h, 30d"></ftui-chart-controls>
+      </ftui-chart>
+
+    </ftui-grid-tile>
+
+    <ftui-grid-tile row="3" col="1" height="2" width="3">
+      <ftui-grid-header>Current</ftui-grid-header>
+
+      <ftui-chart y-label="KWh"
+                  y-min="0" y-max="10" unit="week">
+        <ftui-chart-data type="bar"
+                         log="FileLog_StromRechner"
+                         spec="4:StromRechner.Stromzaehler_state_EnergyDayLast::"
+                         ></ftui-chart-data>
+        <ftui-chart-controls units="week, 30d"></ftui-chart-controls>
       </ftui-chart>
 
     </ftui-grid-tile>

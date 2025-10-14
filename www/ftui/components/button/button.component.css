@@ -11,8 +11,11 @@
   border-color: var(--color-base, #20639b);
   background: transparent;
   color: var(--color-base, #20639b);
-  height: auto;
-  min-height: 2.5em;
+  --button-height: 2.5em;
+  height: var(--button-height);
+  min-height: var(--button-height);
+  width: var(--button-width);
+  min-width: var(--button-width);
 }
 
 /* size */
@@ -23,7 +26,7 @@
   --padding-start: 0.9em;
   --padding-end: 0.9em;
   --padding-bottom: 0;
-  height: 2em;
+  --button-height: 2em;
   font-size: 0.9em;
 }
 
@@ -33,8 +36,18 @@
   --padding-start: 1em;
   --padding-end: 1em;
   --padding-bottom: 0;
-  height: 2.8em;
+  --button-height: 2.8em;
   font-size: 1.5em;
+}
+
+:host([size="huge"]) {
+  --border-radius: 18px;
+  --padding-top: 0;
+  --padding-start: 1em;
+  --padding-end: 1em;
+  --padding-bottom: 0;
+  --button-height: 3em;
+  font-size: 2em;
 }
 
 /* fill */
@@ -66,7 +79,7 @@
   --padding-end: 0em;
   --padding-bottom: 0;
   width: 3em;
-  height: 3em;
+  --button-height: 3em;
 }
 
 :host([fill="solid"]) .button-inner {
@@ -83,7 +96,27 @@
   --color-base: var(--color-active);
 }
 
+:host([fill="none"].activated) .button-inner {
+  animation: glow 500ms infinite;
+}
+
+@keyframes glow {
+  0% {
+    background-color:rgba(140,140,140,0.3);
+    box-shadow: 0 0 5px rgba(140,140,140,0.3);
+  }
+  50% {
+    background-color: rgba(140,140,140,0.5);
+    box-shadow: 0 0 20px rgba(140,140,140,0.5);
+  }
+  100% {
+    background-color: rgba(140,140,140,1);
+    box-shadow: 0 0 5px rgba(140,140,140,1);
+  }
+}
+
 :host .button-inner {
+  transition: background-color 0.2s ease-out;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -99,6 +132,6 @@
   border-color: var(--border-color);
 }
 
-::slotted(ftui-icon) {
+/* ::slotted(ftui-icon) {
   font-size: 0.75em;
-}
+} */

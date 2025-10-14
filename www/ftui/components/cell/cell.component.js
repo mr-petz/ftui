@@ -10,6 +10,7 @@
 */
 
 import { FtuiElement } from '../element.component.js';
+import { isNumeric } from '../../modules/ftui/ftui.helper.js';
 
 export class FtuiCell extends FtuiElement {
 
@@ -30,14 +31,19 @@ export class FtuiCell extends FtuiElement {
         align-items: center;
         background: var(--color-base);
         color: var(--color-contrast);
+        flex: 1;
+        overflow: hidden;
       }
       :host(:not(ftui-row)[align-items~=top])    { justify-content: start; }
       :host(:not(ftui-row)[align-items~=bottom]) { justify-content: end; }
       :host(:not(ftui-row)[align-items~=left])   { align-items: flex-start; }
       :host(:not(ftui-row)[align-items~=right])  { align-items: flex-end; }
       :host([align-items~=center]) { justify-content: center; }
+      :host([align-items~=space-between]) { justify-content: space-between; }
+      :host([align-items~=space-around]) { justify-content: space-around; }
       :host([align-items~=stretch]) { justify-content: space-between; }
       :host([align-items~=around]) { justify-content: space-around; }
+      :host([align-items~=baseline])  { align-items: baseline; }
     </style>
     <slot></slot>`;
   }
@@ -46,6 +52,8 @@ export class FtuiCell extends FtuiElement {
     return {
       height: '',
       width: '',
+      gap: '',
+      grow: '',
       color: 'transparent',
     };
   }
@@ -57,20 +65,50 @@ export class FtuiCell extends FtuiElement {
   onAttributeChanged(name, value) {
     switch (name) {
       case 'width':
-        if (this.tagName === 'FTUI-COLUMN') {
-          this.style.flex = `0 0 ${value}`;
-        } else {
-          this.style.width = value;
-        }
+        this.style.width = isNumeric(value) ? value + 'em' : value;
+        this.style.maxWidth = isNumeric(value) ? value + 'em' : value;
+        this.style.minWidth = isNumeric(value) ? value + 'em' : value;
         break;
       case 'height':
-        if (this.tagName === 'FTUI-ROW') {
-          this.style.flex = `0 0 ${value}`;
-        } else {
-          this.style.height = value;
-        }
+        this.style.height = isNumeric(value) ? value + 'em' : value;
+        this.style.maxHeight = isNumeric(value) ? value + 'em' : value;
+        this.style.minHeight = isNumeric(value) ? value + 'em' : value;
+        break;
+      case 'gap':
+        this.style.gap = isNumeric(value) ? value + 'em' : value;
+        break;
+      case 'grow':
+        this.style.flexGrow = this.calculateFlexValue(value);
         break;
     }
+  }
+
+  calculateFlexValue(value) {
+    // Check if the value is a number
+    if (!value) {
+      return 1
+    }
+
+    // Check if the value is in percentage
+    if (value.endsWith('%')) {
+      const percentage = parseFloat(value);
+      return percentage / 10; // Converts 25% to 2.5 for flex
+    }
+
+    // Check if the value is in pixels
+    if (value.endsWith('px')) {
+      const pixels = parseFloat(value.endsWith('px') ? value : value + 'em');
+      return pixels / 100;
+    }
+
+    // Check if the value is in em
+    if (value.endsWith('em')) {
+      const ems = parseFloat(value);
+      return ems * 16 / 100; // Assuming 1em = 16px for conversion
+    }
+
+    // Default case if the value format is not recognized
+    return value;
   }
 
 }

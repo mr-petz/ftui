@@ -1,4 +1,4 @@
-@import "./color-attributes.css"; 
+@import "../styles/colors.css"; 
 
 :root {
 
@@ -57,7 +57,7 @@
   --dark-contrast-color: var(--white);
 
   --text-color: var(--darkest);
-  --inactive-text-color: #A39B9B;
+  --text-color-inactive: #A39B9B;
 
   --view-toolbar-color: var(--darkest);
   --view-toolbar-background-color: rgba(248, 248, 248, 0.9);
@@ -69,7 +69,7 @@
 
   --page-background-color: var(--light);
 
-  --grid-background-color: var(--white);
+  --grid-tile-background-color: var(--white);
   --grid-header-color: var(--darkest);
   --grid-header-background-color: var(--white);
 
@@ -78,7 +78,7 @@
   --tab-active-color: var(--primary);
 
   --popup-color: var(--text-color);
-  --popup-background-color: var(--grid-background-color);
+  --popup-background-color: var(--grid-tile-background-color);
   --popup-overlay-color: rgba(0, 0, 0, 0.5);
   --popup-header-color: var(--grid-header-color);
   --popup-header-background-color: var(--grid-header-background-color);
@@ -110,12 +110,13 @@
   --segments-hover-color: var(--light);
   --segments-text-color: var(--text-color);
 
-  --knob-outline-color: var(--medium);
+  --knob-outline-color: var(--light);
+  --meter-background-color: var(--light);
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Ubuntu', 'Helvetica Neue', sans-serif;
-  font-size: small;
+  --text-font: 0.8125em -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Ubuntu', 'Helvetica Neue', sans-serif;  
+  font: var(--text-font);
   color: var(--text-color);
   background: var(--page-background-color);
   -webkit-font-smoothing: antialiased;

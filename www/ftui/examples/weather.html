@@ -27,84 +27,108 @@
   <ftui-grid>
 
     <ftui-grid-tile row="1" col="1" height="1" width="1" shape="round">
-      <header>CLOUD</header>
+      <ftui-grid-header>CLOUD</ftui-grid-header>
       <ftui-weather name="cloud"></ftui-weather>
     </ftui-grid-tile>
 
     <ftui-grid-tile row="2" col="1" height="1" width="1" shape="round">
-      <header>KLEINKLIMA</header>
+      <ftui-grid-header>KLEINKLIMA</ftui-grid-header>
       <ftui-weather
       icon-set="kleinklimaFHEM" provider="proplantaICON_LONG" 
       condition="https://www.proplanta.de/wetterdaten/images/symbole/t1.gif"></ftui-weather>
     </ftui-grid-tile>
 
     <ftui-grid-tile row="3" col="1" height="1" width="1" shape="round">
-      <header>SIZE</header>
+      <ftui-grid-header>SIZE</ftui-grid-header>
       <ftui-weather size="6"
       icon-set="kleinklimaFHEM" provider="proplantaICON_LONG" 
       condition="https://www.proplanta.de/wetterdaten/images/symbole/t1.gif"></ftui-weather>
     </ftui-grid-tile>
 
     <ftui-grid-tile row="4" col="1" height="1" width="1" shape="round">
-      <header>CROP</header>
+      <ftui-grid-header>CROP</ftui-grid-header>
       <ftui-weather size="3" crop shape="round"
       icon-set="kleinklimaFHEM" provider="proplantaICON_LONG" 
       condition="https://www.proplanta.de/wetterdaten/images/symbole/t1.gif"></ftui-weather>
     </ftui-grid-tile>
 
     <ftui-grid-tile row="1" col="3" height="1" width="1" shape="round">
-      <header>SUNNY</header>
+      <ftui-grid-header>SUNNY</ftui-grid-header>
       <ftui-weather size="1" condition="sonnig"></ftui-weather>
     </ftui-grid-tile>
 
     <ftui-grid-tile row="1" col="4" height="1" width="1" shape="round">
-      <header>CLOUDY</header>
+      <ftui-grid-header>CLOUDY</ftui-grid-header>
       <ftui-weather size="1" condition="wolkig"></ftui-weather>
     </ftui-grid-tile>
 
+    <ftui-grid-tile row="1" col="2" height="1" width="1" shape="round">
+      <ftui-grid-header>Height</ftui-grid-header>
+      <ftui-weather size="6" icon-set="kleinklimaFHEM" [condition]="WeatherLocal:fc2_weatherDay"></ftui-weather>
+    </ftui-grid-tile>
+
     <ftui-grid-tile row="1" col="5" height="1" width="1" shape="round">
-      <header>RAIN</header>
+      <ftui-grid-header>RAIN</ftui-grid-header>
       <ftui-weather size="1" condition="Regen"></ftui-weather>
     </ftui-grid-tile>
 
-    <ftui-grid-tile row="3" col="3" height="3" width="4" shape="round">
-      <header>WEATHER</header>
+  <ftui-grid-tile row="1" col="6" height="1" width="1" shape="round">
+    <ftui-grid-header>Weather Bar (fix vaules)</ftui-grid-header>
+    <ftui-weather-bar min-temp="1" max-temp="10" ></ftui-weather-bar>
+    <ftui-weather-bar min-temp="4" max-temp="12" ></ftui-weather-bar>
+    <ftui-weather-bar min-temp="8" max-temp="16" ></ftui-weather-bar>
+    <ftui-weather-bar min-temp="10" max-temp="27" ></ftui-weather-bar>
+    <ftui-weather-bar min-temp="17" max-temp="29" ></ftui-weather-bar>
+  </ftui-grid-tile>
+
+  <ftui-grid-tile row="2" col="6" height="1" width="1" shape="round">
+    <ftui-grid-header>Weather Bar</ftui-grid-header>
+    <ftui-weather-bar [min-temp]="WeatherLocal:fc0_Tn | fix(0)" [max-temp]="WeatherLocal:fc0_Tx | fix(0)" min="-5" max="30"></ftui-weather-bar>
+    <ftui-weather-bar [min-temp]="WeatherLocal:fc1_Tn | fix(0)" [max-temp]="WeatherLocal:fc1_Tx | fix(0)" min="-5" max="30"></ftui-weather-bar>
+    <ftui-weather-bar [min-temp]="WeatherLocal:fc2_Tn | fix(0)" [max-temp]="WeatherLocal:fc2_Tx | fix(0)" min="-5" max="30"></ftui-weather-bar>
+    <ftui-weather-bar [min-temp]="WeatherLocal:fc3_Tn | fix(0)" [max-temp]="WeatherLocal:fc3_Tx | fix(0)" min="-5" max="30"></ftui-weather-bar>
+    <ftui-weather-bar [min-temp]="WeatherLocal:fc4_Tn | fix(0)" [max-temp]="WeatherLocal:fc4_Tx | fix(0)" min="-5" max="30"></ftui-weather-bar>
+  </ftui-grid-tile>
+  
+
+    <ftui-grid-tile row="2" col="2" height="3" width="4" shape="round">
+      <ftui-grid-header>WEATHER</ftui-grid-header>
       <ftui-row>
         <ftui-column>
           <label>Heute</label>
-          <ftui-weather size="4" [condition]="AgroWeather:fc0_weatherDay"></ftui-weather>
-          <ftui-label [text]="AgroWeather:fc0_weatherDay"></ftui-label>
-          <ftui-label [text]="AgroWeather:fc0_tempMax" unit="°C"></ftui-label>
+          <ftui-weather size="4" [condition]="WeatherLocal:fc0_weatherDay"></ftui-weather>
+          <ftui-label [text]="WeatherLocal:fc0_weatherDay"></ftui-label>
+          <ftui-label [text]="WeatherLocal:fc0_Tx" unit="°C"></ftui-label>
         </ftui-column>
         <ftui-column>
           <label>Morgen</label>
-          <ftui-weather size="4" [condition]="AgroWeather:fc1_weatherDay"></ftui-weather>
-          <ftui-label [text]="AgroWeather:fc1_weatherDay"></ftui-label>
-          <ftui-label [text]="AgroWeather:fc1_tempMax" unit="°C"></ftui-label>
+          <ftui-weather size="4" [condition]="WeatherLocal:fc1_weatherDay"></ftui-weather>
+          <ftui-label [text]="WeatherLocal:fc1_weatherDay"></ftui-label>
+          <ftui-label [text]="WeatherLocal:fc1_Tx" unit="°C"></ftui-label>
         </ftui-column>
         <ftui-column>
-          <ftui-label [text]="AgroWeather:fc2_date | toDate() | format('eeee')"></ftui-label>
-          <ftui-weather size="4" [condition]="AgroWeather:fc2_weatherDay"></ftui-weather>
-          <ftui-label [text]="AgroWeather:fc2_weatherDay"></ftui-label>
-          <ftui-label [text]="AgroWeather:fc2_tempMax" unit="°C"></ftui-label>
+          <ftui-label [text]="WeatherLocal:fc2_date | toDate() | format('eeee')"></ftui-label>
+          <ftui-weather size="4" [condition]="WeatherLocal:fc2_weatherDay"></ftui-weather>
+          <ftui-label [text]="WeatherLocal:fc2_weatherDay"></ftui-label>
+          <ftui-label [text]="WeatherLocal:fc2_Tx" unit="°C"></ftui-label>
         </ftui-column>
         <ftui-column>
-          <ftui-label [text]="AgroWeather:fc3_date | toDate() | format('eeee')"></ftui-label>
-          <ftui-weather size="4" [condition]="AgroWeather:fc3_weatherDay"></ftui-weather>
-          <ftui-label [text]="AgroWeather:fc3_weatherDay"></ftui-label>
-          <ftui-label [text]="AgroWeather:fc3_tempMax" unit="°C"></ftui-label>
+          <ftui-label [text]="WeatherLocal:fc3_date | toDate() | format('eeee')"></ftui-label>
+          <ftui-weather size="4" [condition]="WeatherLocal:fc3_weatherDay"></ftui-weather>
+          <ftui-label [text]="WeatherLocal:fc3_weatherDay"></ftui-label>
+          <ftui-label [text]="WeatherLocal:fc3_Tx" unit="°C"></ftui-label>
         </ftui-column>
         <ftui-column>
-          <ftui-label [text]="AgroWeather:fc4_date | toDate() | format('eeee')"></ftui-label>
-          <ftui-weather size="4" [condition]="AgroWeather:fc4_weatherDay"></ftui-weather>
-          <ftui-label [text]="AgroWeather:fc4_weatherDay"></ftui-label>
-          <ftui-label [text]="AgroWeather:fc4_tempMax" unit="°C"></ftui-label>
+          <ftui-label [text]="WeatherLocal:fc4_date | toDate() | format('eeee')"></ftui-label>
+          <ftui-weather size="4" [condition]="WeatherLocal:fc4_weatherDay"></ftui-weather>
+          <ftui-label [text]="WeatherLocal:fc4_weatherDay"></ftui-label>
+          <ftui-label [text]="WeatherLocal:fc4_Tx" unit="°C"></ftui-label>
         </ftui-column>
         <ftui-column>
-          <ftui-label [text]="AgroWeather:fc5_date | toDate() | format('eeee')"></ftui-label>
-          <ftui-weather size="4" [condition]="AgroWeather:fc5_weatherDay"></ftui-weather>
-          <ftui-label [text]="AgroWeather:fc5_weatherDay"></ftui-label>
-          <ftui-label [text]="AgroWeather:fc5_tempMax" unit="°C"></ftui-label>
+          <ftui-label [text]="WeatherLocal:fc5_date | toDate() | format('eeee')"></ftui-label>
+          <ftui-weather size="4" [condition]="WeatherLocal:fc5_weatherDay"></ftui-weather>
+          <ftui-label [text]="WeatherLocal:fc5_weatherDay"></ftui-label>
+          <ftui-label [text]="WeatherLocal:fc5_Tx" unit="°C"></ftui-label>
         </ftui-column>
       </ftui-row>
     </ftui-grid-tile>

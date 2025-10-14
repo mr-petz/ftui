@@ -1,0 +1,77 @@
+.icon.battery {
+  stroke: #378454;
+  fill: none;
+  stroke-width: 1.5px;
+}
+
+.icon.inverter {
+  stroke: #808080;
+  fill: none;
+  stroke-width: 1.5px;
+}
+
+.icon.home {
+  stroke:#376180;
+  fill: none;
+  stroke-width: 1.5px;
+}
+
+.icon.grid {
+
+}
+
+.solar {
+  fill: #838334;
+}
+
+.path.solar {
+  stroke:#838334;
+  fill: none;
+}
+
+.battery {
+  fill: #378454;
+}
+
+.path.battery {
+  stroke:#378454;
+  fill: none;
+}
+
+.text.home {
+  fill: #467ba2;
+}
+
+.dot.home {
+  fill: #808080;
+}
+
+.path.home {
+  stroke:#808080;
+  fill: none;
+}
+
+.inverter {
+  fill: #808080;
+}
+
+.grid, .grid-home {
+  fill: #808080;
+}
+
+.path.grid, .path.grid-home {
+  stroke:#808080;
+  fill: none;
+}
+
+circle.dot   {
+  display: none;
+}
+
+circle.dot.animated {
+  display: block;
+}
+
+.text {
+  font: normal 8px sans-serif;
+}

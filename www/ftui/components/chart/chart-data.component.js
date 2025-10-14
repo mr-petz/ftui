@@ -53,6 +53,7 @@ export class FtuiChartData extends FtuiElement {
       tension: '0.0',
       stepped: false,
       offset: 0,
+      stack: '',
       yAxisID: 'y',
     };
   }
@@ -77,6 +78,7 @@ export class FtuiChartData extends FtuiElement {
     const endDateFormatted = ftuiHelper.dateFormat(endDate, 'YYYY-MM-DD_hh:mm:ss');
     this.rangeDate = endDate.getTime() - startDate.getTime();
     const cmd = 'get ' + log + ' ' + file + ' - ' + startDateFormatted + ' ' + endDateFormatted + ' ' + spec;
+    //const cmd ="{getChartData()}";
     fhemService.sendCommand(cmd)
       .then(fhemService.checkText)
       .then((response) => {
@@ -143,7 +145,7 @@ export class FtuiChartData extends FtuiElement {
         this.updateColor();
         break;
       case 'update':
-        //this.fetch();
+        this.fetch();
         break;
     }
   }

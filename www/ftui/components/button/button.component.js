@@ -8,15 +8,16 @@
 */
 
 import { FtuiElement } from '../element.component.js';
-import * as ftui from '../../modules/ftui/ftui.helper.js';
-
+import { isEqual, isNumeric, supportsPassive } from '../../modules/ftui/ftui.helper.js';
 
 export class FtuiButton extends FtuiElement {
   constructor(properties) {
 
     super(Object.assign(FtuiButton.properties, properties));
 
-    this.addEventListener('touchstart', this.onDownEvent);
+    const usePassive = supportsPassive();
+
+    this.addEventListener('touchstart', this.onDownEvent, usePassive ? { passive: true } : false);
     this.addEventListener('mousedown', this.onDownEvent);
     this.addEventListener('touchend', this.onUpEvent);
     this.addEventListener('mouseup', this.onUpEvent);
@@ -27,6 +28,7 @@ export class FtuiButton extends FtuiElement {
   template() {
     return `
       <style> @import "components/button/button.component.css"; </style>
+      <style>:host .button-inner { gap: ${isNumeric(this.gap) ? this.gap + 'em' : this.gap}; } </style>
       <span class="button-inner">
         <slot></slot>
       </span>
@@ -43,6 +45,9 @@ export class FtuiButton extends FtuiElement {
       direction: 'horizontal',
       value: 'off',
       debounce: 0,
+      gap: '0',
+      height: null,
+      width: null,
     };
   }
 
@@ -50,12 +55,27 @@ export class FtuiButton extends FtuiElement {
     return [...this.convertToAttributes(FtuiButton.properties), ...super.observedAttributes];
   }
 
+  onAttributeChanged(name, newValue) {
+    switch (name) {
+      case 'width':
+      case 'height':
+        this.style.setProperty(`--button-${name}`, newValue);
+        break;
+    }
+  }
+
   onDownEvent() {
     this.classList.add('activated');
+    this.longPressTimer = setTimeout(() => {
+      this.emitEvent('hold');
+    }, 500);
   }
 
   onUpEvent() {
-    this.classList.remove('activated');
+    setTimeout(() => {
+      this.classList.remove('activated');
+    }, 300)
+    clearTimeout(this.longPressTimer);
   }
 
   onClickEvent() {
@@ -65,10 +85,10 @@ export class FtuiButton extends FtuiElement {
 
   getNextValue() {
     const states = String(this.states).split(/[;,:]/).map(item => item.trim());
-    let currentIndex = states.findIndex((pattern) => ftui.isEqual(pattern, this.value));
+    let currentIndex = states.findIndex((pattern) => isEqual(pattern, this.value));
     // increase the index to the next value in the array of possible values
     currentIndex = ++currentIndex % states.length;
-    return states[currentIndex].replace('$value', this.value );
+    return states[currentIndex].replace('$value', this.value);
   }
 
   playEffect() {

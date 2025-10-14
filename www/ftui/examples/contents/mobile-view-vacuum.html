@@ -1,0 +1,42 @@
+<ftui-view-toolbar>
+  <ftui-nav-link slot="start"></ftui-nav-link>
+  Vacuum
+</ftui-view-toolbar>
+
+<ftui-view-sheet shape="round" height="4em">
+  <ftui-row>
+    <ftui-button (value)="set RoboRock start" direction="vertical">
+      Start
+    </ftui-button>
+    <ftui-button (value)="set RoboRock stop"  direction="vertical">
+      Stop
+    </ftui-button>
+  </ftui-row>
+  <ftui-row>
+    <ftui-label [text]="RoboRock" color="medium" size="2" padding="0.25em 0 0 0"></ftui-label>
+  </ftui-row>
+  
+</ftui-view-sheet>
+
+<ftui-view-section>
+  <ftui-view-item>Battery
+    <ftui-label [text]="RoboRock:batteryPercent" placeholder><span slot="unit">%</span></ftui-label>
+  </ftui-view-item>
+
+  <ftui-view-item>Filter
+    <ftui-label [text]="RoboRock:consumables_filter" placeholder><span slot="unit">%</span></ftui-label>
+  </ftui-view-item>
+
+  <ftui-view-item>Main Brush
+    <ftui-label [text]="RoboRock:consumables_main_brush" placeholder><span slot="unit">%</span></ftui-label>
+  </ftui-view-item>
+
+  <ftui-view-item>Side Brush
+    <ftui-label [text]="RoboRock:consumables_side_brush" placeholder><span slot="unit">%</span></ftui-label>
+  </ftui-view-item>
+
+  <ftui-view-item>Sensors
+    <ftui-label [text]="RoboRock:consumables_sensors" placeholder><span slot="unit">%</span></ftui-label>
+  </ftui-view-item>
+
+</ftui-view-section>

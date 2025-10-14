@@ -24,8 +24,8 @@
 
 .rangeable-handle {
   border: none;
-  width: 2em;
-  height: 2em;
+  width: 1.5em;
+  height: 1.5em;
   box-shadow: var(--slider-handle-shadow, none);
   border: var(--slider-handle-border, none);
   z-index: 3;
@@ -63,7 +63,7 @@
 .rangeable-progress {
   -webkit-mask: linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0);
-  position: initial;
+
 }
 
 .rangeable-tooltip {
@@ -100,10 +100,6 @@
   background-color: var(--text-color);
   height: 0.5em;
   width: 1px;
-}
-
-:host([has-wide-ticks]) .ticks span {
-  height: 2em;
 }
 
 :host([has-wide-ticks]) .ticks span {

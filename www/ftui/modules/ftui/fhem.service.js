@@ -171,6 +171,13 @@ class FhemService {
       this.states.refresh.duration = duration * 1000;
       this.states.refresh.lastTimestamp = new Date();
       this.states.refresh.result = 'ok';
+      const now = dateFormat(new Date(), 'YYYY-MM-DD hh:mm:ss');
+      this.updateReadingItem('ftui-lastEvent', {
+        invalid: false,
+        value: '?',
+        time: now,
+        update: now,
+      });
 
       this.onUpdateDone();
     } else {
@@ -321,6 +328,13 @@ class FhemService {
             parameterData.value = value;
           }
           this.updateReadingItem(parameterId, parameterData, doPublish);
+          this.updateReadingItem('ftui-lastEvent', {
+            invalid: false,
+            name: parameterData.id,
+            value: parameterData.value,
+            time: parameterData.time,
+            update: parameterData.update,
+          });
         }
       }
     });

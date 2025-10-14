@@ -1,4 +1,4 @@
-@import "./color-attributes.css"; 
+@import "../styles/colors.css"; 
 
 :root {
 
@@ -47,6 +47,7 @@
 
   --primary-contrast-color: var(--white);
   --secondary-contrast-color: var(--white);
+  --primary-active-color: var(--medium-color);
 
   --success-contrast-color: var(--white);
   --info-contrast-color: var(--white);
@@ -57,7 +58,7 @@
   --dark-contrast-color: var(--white);
 
   --text-color: var(--gray15);
-  --inactive-text-color: #A39B9B;
+  --text-color-inactive: #A39B9B;
 
   --view-toolbar-color: var(--gray15);
   --view-toolbar-background-color: rgba(248, 248, 248, 0.9);
@@ -67,10 +68,12 @@
   --view-item-background-color: var(--white);
   --view-item-active-color: var(--gray75);
   --view-border-color: rgb(200, 199, 204);
+  --view-section-header-color: var(--gray50);
+  --view-section-footer-color: var(--gray50);
 
   --page-background-color: var(--gray90);
 
-  --grid-background-color: var(--white);
+  --grid-tile-background-color: var(--white);
   --grid-header-color: var(--gray55);
   --grid-header-background-color: var(--white);
 
@@ -79,7 +82,7 @@
   --tab-active-color: var(--primary-color);
 
   --popup-color: var(--text-color);
-  --popup-background-color: var(--grid-background-color);
+  --popup-background-color: var(--grid-tile-background-color);
   --popup-overlay-color: rgba(0, 0, 0, 0.5);
   --popup-header-color: var(--grid-header-color);
   --popup-header-background-color: var(--grid-header-background-color);
@@ -113,15 +116,27 @@
   --segments-text-color: var(--text-color);
 
   --meter-background-color: var(--light-color);
+
+  --icon-size: 1em;
 }
 
 [invert][color] {
   --color-contrast: var(--white);
 }
 
+@supports (font: -apple-system-body) {
+  :root {
+  --text-font: -apple-system-body;
+  }
+}
+@supports not (font: -apple-system-body) {
+  :root {
+  --text-font: 1em -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Ubuntu', 'Helvetica Neue', sans-serif;  
+  }
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Ubuntu', 'Helvetica Neue', sans-serif;
-  font-size: small;
+  font: var(--text-font);
   color: var(--text-color);
   background: var(--page-background-color);
   -webkit-font-smoothing: antialiased;

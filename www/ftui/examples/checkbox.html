@@ -28,14 +28,14 @@
 
 <ftui-icon></ftui-icon>
     <ftui-grid-tile row="1" col="1" height="1" width="2">
-      <header>DEFAULT</header>
+      <ftui-grid-header>DEFAULT</ftui-grid-header>
 
         <ftui-checkbox value="on"></ftui-checkbox>
     
       </ftui-grid-tile>
 
     <ftui-grid-tile row="1" col="3" height="1" width="2">
-      <header>TEXTES</header>
+      <ftui-grid-header>TEXTES</ftui-grid-header>
 
         <ftui-checkbox [(value)]="dummy1" value="on"></ftui-checkbox>
         <ftui-checkbox [value]="dummy1" value="on"></ftui-checkbox>
@@ -43,12 +43,22 @@
     </ftui-grid-tile>
 
     <ftui-grid-tile row="1" col="5" height="1" width="2">
-      <header>COLORS</header>
+      <ftui-grid-header>COLORS</ftui-grid-header>
 
         <ftui-checkbox [(value)]="dummy1" value="on" color="warning"></ftui-checkbox>
         <ftui-checkbox [color]="dummy2" value="on"></ftui-checkbox>
 
     </ftui-grid-tile>
+
+    <ftui-grid-tile row="1" col="7" height="1" width="2">
+      <ftui-grid-header>MAP</ftui-grid-header>
+
+        <ftui-switch [(value)]="dummy2" states="0,19"></ftui-switch>
+        <ftui-checkbox [value]="dummy2" states="0,19"></ftui-checkbox>
+        <ftui-checkbox [value]="dummy2 | map('0:off,19:on')" color="ok"></ftui-checkbox>
+
+    </ftui-grid-tile>
+
   </ftui-grid>
 </body>
 

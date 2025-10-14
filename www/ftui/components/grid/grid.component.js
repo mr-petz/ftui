@@ -23,25 +23,35 @@ export class FtuiGrid extends FtuiElement {
       margin: 8,
       resize: false,
       responsive: false,
+      columns: 0,
+      rows: 0,
     };
     super(properties);
 
     this.debouncedResize = debounce(this.configureGrid, this);
 
     this.windowWidth = 0;
-    this.tiles = this.querySelectorAll('ftui-grid-tile, [data-grid-tile]');
+    this.tiles = this.querySelectorAll(`#${this.id} ftui-grid-tile, #${this.id} [data-grid-tile]`);
 
 
     if (this.responsive) {
-      this.configResponsiveGrid();
+      if ( this.columns === 0 && this.rows === 0) {
+        this.configResponsiveGrid();
+      }
     } else {
       if (this.resize) {
-        window.addEventListener('resize', () => {
-          if (this.windowWidth !== window.innerWidth) {
+        if ('ResizeObserver' in window) {
+          const resize_ob = new ResizeObserver(() => {
             this.debouncedResize(500);
-            this.windowWidth = window.innerWidth;
-          }
-        });
+          });
+
+          resize_ob.observe(document.body);
+        } else {
+          window.addEventListener('resize', () => {
+            this.debouncedResize(500);
+          });
+        }
+
       }
       this.configureGrid();
       document.addEventListener('ftuiVisibilityChanged', () => this.configureGrid());
@@ -58,7 +68,15 @@ export class FtuiGrid extends FtuiElement {
         height: 100%;
         margin: 0;
       }
-      :host([responsive]) {
+      :host([responsive][columns][rows]) {
+        display: grid;
+        grid-template-columns: repeat(${this.columns}, 1fr);
+        grid-template-rows: repeat(${this.rows}, 1fr);
+        grid-auto-flow: dense;
+        gap: ${this.margin}px;
+        margin: ${this.margin}px;
+      }
+      :host([responsive][columns="0"][rows="0"]) {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         grid-template-rows: repeat(auto-fill, minmax(140px, 1fr));
@@ -69,7 +87,7 @@ export class FtuiGrid extends FtuiElement {
         margin: ${this.margin}px;
       }
       :host([shape="round"]) {
-        --grid-tile-border-radius: 1rem;
+        --grid-tile-border-radius: 0.75em;
       }
     </style>
     <slot></slot>
@@ -78,17 +96,29 @@ export class FtuiGrid extends FtuiElement {
 
   onConnected() {
     //this.style.margin = 0;
+    if (this.responsive && this.columns > 0 && this.rows > 0) {
+      this.configResponsiveGrid2();
+    }
   }
 
   configResponsiveGrid() {
     const baseWidth = (this.baseWidth > 0) ? this.baseWidth : 140;
     const baseHeight = (this.baseHeight > 0) ? this.baseHeight : 140;
     this.tiles.forEach(tile => {
-      tile.style['grid-row'] = 'span ' + tile.getAttribute('width');
-      tile.style['grid-column'] = 'span ' + tile.getAttribute('height');
+      tile.style['grid-row'] = 'span ' + tile.getAttribute('height');
+      tile.style['grid-column'] = 'span ' + tile.getAttribute('width');
     });
     this.style['grid-auto-rows'] = baseHeight + 'px';
     this.style['grid-auto-columns'] = baseWidth + 'px';
+  }
+  
+  configResponsiveGrid2() {
+    const baseWidth = (this.baseWidth > 0) ? this.baseWidth : 140;
+    const baseHeight = (this.baseHeight > 0) ? this.baseHeight : 140;
+    this.tiles.forEach(tile => {
+      tile.style['grid-row-end'] = 'span ' + Number(tile.getAttribute('height'));
+      tile.style['grid-column-end'] = 'span ' + tile.getAttribute('width');
+    });
   }
 
   configureGrid() {
@@ -109,9 +139,8 @@ export class FtuiGrid extends FtuiElement {
 
     cols = (this.cols > 0) ? this.cols : highestCol;
     rows = (this.rows > 0) ? this.rows : highestRow;
-    baseWidth = (this.baseWidth > 0) ? this.baseWidth : (window.innerWidth - this.margin) / cols;
-    baseHeight = (this.baseHeight > 0) ? this.baseHeight : (window.innerHeight - this.margin) / rows;
-
+    baseWidth = (this.baseWidth > 0) ? this.baseWidth : (this.clientWidth - this.margin) / cols;
+    baseHeight = (this.baseHeight > 0) ? this.baseHeight : (this.clientHeight - this.margin) / rows;
     if (baseWidth < this.minX) {
       baseWidth = this.minX;
     }
@@ -124,7 +153,6 @@ export class FtuiGrid extends FtuiElement {
       style.width = (tile.width * baseWidth - this.margin) + 'px';
       style.height = (tile.height * baseHeight - this.margin) + 'px';
       style['position'] = 'absolute';
-      tile.setAttribute('title', `row: ${tile.row} | col: ${tile.col}`);
       if (tile.querySelector('ftui-grid')) {
         style.backgroundColor = 'transparent';
         style.left = ((tile.col - 1) * baseWidth) + 'px';

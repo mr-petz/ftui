@@ -17,16 +17,15 @@ export class FtuiPopup extends FtuiElement {
 
     this.overlay = this.shadowRoot.querySelector('.overlay');
     this.window = this.shadowRoot.querySelector('.window');
-    const header = this.querySelector('header');
+    const header = this.querySelector('header, ftui-popup-header');
     header && header.setAttribute('slot', 'header');
-    // check for popup-target attribute
-    document.addEventListener('click', event => this.onClickOutside(event));
     // check for popup-close attribute
     this.window.addEventListener('click', event => this.onClickInside(event));
     this.overlay.addEventListener('click', event => this.onClickOverlay(event));
 
     this.arrangeWindow();
   }
+
 
   template() {
     return `
@@ -80,17 +79,6 @@ export class FtuiPopup extends FtuiElement {
     event.preventDefault();
   }
 
-  onClickOutside(event) {
-    const target = event.target;
-    if (target.hasAttribute('popup-target')) {
-      const targetId = target.getAttribute('popup-target');
-      if (this.id === targetId) {
-        this.setState(true);
-      }
-      event.preventDefault();
-    }
-  }
-
   onClickInside(event) {
     if (event.target.hasAttribute('popup-close')) {
       this.setState(false);
@@ -132,6 +120,8 @@ export class FtuiPopup extends FtuiElement {
       ftui.triggerEvent('ftuiVisibilityChanged');
       this.startTimeout();
     } else {
+      if (this.hasAttribute('hidden')) return;
+      clearTimeout(this.timer);
       this.setAttribute('hidden', '');
       this.emitEvent('close');
     }
