@@ -7,7 +7,7 @@ UPD 2023-01-29_19:30:57 7615 www/ftui/components/pinpad/pinpad.component.js
 UPD 2023-07-04_08:05:58 6943 www/ftui/components/pvvis/pvvis.component.css
 UPD 2024-04-15_11:09:39 38008 www/ftui/components/pvvis/pvvis.component.js
 UPD 2025-10-14_14:06:09 4021 www/ftui/components/thermostat/thermostat.component.css
-UPD 2023-03-30_20:52:25 32637 www/ftui/components/thermostat/thermostat.component.js
+UPD 2025-10-14_14:08:07 32627 www/ftui/components/thermostat/thermostat.component.js
 UPD 2023-01-28_16:14:03 8491 www/ftui/components/volume/volume.component.css
 UPD 2023-01-29_19:30:57 13984 www/ftui/components/volume/volume.component.js
 UPD 2023-01-28_16:14:03 37964 www/ftui/components/volume3d/volume3d.component.css
