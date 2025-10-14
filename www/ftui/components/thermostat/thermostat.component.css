@@ -1,6 +1,6 @@
 
 /*
-@import "../../themes/color-attributes.css";
+@import "../../styles/colors.css";
 
 :host {
   height: 100%;
@@ -35,7 +35,7 @@
 .batt-icon{
   position: absolute;
   top: var(--thermostat-battery-icon-top, 54.5%);
-  left: 32.5%;
+  left: 35.5%;
   white-space: nowrap;
   transform: rotate(-90deg);
   width: 0.7em;
@@ -54,8 +54,8 @@
 
 .valve-icon{
   position: absolute;
-  top: var(--thermostat-valve-icon-top, 55%);
-  left: 40.5%;
+  top: var(--thermostat-valve-icon-top, 59%);
+  left: 40%;
   white-space: nowrap;
   width: 0.7em;
   height:0.7em;
@@ -73,7 +73,7 @@
 
 .humidity-icon{
   position: absolute;
-  top: var(--thermostat-humidity-icon-top, 63.5%);
+  top: var(--thermostat-humidity-icon-top, 68.5%);
   left: 41.5%;
   white-space: nowrap;
   width: 0.5em;
@@ -214,3 +214,5 @@
 .max {
   stop-color: var(--color-max, var(--thermostat-max-color, rgb(255,0,0)));
 }
+
+
