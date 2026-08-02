@@ -588,6 +588,8 @@ export class FtuiPvvis extends FtuiElement {
       this.shadowRoot.getElementById("pv-bat-txt").style.display = "none";
       this.shadowRoot.getElementById("bat-home-txt").innerHTML = "";
       this.shadowRoot.getElementById("bat-home-txt").style.display = "none";
+      this.shadowRoot.getElementById("bat-val-txt").innerHTML = "";
+      this.shadowRoot.getElementById("bat-val-txt").style.display = "none";
     }
 
     if (this.hasNoWallbox) {
