@@ -3,7 +3,7 @@
 *
 * based on papas version for FTUI2
 * by yersinia & mr_petz & Shadow3561 & docolli
-* version 2024-04-15
+* version 2026-08-02
 *
 * Under MIT License (http://www.opensource.org/licenses/mit-license.php)
 *
@@ -588,6 +588,8 @@ export class FtuiPvvis extends FtuiElement {
       this.shadowRoot.getElementById("pv-bat-txt").style.display = "none";
       this.shadowRoot.getElementById("bat-home-txt").innerHTML = "";
       this.shadowRoot.getElementById("bat-home-txt").style.display = "none";
+      this.shadowRoot.getElementById("bat-val-txt").innerHTML = "";
+      this.shadowRoot.getElementById("bat-val-txt").style.display = "none";
     }
 
     if (this.hasNoWallbox) {
