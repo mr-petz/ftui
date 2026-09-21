@@ -1,3 +1,9 @@
+2026-09-21, 10:10:39 UTC (Mon)
+ y3rs1n14 - fix bat-val-txt when there is no bat
+
+fix by fhem forum user 50watt
+https://forum.fhem.de/index.php?topic=119440.msg1367445#msg1367445 
+ y3rs1n14 - adjust version
 2025-10-14, 12:08:17 UTC (Tue)
  mr-petz - Update thermostat.component.js
 
