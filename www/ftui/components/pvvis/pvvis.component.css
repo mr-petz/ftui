@@ -276,6 +276,11 @@
 /*  transform: translate(6px, 305px) scale(0.16); */
   transform: translate(6px, 316px) scale(0.16);
 }
+
+#pvvis-car-plug {
+  fill: var(--pvvis-color-green, #090);
+  display: none;
+}
 #pvvis-car-fill-top,
 #pvvis-car-fill-bottom {
   width: 130%;

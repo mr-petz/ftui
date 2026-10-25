@@ -93,6 +93,9 @@ export class FtuiPvvis extends FtuiElement {
             <rect id="pvvis-car-fill-top" x="0" y="0" clip-path="url(#pvvis-car-template)" class="pvvis-car-fill-top" />
             <rect id="pvvis-car-fill-bottom" x="0" y="100%" clip-path="url(#pvvis-car-template)" class="pvvis-car-fill-bottom" />
           </g>
+          <g id="pvvis-car-plug" transform="translate(85, 329) scale(0.65)">
+            <path d="M25,9 L21,9 L21,5 C21,4.447 20.553,4 20,4 C19.447,4 19,4.447 19,5 L19,9 L13,9 L13,5 C13,4.447 12.553,4 12,4 C11.447,4 11,4.447 11,5 L11,9 L7,9 C6.447,9 6,9.447 6,10 C6,10.553 6.447,11 7,11 L8,11 L8,15 C8,18.727 10.552,21.849 14,22.738 L14,26 C14,27.104 14.896,28 16,28 C17.104,28 18,27.104 18,26 L18,22.738 C21.448,21.849 24,18.727 24,15 L24,11 L25,11 C25.553,11 26,10.553 26,10 C26,9.447 25.553,9 25,9" />
+          </g>
           <g id="pvvis-loadflows">
             <path id="pv-home" d="M255,100 L255,180 C255,255,255,255,180,255 L100,255" class="pvvis-inactive" />
             <path id="bat-home" d="M500,300 L100,300" class="pvvis-inactive" />
@@ -156,6 +159,7 @@ export class FtuiPvvis extends FtuiElement {
       batstep: '',
       calcBatRemainTime: false,
       calcBatRemainSocNotPercent: false,
+      carPlugged: false,
       carSoc: -1,
       carTemp: -100,
       charge: 0,
@@ -217,6 +221,9 @@ export class FtuiPvvis extends FtuiElement {
         break;
       case 'car-soc':
         this.shadowRoot.getElementById("pvvis-car-bat-val-txt").style.display = "unset";
+        this.colorCar();
+        break;
+      case 'car-plugged':
         this.colorCar();
         break;
       case 'car-temp':
@@ -381,7 +388,7 @@ export class FtuiPvvis extends FtuiElement {
     if ((this.doNotShowZero) && (houseConsume.toFixed() == 0)) {
       this.shadowRoot.getElementById("home-consume-txt").innerHTML = '';
     } else {
-      this.shadowRoot.getElementById("home-consume-txt").innerHTML = houseConsume; //.toFixed();
+      this.shadowRoot.getElementById("home-consume-txt").innerHTML = this.formatPowerValue(houseConsume);
       if (this.unitValue) { this.shadowRoot.getElementById("home-consume-txt").innerHTML += '<tspan class="pvvis-txt-unit-value">' + this.unitValue + '</tspan>'; }
     }
   }
@@ -399,7 +406,7 @@ export class FtuiPvvis extends FtuiElement {
     this.sun.classList.remove("pvvis-sun-inactive", "pvvis-sun-active");
     if (Math.abs(this.produce) > 0) {
       this.sun.classList.add("pvvis-sun-active");
-      this.shadowRoot.getElementById("pv-produce-txt").innerHTML = this.produce; //Math.abs(this.produce).toFixed();
+      this.shadowRoot.getElementById("pv-produce-txt").innerHTML = this.formatPowerValue(this.produce);
       if (this.unitValue) { this.shadowRoot.getElementById("pv-produce-txt").innerHTML += '<tspan class="pvvis-txt-unit-value">' + this.unitValue + '</tspan>'; }
     } else {
       this.sun.classList.add("pvvis-sun-inactive");
@@ -416,6 +423,11 @@ export class FtuiPvvis extends FtuiElement {
   }
 
   colorCar() {
+    const carPlug = this.shadowRoot.getElementById("pvvis-car-plug");
+    const pluggedValue = this.getAttribute('car-plugged');
+    const isPlugged = pluggedValue !== null
+      && !['false', '0', 'no', 'off', 'disconnected', 'unplugged'].includes(pluggedValue.trim().toLowerCase());
+    carPlug.style.display = isPlugged ? "unset" : "none";
     //this.car.classList.remove("pvvis-car-feed");
     //if(this.wbFeed > 0) { this.car.classList.add("pvvis-car-feed"); }
     if (this.carSoc >= 0) {
@@ -500,15 +512,20 @@ export class FtuiPvvis extends FtuiElement {
     if ((this.doNotShowZero) && (Math.round(src) == 0)) {
       this.shadowRoot.getElementById(obj + "-txt").innerHTML = '';
     } else {
-      this.shadowRoot.getElementById(obj + "-txt").innerHTML = src; //.toFixed();
+      this.shadowRoot.getElementById(obj + "-txt").innerHTML = this.formatPowerValue(src);
       if (this.unitValue) { this.shadowRoot.getElementById(obj + "-txt").innerHTML += '<tspan class="pvvis-txt-unit-value">' + this.unitValue + '</tspan>'; }
     }
   }
 
   powerVals(val, obj, preHtml) {
     this.shadowRoot.getElementById(obj).style.display = "unset";
-    this.shadowRoot.getElementById(obj).innerHTML = preHtml + val;
+    this.shadowRoot.getElementById(obj).innerHTML = preHtml + this.formatPowerValue(val);
     if (this.unitSum) { this.shadowRoot.getElementById(obj).innerHTML += '<tspan class="pvvis-txt-unit-power">' + this.unitSum + '</tspan>'; }
+  }
+
+  formatPowerValue(value) {
+    const numericValue = Number.parseFloat(value);
+    return Number.isFinite(numericValue) ? numericValue.toFixed(2) : value;
   }
 
   socValue() {
